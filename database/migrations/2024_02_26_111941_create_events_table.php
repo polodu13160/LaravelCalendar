@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('end');
             $table->integer('status')->default(0)->nullable();
             $table->integer('is_all_day')->default(0)->nullable();
+            $table->string('visibility')->default(null)->nullable();
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('backgroundColor')->nullable();
             $table->string('borderColor')->nullable();
-
             $table->string('event_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

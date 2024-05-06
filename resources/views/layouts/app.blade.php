@@ -2,28 +2,21 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $title ?? "Page Title" }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel="preconnect" href="https://fonts.bunny.net" />
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    @livewireStyles
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css'])
-
-    {{ $head ?? "" }}
-    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Styles -->
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link type="image/png" sizes="96x96" rel="icon" href="{{ asset('images/icons8-calendar-96.png') }}">
-
+    @livewireStyles
 </head>
 
 <body class="font-sans antialiased">
@@ -49,9 +42,8 @@
 
     @stack('modals')
 
-    
     @livewireScripts
-  
+    @livewire('wire-elements-modal')
 </body>
 
 </html>

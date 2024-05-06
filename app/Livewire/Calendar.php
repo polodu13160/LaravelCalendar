@@ -8,6 +8,7 @@ use Livewire\Component;
 class Calendar extends Component
 {
     public $events = [];
+
     /**
      * Write code on Method
      *
