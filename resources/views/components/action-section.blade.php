@@ -8,5 +8,11 @@
         <div class="px-4 py-5 sm:p-6 bg-white shadow sm:rounded-lg">
             {{ $content }}
         </div>
+        @if (isset($actions))
+        <div
+            class="flex items-center justify-end px-4 py-3 bg-gray-50 text-end sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
+            {{ $actions }}
+        </div>
+        @endif
     </div>
 </div>
