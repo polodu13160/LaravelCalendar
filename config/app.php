@@ -1,7 +1,8 @@
 <?php
 
 return [
-
+    'password'=>env('PASSWORD','password'),
+    'realm'=>env('REALM', 'SabreDAV'),
     /*
     |--------------------------------------------------------------------------
     | Application Name
