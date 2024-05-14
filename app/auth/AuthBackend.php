@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelSabre\Http\Auth;
+namespace App\Auth;
 
 use Illuminate\Support\Facades\Auth;
 use Sabre\DAV\Auth\Backend\BackendInterface;

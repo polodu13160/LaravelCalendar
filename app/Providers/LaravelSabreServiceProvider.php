@@ -44,7 +44,7 @@ class LaravelSabreServiceProvider extends ServiceProvider
         return [
             'middleware' => 'laravelsabre',
             'domain' => config('laravelsabre.domain', null),
-            'namespace' => 'LaravelSabre\Http\Controllers',
+            'namespace' => 'App\Http\Controllers',
             'prefix' => config('laravelsabre.path'),
         ];
     }

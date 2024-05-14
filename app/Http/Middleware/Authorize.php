@@ -1,9 +1,9 @@
 <?php
 
 
-namespace LaravelSabre\Http\Middleware;
+namespace App\Http\Middleware;
 
-use LaravelSabre\LaravelSabre;
+use App\Http\Services\LaravelSabre;
 
 class Authorize
 {

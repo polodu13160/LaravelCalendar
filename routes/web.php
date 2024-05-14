@@ -4,8 +4,7 @@ use App\Livewire\Calendar;
 use Illuminate\Routing\Router;
 use App\Livewire\EventComponent;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EventController;
-use LaravelSabre\Http\Controllers\DAVController;
+use App\Http\Controllers\DAVController;
 
 Route::get('/', function () {
     return view('welcome');
