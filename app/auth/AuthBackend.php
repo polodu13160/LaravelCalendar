@@ -17,7 +17,12 @@ class AuthBackend implements BackendInterface
      *
      * @var string
      */
-    protected $realm = 'sabre/dav';
+    protected $realm;
+
+    public function __construct()
+    {
+        $this->realm = config('app.realm');
+    }
 
     /**
      * Sets the authentication realm for this backend.
@@ -42,6 +47,7 @@ class AuthBackend implements BackendInterface
     public function check(RequestInterface $request, ResponseInterface $response)
     {
         /** @var \Illuminate\Foundation\Auth\User|null */
+        
         $user = Auth::user();
         if (is_null($user)) {
             return [false, 'User is not authenticated'];
@@ -73,11 +79,13 @@ class AuthBackend implements BackendInterface
      */
     public function challenge(RequestInterface $request, ResponseInterface $response)
     {
+
         $auth = new \Sabre\HTTP\Auth\Bearer(
             $this->realm,
             $request,
             $response
         );
         $auth->requireLogin();
+        
     }
 }

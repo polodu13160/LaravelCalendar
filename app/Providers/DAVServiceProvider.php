@@ -44,8 +44,8 @@ class DAVServiceProvider extends ServiceProvider
     private function plugins()
     {
         // Authentication backend
-        $authBackend = new AuthBackend();
-        yield new AuthPlugin($authBackend);
+        // $authBackend = new AuthBackend();
+        // yield new AuthPlugin($authBackend);
 
         // CardDAV plugin
         yield new CalDAVPlugin();
