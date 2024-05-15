@@ -19,3 +19,9 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+<IfModule mod_php.c>
+    php_flag output_buffering off
+    php_flag always_populate_raw_post_data off
+    php_flag magic_quotes_gpc off
+    php_flag mbstring.func_overload off
+</IfModule>

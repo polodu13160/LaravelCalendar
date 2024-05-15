@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.0",
         "sabre/dav": "^4.6",
+        "spatie/icalendar-generator": "*",
         "spatie/laravel-permission": "^6.7",
         "wire-elements/modal": "^2.0"
     },

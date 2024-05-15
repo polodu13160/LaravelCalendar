@@ -17,7 +17,7 @@ use Laravel\Jetstream\Features as JetstreamFeatures;
  */
 class UserFactory extends Factory
 {
-    protected string $password = 'password';
+   
     /**
      * Define the model's default state.
      *
@@ -25,16 +25,24 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+   $password = config('app.password');
+   $realm = config('app.realm');
+   $username=fake()->unique()->userName();
+  
+
+        $digesta1= md5($username . ":" . $realm . ":" . $password);
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => Hash::make($this->password),
+            'password' => Hash::make($password),
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
+            'username' => $username,
+            'digesta1' => $digesta1,
         ];
     }
 
