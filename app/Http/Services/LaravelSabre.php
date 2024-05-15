@@ -38,7 +38,6 @@ class LaravelSabre
         if (static::$nodes instanceof Closure) {
             return (static::$nodes)();
         }
-
         return static::$nodes;
     }
 
