@@ -119,4 +119,13 @@ class User extends Authenticatable
 
         return $teamRole === $roleId;
     }
+
+    public function createPrincipal()
+    {
+        $principal = new Principal();
+        $principal->uri = 'principals/'. $this->username;
+        $principal->email = $this->email;
+        $principal->displayname = $this->username;
+        $principal->save();
+    }
 }

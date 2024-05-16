@@ -21,10 +21,12 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
        
         //create User Admin
-        User::factory()->create([
+        $admin=User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@test.com',
         ])->assignRole('Admin');
+
+        $admin->createPrincipal();
         
         
         
@@ -34,6 +36,7 @@ class DatabaseSeeder extends Seeder
             $team = $user->ownedTeams()->first();
             // $team->users()->attach($user->id);
             $user->assignRoleAndTeam('Moderateur', $team->id);
+            $user->createPrincipal();
             // $user->assignRole('Moderateur');
             // $team = $user->ownedTeams()->first();
             // $modelRole=$user->assignModelRole()->first();
@@ -59,7 +62,7 @@ class DatabaseSeeder extends Seeder
             User::factory(5)->create()->each(function ($user) use ($team) {
                 
                 $user->assignRoleAndTeam('Utilisateur',$team->id);
-                
+                $user->createPrincipal();
                 
 
             });

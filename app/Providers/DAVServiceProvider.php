@@ -2,17 +2,19 @@
 
 namespace App\Providers;
 
-use Sabre\DAV\Browser\Plugin as BrowserPlugin;
 use App\Auth\AuthBackend;
 use Sabre\CalDAV\Backend\PDO;
 use Sabre\CalDAV\CalendarRoot;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 use Illuminate\Support\Facades\DB;
 use App\Http\Services\LaravelSabre;
 use Sabre\DAVACL\PrincipalCollection;
 use Illuminate\Support\ServiceProvider;
-use Sabre\CalDAV\Plugin as CalDAVPlugin;
 // use Sabre\CardDAV\Plugin as CardDAVPlugin;
+use Sabre\CalDAV\Plugin as CalDAVPlugin;
 use Sabre\DAV\Auth\Plugin as AuthPlugin;
+use Sabre\DAV\Browser\Plugin as BrowserPlugin;
 use Sabre\DAVACL\PrincipalBackend\PDO as PrincipalBackend;
 
 class DAVServiceProvider extends ServiceProvider
@@ -29,6 +31,9 @@ class DAVServiceProvider extends ServiceProvider
             return $this->plugins();
 
         });
+        
+
+        
     }
     private function nodes(): array
     {

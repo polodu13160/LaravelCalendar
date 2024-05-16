@@ -42,7 +42,7 @@ class UserFactory extends Factory
             'profile_photo_path' => null,
             'current_team_id' => null,
             'username' => $username,
-            'digesta1' => $digesta1,
+            'digesta1' => null,
         ];
     }
 

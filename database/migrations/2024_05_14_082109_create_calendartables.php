@@ -134,11 +134,11 @@ return new class extends Migration
             $table->engine = 'InnoDB';
         });
 
-        DB::table('principals')->insert([
-            ['uri' => 'principals/admin', 'email' => 'admin@example.org', 'displayname' => 'Administrator'],
-            ['uri' => 'principals/admin/calendar-proxy-read', 'email' => null, 'displayname' => null],
-            ['uri' => 'principals/admin/calendar-proxy-write', 'email' => null, 'displayname' => null],
-        ]);
+        // DB::table('principals')->insert([
+        //     ['uri' => 'principals/admin', 'email' => 'admin@example.org', 'displayname' => 'Administrator'],
+        //     ['uri' => 'principals/admin/calendar-proxy-read', 'email' => null, 'displayname' => null],
+        //     ['uri' => 'principals/admin/calendar-proxy-write', 'email' => null, 'displayname' => null],
+        // ]);
         Schema::create('groupmembers', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('principal_id');

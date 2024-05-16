@@ -14,7 +14,10 @@
         "sabre/dav": "^4.6",
         "spatie/icalendar-generator": "*",
         "spatie/laravel-permission": "^6.7",
-        "wire-elements/modal": "^2.0"
+        "thecodingmachine/safe": "^2.5",
+        "wire-elements/modal": "^2.0",
+        "johngrogg/ics-parser": "^3"
+
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",

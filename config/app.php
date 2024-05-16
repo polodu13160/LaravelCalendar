@@ -3,6 +3,9 @@
 return [
     'password'=>env('PASSWORD','password'),
     'realm'=>env('REALM', 'SabreDAV'),
+    'laravelSabreRoot' => env('LARAVEL_SABRE_SERVER_ROOT', '/dav'),
+    'appRoot' => env('APP_ROOT', 'http://localhost'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

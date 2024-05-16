@@ -49,7 +49,7 @@ $verbs = [
 ];
 
 Router::$verbs = array_merge(Router::$verbs, $verbs);
-
-Route::any('/dav{path?}', [DAVController::class,'init'])
+$urlName=config('app.laravelSabreRoot');
+Route::any('/'.$urlName.'{path?}', [DAVController::class,'init'])
     ->name('sabre.dav')
     ->where('path', '(.)*');

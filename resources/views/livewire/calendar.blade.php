@@ -1,13 +1,19 @@
 <div>
     <div>
+       <script>
+        window.calendarUrls = @json($this->allUrlIcsEvents);
+        </script>
         <div id="calendar-container" wire:ignore>
             <div id="calendar"></div>
         </div>
+        @vite(['resources/js/calendar.js'])
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar/index.global.min.js"></script>
-    <script>
-        document.addEventListener("livewire:initialized", function () {
+    
+</div>
+
+
+{{-- <script>
+    document.addEventListener("livewire:initialized", function () {
             let calendarEl = document.querySelector("#calendar");
             let calendar = new FullCalendar.Calendar(calendarEl, {
                 googleCalendarApiKey: "AIzaSyDU87dPFQKGPIkrU9TzcC5_-tv6_OH6J78",
@@ -43,5 +49,27 @@
                 Livewire.dispatch("openModal", { component: "event-modal" });
             }
         });
-    </script>
-</div>
+</script> --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
