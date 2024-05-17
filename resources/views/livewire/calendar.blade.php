@@ -1,4 +1,5 @@
 <div>
+    <div>{{ $this->calendarUrl }}</div>
     <div>
        <script>
         window.calendarUrls = @json($this->allUrlIcsEvents);

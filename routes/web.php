@@ -5,6 +5,7 @@ use Illuminate\Routing\Router;
 use App\Livewire\EventComponent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DAVController;
+use App\Http\Middleware\AccesSabreJustAdmin;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,6 +31,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 });
 
 
+
 $verbs = [
     'GET',
     'HEAD',
@@ -47,9 +49,16 @@ $verbs = [
     'OPTIONS',
     'REPORT',
 ];
-
 Router::$verbs = array_merge(Router::$verbs, $verbs);
-$urlName=config('app.laravelSabreRoot');
-Route::any('/'.$urlName.'{path?}', [DAVController::class,'init'])
+$urlName = config('app.laravelSabreRoot');
+
+Route::any('/' . $urlName . '/' . 'calendars' . '/' . '{path}', [DAVController::class, 'init'])
+    ->name('sabre.dav.calendars.user')
+    ->where('path', '(.)*')->withoutMiddleware(AccesSabreJustAdmin::class);
+
+
+
+
+Route::any('/' . $urlName . '{path?}', [DAVController::class, 'init'])
     ->name('sabre.dav')
-    ->where('path', '(.)*');
+    ->where('path', '(.)*')->middleware(AccesSabreJustAdmin::class);

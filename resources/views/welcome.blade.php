@@ -776,6 +776,11 @@
         </style>
     </head>
     <body class="font-sans antialiased">
+        @if (session('alert'))
+        <div class="alert alert-danger">
+            {{ session('alert') }}
+        </div>
+        @endif
         <div class="bg-gray-50 text-black/50">
             <img
                 id="background"

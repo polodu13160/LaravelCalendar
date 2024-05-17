@@ -13,6 +13,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -120,12 +121,34 @@ class User extends Authenticatable
         return $teamRole === $roleId;
     }
 
+    public function isRole($role)
+    {
+        dd($user=Auth::user());
+       
+    }
+
     public function createPrincipal()
     {
         $principal = new Principal();
-        $principal->uri = 'principals/'. $this->username;
+        $hashDossier= $this->hashUserName();
+        $principal->uri = 'principals/'. $hashDossier;
         $principal->email = $this->email;
         $principal->displayname = $this->username;
         $principal->save();
+        
+
+        $this->principal_id = $principal->id;
+        $this->save();
+
+        return $principal;
+    }
+    public function hashUserName()
+    {
+        return substr(md5(hash('sha256', $this->username)),0,20);
+    }
+
+    public function principal()
+    {
+        return $this->hasOne(Principal::class, 'id', 'principal_id');
     }
 }

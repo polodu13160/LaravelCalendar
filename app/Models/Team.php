@@ -49,4 +49,28 @@ class Team extends JetstreamTeam
     {
         return $this->hasMany(TeamUser::class);
     }
+
+    public function principal()
+    {
+        return $this->hasOne(Principal::class, 'id', 'principal_id');
+    }
+    public function createPrincipal()
+    {
+        $principal = new Principal();
+        $hashDossier = $this->hashName();
+        $principal->uri = 'principals/' . $hashDossier;
+        $principal->displayname = $this->name;
+        $principal->save();
+
+
+        $this->principal_id = $principal->id;
+        $this->save();
+
+        return $principal;
+    }
+    public function hashName()
+    {
+        return substr(md5(hash('sha256', $this->name)), 0, 20);
+    }
+
 }

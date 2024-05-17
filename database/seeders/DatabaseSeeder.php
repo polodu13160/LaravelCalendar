@@ -2,10 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Team;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Sabre\CalDAV\Backend\BackendInterface;
+use App\Http\Services\LaravelSabreCalendarHome;
+use Illuminate\Support\Facades\DB;
+use Sabre\CalDAV\Backend\PDO;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,7 +18,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-       
+        $backendInterface = new PDO(DB::getPdo());
+        $laravelCalendarHome=new LaravelSabreCalendarHome($backendInterface);
+        
 
         //faire les seeders
         // User::
@@ -27,16 +33,23 @@ class DatabaseSeeder extends Seeder
         ])->assignRole('Admin');
 
         $admin->createPrincipal();
+        $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser','lecalendrierdeAdmin', $admin);
+       
+        
         
         
         
         
         //create User Moderateur *3 et 1 teams par moderateur
-        User::factory(3)->withPersonalTeam()->create()->each(function ($user) {
+        User::factory(3)->withPersonalTeam()->create()->each(function ($user) use ($laravelCalendarHome){
             $team = $user->ownedTeams()->first();
+            $team->createPrincipal();
+            $laravelCalendarHome->createCalendarTeamOrUser('CalendarTeam', str_replace(' ', '', $team->name), $team);
+            
             // $team->users()->attach($user->id);
             $user->assignRoleAndTeam('Moderateur', $team->id);
             $user->createPrincipal();
+            $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser', str_replace(' ', '', $user->name), $user);
             // $user->assignRole('Moderateur');
             // $team = $user->ownedTeams()->first();
             // $modelRole=$user->assignModelRole()->first();
@@ -44,6 +57,7 @@ class DatabaseSeeder extends Seeder
             // $modelRole->team_id=$team->id;
 
         });
+        // dd('ok');
         
         
         // foreach ($users as $user) {
@@ -59,13 +73,14 @@ class DatabaseSeeder extends Seeder
 
         $teams = Team::all();
         foreach ($teams as $team) {
-            User::factory(5)->create()->each(function ($user) use ($team) {
+            User::factory(5)->create()->each(function ($user) use ($team, $laravelCalendarHome) {
                 
                 $user->assignRoleAndTeam('Utilisateur',$team->id);
                 $user->createPrincipal();
-                
+                $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser', 'lecalendrierde' . str_replace(' ', '', $user->name), $user);
 
             });
         }
+        // dd('ok');
     }
 }

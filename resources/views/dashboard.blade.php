@@ -4,6 +4,11 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
+    @if (session('alert'))
+    <div class="alert alert-danger">
+        {{ session('alert') }}
+    </div>
+    @endif
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
