@@ -12,8 +12,8 @@
     
 </div>
 
-
-{{-- <script>
+<!-- 
+<script>
     document.addEventListener("livewire:initialized", function () {
             let calendarEl = document.querySelector("#calendar");
             let calendar = new FullCalendar.Calendar(calendarEl, {
@@ -50,7 +50,8 @@
                 Livewire.dispatch("openModal", { component: "event-modal" });
             }
         });
-</script> --}}
+</script>
+-->
 
 
 
