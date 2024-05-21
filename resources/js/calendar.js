@@ -1,11 +1,12 @@
-import { Calendar } from 'fullcalendar';
-import iCalendarPlugin from '@fullcalendar/icalendar';
-import ICAL from 'ical.js';
-// console.log(window.calendarUrls);
+import { Calendar } from "fullcalendar";
+import iCalendarPlugin from "@fullcalendar/icalendar";
+import ICAL from "ical.js";
+
+let calendar;
 
 document.addEventListener("livewire:initialized", function () {
     let calendarEl = document.querySelector("#calendar");
-    var calendar = new Calendar(calendarEl, {
+    calendar = new Calendar(calendarEl, {
         plugins: [iCalendarPlugin],
         editable: true,
         selectable: true,
@@ -24,11 +25,12 @@ document.addEventListener("livewire:initialized", function () {
                 fixedWeekCount: false,
             },
         },
-        eventSources: window.calendarUrls.map((url) => ({
-            url: url,
-            format: "ics",
-        })),
-
+        eventSources: 
+            window.calendarUrls.map((url) => ({
+                url: url,
+                format: "ics",
+            })),
+        
         select: function (info) {
             console.log(info);
             openModal();
@@ -40,4 +42,10 @@ document.addEventListener("livewire:initialized", function () {
     function openModal() {
         Livewire.dispatch("openModal", { component: "event-modal" });
     }
+
 });
+
+setInterval(function () {
+    calendar.refetchEvents();
+    console.log("Refreshing events...");
+}, 30 * 1000);
