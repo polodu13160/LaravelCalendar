@@ -25,7 +25,10 @@ document.addEventListener("livewire:initialized", function () {
                 fixedWeekCount: false,
             },
         },
-        eventSources: fetchICal,
+        eventSources: [
+            fetchICal,
+            JSON.parse(window.events),
+        ],
 
         select: function (info) {
             console.log(info);
