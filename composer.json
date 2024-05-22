@@ -6,18 +6,17 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "johngrogg/ics-parser": "^3",
         "laravel/framework": "^11.0",
         "laravel/jetstream": "^5.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.0",
         "sabre/dav": "^4.6",
-        "spatie/icalendar-generator": "*",
+        "spatie/icalendar-generator": "^2.8",
         "spatie/laravel-permission": "^6.7",
         "thecodingmachine/safe": "^2.5",
-        "wire-elements/modal": "^2.0",
-        "johngrogg/ics-parser": "^3"
-
+        "wire-elements/modal": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
