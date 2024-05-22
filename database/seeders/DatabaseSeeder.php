@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 use Sabre\CalDAV\Backend\BackendInterface;
 use App\Http\Services\LaravelSabreCalendarHome;
 use Illuminate\Support\Facades\DB;
-use Sabre\CalDAV\Backend\PDO;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $backendInterface = new PDO(DB::getPdo());
-        $laravelCalendarHome=new LaravelSabreCalendarHome($backendInterface);
+       
+        $laravelCalendarHome=new LaravelSabreCalendarHome();
         
 
         //faire les seeders
