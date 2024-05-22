@@ -77,24 +77,14 @@ public function updateSearchAndUser($email)
             'name' => ['required', 'string', 'max:255', 'unique:teams,name'],
             'email' => ['required', 'email', 'exists:users,email'],
         ]);
-
+        
         $nameTeam=$this->name;
-        $userMail=$this->email;
+        $user=User::where('email',$this->email)->first();
         // dd($nameTeam,$userMail); 
-        $userTeamOwner = User::where('email', $userMail)->first();
-        $this->setLaravelSabreCalendarHome();
-        $this->laravelSabreCalendarHome->createTeam($nameTeam, $userTeamOwner);
+        $user->createTeamPrincipal($nameTeam);
         
+        return redirect()->route('dashboard')->with('status', 'L\'équipe a été créée avec succès !');
 
-        
-
-        
-        
-
-
-        return view('teams.create', [
-            'user' => $request->user(),
-        ]);
            
         }
        

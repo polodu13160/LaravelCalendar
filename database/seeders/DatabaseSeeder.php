@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
        
-        $laravelCalendarHome=new LaravelSabreCalendarHome();
+        // $laravelCalendarHome=new LaravelSabreCalendarHome();
         
 
         //faire les seeders
@@ -30,57 +30,27 @@ class DatabaseSeeder extends Seeder
         $admin=User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@test.com',
-        ])->assignRole('Admin');
-
+        ]);
         $admin->createPrincipal();
-        $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser','lecalendrierdeAdmin', $admin);
-       
-        
-        
-        
-        
-        
-        //create User Moderateur *3 et 1 teams par moderateur
-        User::factory(3)->withPersonalTeam()->create()->each(function ($user) use ($laravelCalendarHome){
-            $team = $user->ownedTeams()->first();
-            $team->createPrincipal();
-            $laravelCalendarHome->createCalendarTeamOrUser('CalendarTeam', str_replace(' ', '', $team->name), $team);
-            
-            // $team->users()->attach($user->id);
-            $user->assignRoleAndTeam('Moderateur', $team->id);
-            $user->createPrincipal();
-            $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser', str_replace(' ', '', $user->name), $user);
-            // $user->assignRole('Moderateur');
-            // $team = $user->ownedTeams()->first();
-            // $modelRole=$user->assignModelRole()->first();
-            // $team->users()->attach($user->id, ['role' => 1, 'model_type' => 'App\Models\User']);
-            // $modelRole->team_id=$team->id;
+        $admin->assignJustRole('Admin');
 
-        });
+
+        //Moderateurs et 1 teams par moderateur
+        $moderateurs=User::factory(3)->create();
+        foreach ($moderateurs as $moderateur) {
+           $moderateur->createPrincipal();
+           $moderateur->createTeamPrincipal($moderateur->username); 
+        }
         // dd('ok');
-        
-        
-        // foreach ($users as $user) {
-        //     $team = $user->ownedTeams()->first();
-        //     if ($team) {
-        //         $team->users()->attach($user->id);
-        //         $user->current_team_id=$team->id;
-        //         $user->save();
-        //     }
-        // }
-        
-        //create User Utilisateur *5 par teams
+
 
         $teams = Team::all();
         foreach ($teams as $team) {
-            User::factory(5)->create()->each(function ($user) use ($team, $laravelCalendarHome) {
-                
-                $user->assignRoleAndTeam('Utilisateur',$team->id);
+            User::factory(3)->create()->each(function ($user) use ($team) {
                 $user->createPrincipal();
-                $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser', 'lecalendrierde' . str_replace(' ', '', $user->name), $user);
+                $user->joinTeam('Utilisateur',$team->id);
 
             });
         }
-        // dd('ok');
     }
 }

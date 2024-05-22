@@ -3,17 +3,20 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Exception;
 use Laravel\Jetstream\HasTeams;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Jetstream\HasProfilePhoto;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use App\Http\Services\LaravelSabreCalendarHome;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -78,11 +81,7 @@ class User extends Authenticatable
             : $this->getPhotoUrl();
     }
 
-    public function setTeamsId($newteamId)
-    {
-        TeamUser::where('user_id', $this->id)->where('team_id', null)
-            ->update(['team_id' => $newteamId, 'created_at' => now()]);
-    }
+   
 
     public function teamInvitation(): HasMany
     {
@@ -90,19 +89,7 @@ class User extends Authenticatable
     }
 
 
-    public function assignRoleAndTeam($roleName, $teamId)
-    {
-       
-        $this->assignRole($roleName);
-        // $this->save();
-
-
-        $this->setTeamsId($teamId);
-        if ($this->current_team_id == null) {
-            $this->current_team_id = $teamId;
-        }
-        $this->save();
-    }
+    
 
     public function canDoAction($roleName, $teamId): bool
     {
@@ -121,34 +108,116 @@ class User extends Authenticatable
         return $teamRole === $roleId;
     }
 
-    public function isRole($role)
-    {
-        dd($user=Auth::user());
-       
-    }
-
-    public function createPrincipal()
-    {
-        $principal = new Principal();
-        $hashDossier= $this->hashUserName();
-        $principal->uri = 'principals/'. $hashDossier;
-        $principal->email = $this->email;
-        $principal->displayname = $this->username;
-        $principal->save();
-        
-
-        $this->principal_id = $principal->id;
-        $this->save();
-
-        return $principal;
-    }
+    
+   
     public function hashUserName()
     {
-        return substr(md5(hash('sha256', $this->username)),0,20);
+        return md5(hash('sha256', $this->username));
     }
 
     public function principal()
     {
         return $this->hasOne(Principal::class, 'id', 'principal_id');
     }
+
+    public function createPrincipal()
+    {
+        //Partie Crééer Principal
+        $principal = new Principal();
+        $hashDossier = $this->hashUserName();
+        $principal->uri = 'principals/' . $hashDossier;
+        $principal->email = $this->email;
+        $principal->displayname = $this->username;
+        $principal->save();
+        
+
+        //Partie Ajout de l'id du principal dans la table User
+        $this->principal_id = $principal->id;
+        $this->save();
+        
+        //Partie Créer le calendrier 
+        $this->createCalendar();
+
+        return $principal;
+    }
+    
+    
+
+    static function createUser($name, $username, $email){
+
+        //Creation User 
+        $user = new User();
+        $user->name = $name;
+        $user->username = $username;
+        $user->email = $email;
+        $user->password = Hash::make(config('app.password')) ;
+        $user->save();
+        //Creation Principal
+        $principal = $user->createPrincipal();
+
+    }
+
+
+
+
+    public function assignTeam($teamId, $roleName)
+    {
+        if ($roleName == 'Admin'){
+            throw new Exception('Admin can not be assigned to a team');
+        }
+        else if ($roleName == 'Moderateur'){
+            $this->assignRoleAndTeam('Moderateur',$teamId);
+        }
+        else if ($roleName == 'Utilisateur'){
+            $this->assignRoleAndTeam('Utilisateur',$teamId);
+        }
+        else {
+            throw new Exception('Role not found');
+        }
+    }
+    public function assignRoleAndTeam($roleName, $teamId)
+    {
+        $team=Team::where('id',$teamId)->first();
+        $role = Role::where('name', $roleName)->first();
+
+        $team->users()->attach($this->id, ['role' => $role->id, 'model_type' => 'App\Models\User']);
+
+        $this->current_team_id = $teamId;
+        $this->save();
+    }
+
+    public function createCalendar(){
+        $laravelCalendarHome = new LaravelSabreCalendarHome();
+        $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser', $this->username, $this);   
+    }
+
+    public function assignJustRole($roleName)
+    {
+        $role=Role::where('name',$roleName)->first();
+        $pivotTable= new TeamUser();
+        $pivotTable->role=$role->id;
+        $pivotTable->model_type='App\Models\User';
+        $pivotTable->user_id=$this->id;
+        $pivotTable->save();    
+    }
+    public function createTeamPrincipal($name)
+    {
+        $team = new Team();
+        $team->createTeam($name, $this->id);
+        
+
+        // assigner le role 
+        $this->assignRoleAndTeam('Moderateur', $team->id);
+        $adminId=TeamUser::where('role',Role::where('name','Admin')->first()->id)->first()->user_id;
+        $admin=User::where('id',$adminId)->first();
+        $admin->assignRoleAndTeam('Admin',$team->id);
+
+    }
+    public function joinTeam($nameRole,$teamId)
+    {
+        $team=Team::where('id',$teamId)->first();
+        $this->assignRoleAndTeam($nameRole, $team->id);
+    }
+    
+    
 }

@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
+use App\Http\Services\LaravelSabreCalendarHome;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Team extends JetstreamTeam
 {
     use HasFactory;
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -54,23 +56,44 @@ class Team extends JetstreamTeam
     {
         return $this->hasOne(Principal::class, 'id', 'principal_id');
     }
-    public function createPrincipal()
+    public function createPrincipal($name)
     {
         $principal = new Principal();
-        $hashDossier = $this->hashName();
+        $hashDossier = $this->hashName($name);
         $principal->uri = 'principals/' . $hashDossier;
         $principal->displayname = $this->name;
         $principal->save();
+        
 
 
         $this->principal_id = $principal->id;
+        
+
+
+        $this->createCalendar();
+
+        
         $this->save();
+        
 
         return $principal;
     }
-    public function hashName()
+    public function hashName($name)
     {
-        return substr(md5(hash('sha256', $this->name)), 0, 20);
+        return md5(hash('sha256', ('team' . $name)));
+    }
+    public function createTeam($name,$user_id)
+    {
+        // $team = new Team();
+        $this->name = $name;
+        $this->user_id = $user_id;
+        $this->personal_team = true;
+        $this->createPrincipal($name);
+    }
+    public function createCalendar()
+    {
+        $laravelCalendarHome = new LaravelSabreCalendarHome();
+        $laravelCalendarHome->createCalendarTeamOrUser('CalendarTeam', $this->name, $this);
     }
 
 }
