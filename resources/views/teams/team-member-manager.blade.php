@@ -140,67 +140,68 @@
             <x-slot name="content">
                 <div class="space-y-6">
                     @foreach ($team->users->sortBy('name') as $user)
-
+                    @if (!$user->hasrole('Admin'))
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <img class="w-8 h-8 rounded-full object-cover" src="{{ $user->profile_photo_url }}"
-                                alt="{{ $user->name }}">
+                            <img class="w-8 h-8 rounded-full object-cover" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
                             <div class="ms-4  {{ ($this->user->id === $user->id) ? 'ms-4 font-bold' : '' }}">{{
                                 $user->name }} {{ $user->email }} {{ ($this->user->id === $user->id) ? '( moi )' : '' }}
                             </div>
-
+                    
                         </div>
                         @canDoAction('Moderateur', $team->id)
                         <div class="flex items-center">
                             {{-- {{ {{ $user->teams->where('user_id','=',$this->user->id)->first()->membership->role == $role->id
                             ? 'selected' : '' }} }} --}}
-                           
+                    
                             <!-- Manage Team Member Role -->
-                           
-                            {{-- <button class="ms-2 text-sm text-gray-400 underline"
-                                wire:click="manageRole('{{ $user->id }}')">
+                    
+                            {{-- <button class="ms-2 text-sm text-gray-400 underline" wire:click="manageRole('{{ $user->id }}')">
                                 {{ dd($user->teams->where('user_id','=',$this->user->id)->first()->membership->role); }}
                             </button> --}}
                             @if($team->user_id!==$user->id)
                             @if($user->id != $this->user->id)
-                           
-                            <select name="choix"
-                                wire:change="setRole( $event.target.value,{{ $user->id }}, {{ $team->id }})">
+                    
+                            <select name="choix" wire:change="setRole( $event.target.value,{{ $user->id }}, {{ $team->id }})">
                                 @foreach ($roleTest as $role)
-                                <option value="{{ $role->id }}" {{ $user->teams->where('id', '=',$team->id)->first()->membership->role == $role->id ? 'selected' : ''}}
-                                >{{ $role->name }}</option>
+                                <option value="{{ $role->id }}" {{ $user->teams->where('id', '=',$team->id)->first()->membership->role ==
+                                    $role->id ? 'selected' : ''}}
+                                    >{{ $role->name }}</option>
                                 @endforeach
                             </select>
                             @endif
-
-
+                    
+                    
                             {{-- @elseif (Laravel\Jetstream\Jetstream::hasRoles())
                             <div class="ms-2 text-sm text-gray-400">
                                 {{-- {{ Laravel\Jetstream\Jetstream::findRole($user->membership->role)->name }} --}}
                                 {{-- </div> --}}
-                            
-
+                    
+                    
                             <!-- Leave Team -->
-
+                    
                             @if ($this->user->id === $user->id)
-                            {{-- <button class="cursor-pointer ms-6 text-sm text-red-500"
-                                wire:click="$toggle('confirmingLeavingTeam')"> --}}
+                            {{-- <button class="cursor-pointer ms-6 text-sm text-red-500" wire:click="$toggle('confirmingLeavingTeam')">
+                                --}}
                                 {{-- {{ __('Leave') }} --}}
                             </button>
-
+                    
                             <!-- Remove Team Member -->
                             @else
-                           
+                    
                             <button class="cursor-pointer ms-6 text-sm text-red-500"
                                 wire:click="confirmTeamMemberRemoval('{{ $user->id }}')">
                                 {{ __('Remove') }}
                             </button>
-                         
+                    
                             @endif
                             @endif
                         </div>
                         @endcanDoAction
                     </div>
+                        
+                    @endif
+                    
                     @endforeach
                 </div>
             </x-slot>
