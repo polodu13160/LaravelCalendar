@@ -25,14 +25,14 @@ document.addEventListener("livewire:initialized", function () {
                 fixedWeekCount: false,
             },
         },
-        eventSources: 
-            window.calendarUrls.map((url) => ({
-                url: url,
-                format: "ics",
-            })),
-        
+        eventSources: fetchICal,
+
         select: function (info) {
             console.log(info);
+            openModal();
+        },
+        eventClick: function (info) {
+            console.log(info.event);
             openModal();
         },
     });
@@ -42,10 +42,14 @@ document.addEventListener("livewire:initialized", function () {
     function openModal() {
         Livewire.dispatch("openModal", { component: "event-modal" });
     }
-
 });
 
 setInterval(function () {
     calendar.refetchEvents();
     console.log("Refreshing events...");
 }, 30 * 1000);
+
+let fetchICal = window.calendarUrls.map((url) => ({
+    url: url,
+    format: "ics",
+}));
