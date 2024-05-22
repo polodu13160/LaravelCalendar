@@ -21,9 +21,6 @@ class DatabaseSeeder extends Seeder
         $backendInterface = new PDO(DB::getPdo());
         $laravelCalendarHome=new LaravelSabreCalendarHome($backendInterface);
         
-
-        //faire les seeders
-        // User::
         $this->call(RoleSeeder::class);
        
         //create User Admin
@@ -33,12 +30,7 @@ class DatabaseSeeder extends Seeder
         ])->assignRole('Admin');
 
         $admin->createPrincipal();
-        $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser','lecalendrierdeAdmin', $admin);
-       
-        
-        
-        
-        
+        $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser','lecalendrierdeAdmin', $admin);        
         
         //create User Moderateur *3 et 1 teams par moderateur
         User::factory(3)->withPersonalTeam()->create()->each(function ($user) use ($laravelCalendarHome){
@@ -46,30 +38,10 @@ class DatabaseSeeder extends Seeder
             $team->createPrincipal();
             $laravelCalendarHome->createCalendarTeamOrUser('CalendarTeam', str_replace(' ', '', $team->name), $team);
             
-            // $team->users()->attach($user->id);
             $user->assignRoleAndTeam('Moderateur', $team->id);
             $user->createPrincipal();
             $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser', str_replace(' ', '', $user->name), $user);
-            // $user->assignRole('Moderateur');
-            // $team = $user->ownedTeams()->first();
-            // $modelRole=$user->assignModelRole()->first();
-            // $team->users()->attach($user->id, ['role' => 1, 'model_type' => 'App\Models\User']);
-            // $modelRole->team_id=$team->id;
-
         });
-        // dd('ok');
-        
-        
-        // foreach ($users as $user) {
-        //     $team = $user->ownedTeams()->first();
-        //     if ($team) {
-        //         $team->users()->attach($user->id);
-        //         $user->current_team_id=$team->id;
-        //         $user->save();
-        //     }
-        // }
-        
-        //create User Utilisateur *5 par teams
 
         $teams = Team::all();
         foreach ($teams as $team) {
@@ -81,6 +53,5 @@ class DatabaseSeeder extends Seeder
 
             });
         }
-        // dd('ok');
     }
 }
