@@ -49,12 +49,14 @@ class EventForm extends Form
 
     public function store(): void
     {
+        $this->visibility = $this->visibility === '1' ? 'private' : 'public';
         // $this->validate();
         Events::create($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility']));
     }
 
     public function update()
     {
+        $this->visibility = $this->visibility === '1' ? 'private' : 'public';
         $this->events->
         update($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility']));
     }
