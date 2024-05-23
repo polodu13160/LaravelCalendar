@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Events;
+use GuzzleHttp\Client;
 use Livewire\Form;
 
 class EventForm extends Form
@@ -49,9 +50,21 @@ class EventForm extends Form
 
     public function store(): void
     {
+        $this->storeiCalEvent();
         $this->visibility = $this->visibility === '1' ? 'private' : 'public';
         // $this->validate();
         Events::create($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility']));
+    }
+
+    public function storeiCalEvent() {
+
+        // Créer un nouveau client Guzzle
+        $client = new Client();
+
+        $url = $this->calendarUrl . $this->title . ".ics";
+        dd($this->calendarUrl);
+        // Définir l'URL de l'événement sur le serveur Sabre/dav
+        // $url = 'http://localhost/dav/calendars/6fa5bf2dd665bfd42687/lecalendrierdeAdmin/LaraconOnline.ics';
     }
 
     public function update()
