@@ -25,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('canDoAction', function ($role, $teamId) {
             return Auth::user()->canDoAction($role, $teamId);
         });
+        Blade::if('isAdmin', function () {
+            return Auth::user()->isAdmin();
+        });
     }
 }
 

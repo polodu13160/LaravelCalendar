@@ -107,6 +107,10 @@ class User extends Authenticatable
 
         return $teamRole === $roleId;
     }
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('Admin');
+    }
 
     
    
