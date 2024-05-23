@@ -27,7 +27,7 @@
             <x-label for="is_all_day" :value="__('Is all day ')" />
             <x-checkbox wire:model="form.is_all_day" id="is_all_day" />
         </div>
-        <!-- visibility input -->
+        <!-- visibility checkbox -->
         <div>
             <x-label for="visibility" :value="__('Private')" />
             <x-checkbox wire:model="form.visibility" id="visibility" />
