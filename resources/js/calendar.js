@@ -25,10 +25,7 @@ document.addEventListener("livewire:initialized", function () {
                 fixedWeekCount: false,
             },
         },
-        eventSources: [
-            fetchICal,
-            JSON.parse(window.events),
-        ],
+        eventSources: fetchAllSources(),
 
         select: function (info) {
             console.log(info);
@@ -56,3 +53,28 @@ let fetchICal = window.calendarUrls.map((url) => ({
     url: url,
     format: "ics",
 }));
+
+function fetchICalEvents() {
+
+    let iCalEvents = [];
+    
+    fetchICal.forEach(element => {
+        iCalEvents.push(element);
+    });
+    return iCalEvents;
+}
+
+function fetchJSONEvents() {
+    return JSON.parse(window.events);
+}
+
+
+function fetchAllSources() {
+
+    let allEvents = [];
+    
+    allEvents.push(fetchICalEvents());
+    allEvents.push(fetchJSONEvents());
+    console.log(allEvents);
+    return allEvents;
+}
