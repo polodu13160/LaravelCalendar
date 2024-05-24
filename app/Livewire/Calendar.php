@@ -12,6 +12,11 @@ class Calendar extends Component
     public $events = [];
     public $allUrlIcsEvents = [];
     public $calendarUrl;
+    public $choiceUser = ['user' => '', 'group' => ''];
+
+    
+
+    
 
     /**
      * Write code on Method
