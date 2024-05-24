@@ -56,14 +56,15 @@ class LaravelSabreCalendarHome
         if ($type =='CalendarTeam'){
             $properties = ["{DAV:}displayname" => $userOrTeams->name];
             
-            $this->createCalendar($userOrTeams->principal()->first()->uri, $name, $properties);
+            return $this->createCalendar($userOrTeams->principal()->first()->uri, $name, $properties);
+            
         }
         else if ($type =='CalendarUser'){
            
             $properties = ["{DAV:}displayname" => $userOrTeams->username];
             
-            $check=$this->createCalendar($userOrTeams->principal()->first()->uri, $name, $properties);
-            var_dump($check);
+            return $this->createCalendar($userOrTeams->principal()->first()->uri, $name, $properties);
+            
         }
         else{
             throw new InvalidResourceType('Vous ne pouvez pas créer de calendrier');

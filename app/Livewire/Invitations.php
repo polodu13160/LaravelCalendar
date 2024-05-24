@@ -14,6 +14,7 @@ class Invitations extends Component
 
     public function mount()
     {
+        
         $this->invitation = auth()->user()->TeamInvitation;
         $this->user = auth()->user();
     }

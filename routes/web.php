@@ -70,6 +70,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('refetch-events', EventComponent::class)->name('refetch-events');
 });
 
+
+
+
+
 $verbs = [
     'GET',
     'HEAD',

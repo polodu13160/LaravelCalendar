@@ -5,3 +5,36 @@
 [x-cloak] {
     display: none;
 }
+
+.star-checkbox {
+    position: absolute;
+    left: -9999px;
+}
+
+.star-label {
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    color: #444;
+    transition: color 0.4s ease;
+
+    &:before {
+        content: '☆';
+        text-align: center;
+        display: block;
+    }
+}
+
+.star-checkbox:checked+.star-label:before {
+    content: '★';
+    color: #F9BF3B;
+    text-shadow: 0 0 20px #F9BF3B;
+}
+
+body {
+    background-color: #111;
+}
