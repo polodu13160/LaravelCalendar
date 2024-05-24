@@ -87,6 +87,7 @@ public function updateSearchAndUser($email)
 
            
         }
+        return redirect()->route('dashboard')->with('status', 'L\'équipe ne peut-être créée avec cet utilisateur !');
        
     }
     public function render()

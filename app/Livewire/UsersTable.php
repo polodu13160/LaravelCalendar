@@ -2,25 +2,16 @@
 
 namespace App\Livewire;
 use App\Models\Role;
+use App\Models\TeamUser;
 use App\Models\User;
-use Google\Service\ServiceControl\Auth;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\TeamInvitation;
 use Laravel\Jetstream\Http\Livewire\TeamMemberManager;
+use Illuminate\Support\Facades\Auth;
 
 class UsersTable extends TeamMemberManager
 {
-    
-    // public string $search = '';
-    
-
-
-    // public function increment()
-    // {
-    //     $this->count++;
-    // }
-
-    // // A parler avec clement, pb d'actualisation de livewire
+   
     public function updateSearch()
     {
 
@@ -120,6 +111,28 @@ class UsersTable extends TeamMemberManager
         $teamUser->save();
         // dd('ok');
         $this->dispatch('good');
+    }
+
+    public function changeLeader($user_id){
+
+        if (Auth::user()->isAdmin() && $this->team->user_id == Auth::user()->id) {
+
+            $userTeamNewLeader = User::find($user_id)->teams->find($this->team->id)->membership;
+            $userTeamNewLeader->role = 2;
+            $userTeamNewLeader->save();
+            // dd($userTeamNewLeader);
+
+            $this->team->user_id = $user_id;
+            $this->team->save();
+
+            $this->dispatch('good');
+
+
+            $this->js('window.location.reload()'); 
+       
+            return;
+        }
+
     }
 
 

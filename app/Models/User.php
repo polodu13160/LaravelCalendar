@@ -222,6 +222,8 @@ class User extends Authenticatable
         $team=Team::where('id',$teamId)->first();
         $this->assignRoleAndTeam($nameRole, $team->id);
     }
+
+    
     
     
 }

@@ -95,5 +95,10 @@ class Team extends JetstreamTeam
         $laravelCalendarHome = new LaravelSabreCalendarHome();
         $laravelCalendarHome->createCalendarTeamOrUser('CalendarTeam', $this->name, $this);
     }
+    public function changeUserPersonalTeam($user_id)
+    {
+        $this->user_id = $user_id;
+        $this->save();
+    }
 
 }

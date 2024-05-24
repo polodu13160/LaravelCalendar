@@ -182,18 +182,21 @@
                     
                             @if ($this->user->id === $user->id)
                             {{-- <button class="cursor-pointer ms-6 text-sm text-red-500" wire:click="$toggle('confirmingLeavingTeam')">
-                                --}}
-                                {{-- {{ __('Leave') }} --}}
-                            </button>
+                               
+                                {{ __('Leave') }}
+                            </button> --}}
                     
                             <!-- Remove Team Member -->
                             @else
                     
+                            <button class="cursor-pointer ms-6 text-sm text-green-500"
+                                wire:click="changeLeader('{{ $user->id }}')">
+                                {{ __('Chef de groupe') }}
+                            </button>
                             <button class="cursor-pointer ms-6 text-sm text-red-500"
                                 wire:click="confirmTeamMemberRemoval('{{ $user->id }}')">
                                 {{ __('Remove') }}
                             </button>
-                    
                             @endif
                             @endif
                         </div>
