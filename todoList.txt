@@ -1,0 +1,17 @@
+a faire : 
+
+Finir l'affichage d'un calendrier entre celui du groupe et celui de l'utilisateur 
+Faire le deplacement du calendrier => si on bouge un event ca le mette a jour 
+faire si on click sur un event du calendrier on peut modifier cet event 
+
+
+Penser a pouvoir modifier son username mais aussi 
+si on modifie son username penser a le modifier uassi sur la table d'instance du calendrier (sinon on pourra plus les relier entre eux)
+
+Pareil pour modifier le nom de lequipe
+
+
+Et ca sera bon de ce coté 
+
+
+puis integration de l'api 
