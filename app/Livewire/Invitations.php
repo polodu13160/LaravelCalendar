@@ -2,19 +2,18 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-
 use App\Models\TeamInvitation;
-
+use Livewire\Component;
 
 class Invitations extends Component
 {
     public $invitation;
+
     public $user;
 
     public function mount()
     {
-        
+
         $this->invitation = auth()->user()->TeamInvitation;
         $this->user = auth()->user();
     }
@@ -24,21 +23,19 @@ class Invitations extends Component
         // dd($invit, $accept);
         // dd($this->user->teams);
         // dd($invit);
-        
-       if ($accept) {
-        try {
+
+        if ($accept) {
+            try {
                 $this->user->assignRoleAndTeam($invit->role, $invit->team_id);
-        } catch (\Throwable $th) {
-            dd($th);
+            } catch (\Throwable $th) {
+                dd($th);
+            }
+
         }
-       
-           
-        } 
         $invit->delete();
-        $this->js('window.location.reload()'); 
-    
+        $this->js('window.location.reload()');
+
     }
-    
 
     public function render()
     {

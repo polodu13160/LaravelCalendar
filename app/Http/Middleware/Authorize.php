@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Middleware;
 
 use App\Http\Services\LaravelSabre;
@@ -16,7 +15,7 @@ class Authorize
      */
     public function handle($request, $next)
     {
-        if (!LaravelSabre::check($request)) {
+        if (! LaravelSabre::check($request)) {
             abort(403);
         }
 

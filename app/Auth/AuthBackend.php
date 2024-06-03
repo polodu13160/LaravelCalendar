@@ -40,14 +40,11 @@ class AuthBackend implements BackendInterface
      *
      * @psalm-suppress NoInterfaceProperties
      *
-     * @param  RequestInterface  $request
-     * @param  ResponseInterface  $response
      * @return array
      */
     public function check(RequestInterface $request, ResponseInterface $response)
     {
         /** @var \Illuminate\Foundation\Auth\User|null */
-        
         $user = Auth::user();
         if (is_null($user)) {
             return [false, 'User is not authenticated'];
@@ -73,8 +70,6 @@ class AuthBackend implements BackendInterface
      * append your own WWW-Authenticate header instead of overwriting the
      * existing one.
      *
-     * @param  RequestInterface  $request
-     * @param  ResponseInterface  $response
      * @return void
      */
     public function challenge(RequestInterface $request, ResponseInterface $response)
@@ -86,6 +81,6 @@ class AuthBackend implements BackendInterface
             $response
         );
         $auth->requireLogin();
-        
+
     }
 }

@@ -3,19 +3,17 @@
 namespace App\Providers;
 
 use App\Auth\AuthBackend;
+use App\Http\Services\LaravelSabre;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\ServiceProvider;
 use Sabre\CalDAV\Backend\PDO;
 use Sabre\CalDAV\CalendarRoot;
-use Sabre\HTTP\RequestInterface;
-use Sabre\HTTP\ResponseInterface;
-use Illuminate\Support\Facades\DB;
-use App\Http\Services\LaravelSabre;
-use Sabre\DAVACL\PrincipalCollection;
-use Illuminate\Support\ServiceProvider;
-// use Sabre\CardDAV\Plugin as CardDAVPlugin;
 use Sabre\CalDAV\Plugin as CalDAVPlugin;
+// use Sabre\CardDAV\Plugin as CardDAVPlugin;
 use Sabre\DAV\Auth\Plugin as AuthPlugin;
 use Sabre\DAV\Browser\Plugin as BrowserPlugin;
 use Sabre\DAVACL\PrincipalBackend\PDO as PrincipalBackend;
+use Sabre\DAVACL\PrincipalCollection;
 
 class DAVServiceProvider extends ServiceProvider
 {
@@ -31,21 +29,21 @@ class DAVServiceProvider extends ServiceProvider
             return $this->plugins();
 
         });
-        
 
-        
     }
+
     private function nodes(): array
     {
-        $pdo=DB::getPdo();
+        $pdo = DB::getPdo();
         $principalBackend = new PrincipalBackend($pdo);
         $calendarBackend = new PDO($pdo);
 
         return [
             new PrincipalCollection($principalBackend),
-            new CalendarRoot($principalBackend, $calendarBackend)
+            new CalendarRoot($principalBackend, $calendarBackend),
         ];
     }
+
     private function plugins()
     {
         // Authentication backend
@@ -57,6 +55,4 @@ class DAVServiceProvider extends ServiceProvider
 
         yield new BrowserPlugin();
     }
-
-   
 }

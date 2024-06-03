@@ -31,10 +31,15 @@ class EventForm extends Form
     public string $end = '';
 
     public string $description = '';
+
     public int $status = 0;
+
     public int $is_all_day = 0;
+
     public string $visibility = 'public';
+
     public string $backgroundColor = '';
+
     public string $borderColor = '';
 
     public function setEvent(Events $events): void
@@ -68,28 +73,28 @@ class EventForm extends Form
 
         $user = auth()->user();
         $hashUserName = $user->hashUserName();
-        
+
         $hashTitle = md5($this->title);
 
         $laravelSabreRoot = config('app.laravelSabreRoot');
         $appRoot = config('app.appRoot');
-        $calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', '%/' . $hashUserName)->first();
-        
-        $url = $appRoot . '/' . $laravelSabreRoot . '/calendars' . '/' . $hashUserName . '/' . $calendar->uri . '/' . $hashTitle . ".ics";
+        $calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', '%/'.$hashUserName)->first();
+
+        $url = $appRoot.'/'.$laravelSabreRoot.'/calendars'.'/'.$hashUserName.'/'.$calendar->uri.'/'.$hashTitle.'.ics';
 
         $classification = $this->classification($this->visibility);
 
         $test = Event::create()
-        ->name($this->title)
-        ->description($this->description)
-        ->uniqueIdentifier($this->event_id)
-        ->classification($classification)
-        ->createdAt(new DateTime('now'))
+            ->name($this->title)
+            ->description($this->description)
+            ->uniqueIdentifier($this->event_id)
+            ->classification($classification)
+            ->createdAt(new DateTime('now'))
             ->startsAt(new DateTime($this->start))
             ->endsAt(new DateTime($this->end));
 
         $cal = Calendar::create()->event($test)->get();
-        
+
         $response = $client->request('PUT', $url, [
             'body' => $cal,
             'headers' => [
@@ -99,17 +104,17 @@ class EventForm extends Form
         ]);
     }
 
-    public function classification($value) {
+    public function classification($value)
+    {
 
         if ($value === 'public') {
             return Classification::public();
-        } else if ($value === 'private') {
+        } elseif ($value === 'private') {
             return Classification::private();
         } else {
             return Classification::confidential();
         }
     }
-
 
     public function update()
     {

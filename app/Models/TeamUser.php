@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class TeamUser extends Model
 {
     use HasFactory;
-    protected $table = 'team_user';
-    public $timestamps = true;
 
-    
-    
+    protected $table = 'team_user';
+
+    public $timestamps = true;
 }

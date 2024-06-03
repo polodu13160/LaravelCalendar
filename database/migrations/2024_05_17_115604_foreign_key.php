@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('principal_id')->nullable(); 
-            $table->foreign('principal_id')->references('id')->on('principals'); 
+            $table->unsignedBigInteger('principal_id')->nullable();
+            $table->foreign('principal_id')->references('id')->on('principals');
         });
         Schema::table('teams', function (Blueprint $table) {
-            $table->unsignedBigInteger('principal_id')->nullable(); 
-            $table->foreign('principal_id')->references('id')->on('principals'); 
+            $table->unsignedBigInteger('principal_id')->nullable();
+            $table->foreign('principal_id')->references('id')->on('principals');
         });
 
     }
@@ -28,11 +28,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['principal_id']); 
-            $table->dropColumn('principal_id'); 
+            $table->dropForeign(['principal_id']);
+            $table->dropColumn('principal_id');
         });
         Schema::table('teams', function (Blueprint $table) {
-            $table->dropForeign(['principal_id']); 
+            $table->dropForeign(['principal_id']);
             $table->dropColumn('principal_id');
         });
     }

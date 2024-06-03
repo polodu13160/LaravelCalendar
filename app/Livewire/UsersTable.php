@@ -1,28 +1,26 @@
 <?php
 
 namespace App\Livewire;
+
 use App\Models\Role;
-use App\Models\TeamUser;
 use App\Models\User;
-use Laravel\Jetstream\Features;
-use Laravel\Jetstream\TeamInvitation;
-use Laravel\Jetstream\Http\Livewire\TeamMemberManager;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Jetstream\Features;
+use Laravel\Jetstream\Http\Livewire\TeamMemberManager;
+use Laravel\Jetstream\TeamInvitation;
 
 class UsersTable extends TeamMemberManager
 {
-   
     public function updateSearch()
     {
-
-
 
         $this->render();
 
     }
-    public function setFormValues($role,$email)
+
+    public function setFormValues($role, $email)
     {
-        $this->addTeamMemberForm['role'] =$role ;
+        $this->addTeamMemberForm['role'] = $role;
         $this->addTeamMemberForm['email'] = $email;
 
         // dd($this->addTeamMemberForm['role'] ,$this->addTeamMemberForm['email']);
@@ -41,27 +39,24 @@ class UsersTable extends TeamMemberManager
             'addTeamMemberForm.email' => ['required', 'email'],
             'addTeamMemberForm.role' => ['required', 'not_in:Admin'],
         ];
-       
+
         $messages = [
             'addTeamMemberForm.email.required' => 'L\'email est requis',
             'addTeamMemberForm.email.email' => 'L\'email doit être une adresse email valide',
             'addTeamMemberForm.role.required' => 'Le role est requis',
             'addTeamMemberForm.role.not_in' => 'Le rôle Admin n\'est pas autorisé.',
         ];
-    
-        $this->validate($rules, $messages);
-    
 
-        
+        $this->validate($rules, $messages);
 
         if (Features::sendsTeamInvitations()) {
 
-            
             if ($this->team->users->contains($userIdInvite)) {
                 $this->addError('addTeamMemberForm', 'Cet utilisateur est déja dans l\'équipe');
+
                 return;
             }
-            
+
             try {
                 $teamId = $this->team->id;
                 $newTeamInvitation = new TeamInvitation([
@@ -75,22 +70,20 @@ class UsersTable extends TeamMemberManager
                 $newTeamInvitation->user_id_createInvite = auth()->user()->id;
                 $newTeamInvitation->save();
             } catch (\Throwable $th) {
-            //    dd($th);
-               if ($th->getCode() == 23000) {
-                $this->addError('addTeamMemberForm', 'Cet utilisateur est déja dans l\'équipe');
-               } 
+                //    dd($th);
+                if ($th->getCode() == 23000) {
+                    $this->addError('addTeamMemberForm', 'Cet utilisateur est déja dans l\'équipe');
+                }
             }
-                
 
-            
             // app(InvitesTeamMembers::class)->invite(
             //     $this->user,
             //     $this->team,
             //     $this->addTeamMemberForm['email'],
             //     $this->addTeamMemberForm['role']
             // );
-        } 
-        
+        }
+
         $this->addTeamMemberForm = [
             'email' => '',
             'role' => null,
@@ -104,7 +97,7 @@ class UsersTable extends TeamMemberManager
     public function setRole($role, $user, $teamId)
     {
         // dd($role);
-        $teamUser= User::find($user)->teams->find($teamId)->membership;
+        $teamUser = User::find($user)->teams->find($teamId)->membership;
         // $teamUser=User::find($user)->teams->find($teamId)->membership->first();
         // dd($success);
         $teamUser->role = $role;
@@ -113,7 +106,8 @@ class UsersTable extends TeamMemberManager
         $this->dispatch('good');
     }
 
-    public function changeLeader($user_id){
+    public function changeLeader($user_id)
+    {
 
         if (Auth::user()->isAdmin() && $this->team->user_id == Auth::user()->id) {
 
@@ -127,18 +121,12 @@ class UsersTable extends TeamMemberManager
 
             $this->dispatch('good');
 
+            $this->js('window.location.reload()');
 
-            $this->js('window.location.reload()'); 
-       
             return;
         }
 
     }
-
-
-
-
-    
 
     /**
      * Render the component.
@@ -147,12 +135,11 @@ class UsersTable extends TeamMemberManager
      */
     public function render()
     {
-      
-        return view('teams.team-member-manager',[
+
+        return view('teams.team-member-manager', [
             'users' => User::where('email', 'LIKE', "%{$this->addTeamMemberForm['email']}%")->where('id', '!=', auth()->user()->id)->where(
-                'name','!=','Admin')->get(),
-            'roleTest' => Role::where('name', '!=', "Admin")->get()
+                'name', '!=', 'Admin')->get(),
+            'roleTest' => Role::where('name', '!=', 'Admin')->get(),
         ]);
     }
 }
- 

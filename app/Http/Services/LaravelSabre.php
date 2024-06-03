@@ -38,6 +38,7 @@ class LaravelSabre
         if (static::$nodes instanceof Closure) {
             return (static::$nodes)();
         }
+
         return static::$nodes;
     }
 
@@ -117,7 +118,6 @@ class LaravelSabre
     /**
      * Register the LaravelSabre authentication callback.
      *
-     * @param  \Closure  $callback
      * @return static
      */
     public static function auth(Closure $callback)

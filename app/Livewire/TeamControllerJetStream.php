@@ -2,25 +2,22 @@
 
 namespace App\Livewire;
 
-use App\Models\Role;
+use App\Http\Services\LaravelSabreCalendarHome;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Laravel\Jetstream\Jetstream;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Services\LaravelSabreCalendarHome;
 use Laravel\Jetstream\Http\Livewire\CreateTeamForm;
-use Laravel\Jetstream\Http\Controllers\Livewire\TeamController;
 
 class TeamControllerJetStream extends CreateTeamForm
 {
-
     public $email = null;
-    public string $updateMailTeamOwner;
-    public $updateUserTeamOwner = null;
-    public $name;
-    public $laravelSabreCalendarHome;
 
+    public string $updateMailTeamOwner;
+
+    public $updateUserTeamOwner = null;
+
+    public $name;
+
+    public $laravelSabreCalendarHome;
 
     public function updateSearchAndUser($email)
     {
@@ -29,14 +26,13 @@ class TeamControllerJetStream extends CreateTeamForm
         $this->updateUserTeamOwnerFunc($email);
     }
 
-
-
-
     public function updateSearch($email)
     {
         $this->email = $email;
+
         return $this->render();
     }
+
     public function updateUserTeamOwnerFunc($mail)
     {
         $user = User::where('email', $mail)->first();
@@ -49,6 +45,7 @@ class TeamControllerJetStream extends CreateTeamForm
 
         //
     }
+
     public function setLaravelSabreCalendarHome()
     {
         $this->laravelSabreCalendarHome = new LaravelSabreCalendarHome();
@@ -57,16 +54,13 @@ class TeamControllerJetStream extends CreateTeamForm
     /**
      * Show the team management screen.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $teamId
      * @return \Illuminate\View\View
      */
 
-
     /**
      * Show the team creation screen.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
     public function create(Request $request)
@@ -79,13 +73,15 @@ class TeamControllerJetStream extends CreateTeamForm
 
             $nameTeam = $this->name;
             $user = User::where('email', $this->email)->first();
-            // dd($nameTeam,$userMail); 
+            // dd($nameTeam,$userMail);
             $user->createTeamPrincipal($nameTeam);
 
             return redirect()->route('dashboard')->with('status', 'L\'équipe a été créée avec succès !');
         }
+
         return redirect()->route('dashboard')->with('status', 'L\'équipe ne peut-être créée avec cet utilisateur !');
     }
+
     public function render()
     {
         return view('livewire.team-controller-jet-stream', [

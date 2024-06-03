@@ -1,9 +1,9 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -23,7 +23,7 @@ return new class extends Migration
             // $table->charset = 'utf8mb4';
             // $table->engine = 'InnoDB';
         });
-       
+
         Schema::create('calendarobjects', function (Blueprint $table) {
             $table->id();
             $table->binary('uri', 200)->nullable();
@@ -40,7 +40,7 @@ return new class extends Migration
             // $table->charset = 'utf8mb4';
             // $table->engine = 'InnoDB';
         });
-        DB::statement("ALTER TABLE calendarobjects ADD calendardata MEDIUMBLOB");
+        DB::statement('ALTER TABLE calendarobjects ADD calendardata MEDIUMBLOB');
         Schema::create('calendars', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('synctoken')->default(1);
@@ -70,7 +70,7 @@ return new class extends Migration
                 $table->unique(['calendarid', 'share_href']);
                 // $table->charset = 'utf8mb4';
                 // $table->engine = 'InnoDB';
-    });
+            });
         Schema::create('calendarchanges', function (Blueprint $table) {
             $table->id();
             $table->binary('uri', 200);
@@ -108,7 +108,7 @@ return new class extends Migration
             $table->charset = 'utf8mb4';
             $table->engine = 'InnoDB';
         });
-        DB::statement("ALTER TABLE schedulingobjects ADD calendardata MEDIUMBLOB");
+        DB::statement('ALTER TABLE schedulingobjects ADD calendardata MEDIUMBLOB');
 
         Schema::create('locks', function (Blueprint $table) {
             $table->id();
@@ -153,7 +153,7 @@ return new class extends Migration
             $table->binary('name', 100);
             $table->unsignedInteger('valuetype')->nullable();
         });
-        DB::statement("ALTER TABLE propertystorage ADD value MEDIUMBLOB NULL");
+        DB::statement('ALTER TABLE propertystorage ADD value MEDIUMBLOB NULL');
         DB::statement('CREATE UNIQUE INDEX path_property ON propertystorage (path(600), name(100))');
     }
 
@@ -170,6 +170,6 @@ return new class extends Migration
         Schema::dropIfExists('principals');
         Schema::dropIfExists('groupmembers');
         Schema::dropIfExists('propertystorage');
-    
+
     }
 };

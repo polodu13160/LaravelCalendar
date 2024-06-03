@@ -1,15 +1,13 @@
 <?php
 
-use App\Livewire\Calendar;
-use Illuminate\Routing\Router;
-use App\Livewire\EventComponent;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DAVController;
 use App\Http\Middleware\AccesSabreJustAdmin;
+use App\Livewire\Calendar;
+use App\Livewire\EventComponent;
 use App\Livewire\TeamControllerJetStream;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Jetstream\Http\Controllers\Inertia\TeamController;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
 use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
 use Spatie\IcalendarGenerator\Components\Event;
 
@@ -46,7 +44,7 @@ Route::get('/dd2', function () {
     ]);
 });
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
 
     Route::get('refetch-events', EventComponent::class)->name('refetch-events');
 
@@ -58,10 +56,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     Route::get('/teams/create', TeamControllerJetStream::class)->name('teams.create');
 });
-
-
-
-
 
 $verbs = [
     'GET',
@@ -83,10 +77,10 @@ $verbs = [
 Router::$verbs = array_merge(Router::$verbs, $verbs);
 $urlName = config('app.laravelSabreRoot');
 
-Route::any('/' . $urlName . '/' . 'calendars' . '/' . '{path}', [DAVController::class, 'init'])
+Route::any('/'.$urlName.'/'.'calendars'.'/'.'{path}', [DAVController::class, 'init'])
     ->name('sabre.dav.calendars.user')
     ->where('path', '(.)*')->withoutMiddleware(AccesSabreJustAdmin::class);
 
-Route::any('/' . $urlName . '{path?}', [DAVController::class, 'init'])
+Route::any('/'.$urlName.'{path?}', [DAVController::class, 'init'])
     ->name('sabre.dav')
     ->where('path', '(.)*')->middleware(AccesSabreJustAdmin::class);

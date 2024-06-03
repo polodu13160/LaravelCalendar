@@ -12,8 +12,9 @@ class EmailSearch extends Component
     public function render()
     {
         dump($this->search);
+
         return view('livewire.email-search', [
-            'usersMails' => User::where('email',$this->search)->get() ,
+            'usersMails' => User::where('email', $this->search)->get(),
         ]);
     }
 }

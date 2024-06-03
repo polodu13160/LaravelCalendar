@@ -2,14 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\ConnectedAccount;
 use App\Models\Team;
 use App\Models\User;
-use Illuminate\Support\Str;
-use App\Models\ConnectedAccount;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use JoelButcher\Socialstream\Providers;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use JoelButcher\Socialstream\Providers;
 use Laravel\Jetstream\Features as JetstreamFeatures;
 
 /**
@@ -17,7 +16,6 @@ use Laravel\Jetstream\Features as JetstreamFeatures;
  */
 class UserFactory extends Factory
 {
-   
     /**
      * Define the model's default state.
      *
@@ -25,12 +23,12 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-   $password = config('app.password');
-   $realm = config('app.realm');
-   $username=fake()->unique()->userName();
-  
+        $password = config('app.password');
+        $realm = config('app.realm');
+        $username = fake()->unique()->userName();
 
-        $digesta1= md5($username . ":" . $realm . ":" . $password);
+        $digesta1 = md5($username.':'.$realm.':'.$password);
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
@@ -96,6 +94,4 @@ class UserFactory extends Factory
             'ownedTeams'
         );
     }
-    
-    
 }

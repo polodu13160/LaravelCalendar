@@ -9,9 +9,10 @@ use LivewireUI\Modal\ModalComponent;
 class EventModal extends ModalComponent
 {
     public ?Events $events = null;
+
     public EventForm $form;
 
-    public function mount(Events $events = null)
+    public function mount(?Events $events = null)
     {
         if ($events && $events->exists) {
             $this->form->setEvent($events);
@@ -22,6 +23,7 @@ class EventModal extends ModalComponent
     {
         $this->form->store();
         $this->closeModal();
+
         return $this->redirect('/calendar');
     }
 
@@ -29,6 +31,7 @@ class EventModal extends ModalComponent
     {
         $this->form->update();
         $this->closeModal();
+
         return $this->redirect('/calendar');
     }
 

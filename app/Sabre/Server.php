@@ -2,12 +2,11 @@
 
 namespace App\Sabre;
 
-use App\Sabre\Sapi;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-
+use Illuminate\Support\Str;
 use Sabre\DAV\Server as SabreServer;
+
 use function Safe\stream_get_contents;
 
 class Server extends SabreServer
@@ -44,7 +43,6 @@ class Server extends SabreServer
      * @psalm-suppress UndefinedClass
      * @psalm-suppress TooManyArguments
      *
-     * @param  Request  $request
      * @return void
      */
     public function setRequest(Request $request)
@@ -96,7 +94,6 @@ class Server extends SabreServer
     /**
      * Get the full URL for the request.
      *
-     * @param  Request  $request
      * @return string
      */
     private function fullUrl(Request $request)

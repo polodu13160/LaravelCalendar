@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
-            '/dav*' // <-- exclude this route
+            '/dav*', // <-- exclude this route
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
