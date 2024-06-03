@@ -1,7 +1,7 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-b2p-logo />
+            <img src="{{ asset('img/B2P.png') }}" alt="Logo" class="logo"/>
         </x-slot>
 
         <x-validation-errors class="mb-4" />

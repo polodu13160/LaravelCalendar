@@ -8,7 +8,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-b2p-logo class="block h-9 w-auto" />
+                        <img src="{{ asset('img/B2P.png') }}" alt="Logo" class="logo"/>
                     </a>
                 </div>
 
