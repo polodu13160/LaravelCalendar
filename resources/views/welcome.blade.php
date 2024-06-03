@@ -796,9 +796,8 @@
                     >
                         <div class="flex lg:justify-center lg:col-start-2">
 
-                            <h1 class="text-xl font-semibold text-black">
-                                B2P Calendar
-                            </h1>
+                            <img src="{{ asset('img/B2P.png') }}" alt="Logo" class="logo"/>
+
                         </div>
                         @if (Route::has('login'))
                         <nav class="-mx-3 flex flex-1 justify-end">
