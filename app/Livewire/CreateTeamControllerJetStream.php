@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Laravel\Jetstream\Http\Livewire\CreateTeamForm;
 
-class TeamControllerJetStream extends CreateTeamForm
+class CreateTeamControllerJetStream extends CreateTeamForm
 {
     public $email = null;
 
@@ -51,18 +51,14 @@ class TeamControllerJetStream extends CreateTeamForm
         $this->laravelSabreCalendarHome = new LaravelSabreCalendarHome();
     }
 
-    /**
-     * Show the team management screen.
-     *
-     * @param  int  $teamId
-     * @return \Illuminate\View\View
-     */
 
-    /**
-     * Show the team creation screen.
-     *
-     * @return \Illuminate\View\View
-     */
+    public function mount()
+    {
+        if (!auth()->user()->hasRole('Admin')) {
+            return redirect()->route('dashboard');
+        }
+    }
+
     public function create(Request $request)
     {
         if (auth()->user()->hasRole('Admin')) {
@@ -76,21 +72,24 @@ class TeamControllerJetStream extends CreateTeamForm
             // dd($nameTeam,$userMail);
             $user->createTeamPrincipal($nameTeam);
 
-            return redirect()->route('dashboard')->with('status', 'L\'équipe a été créée avec succès !');
+            return redirect()->route('dashboard')->with('status', "L'équipe a été créée avec succès !");
         }
 
-        return redirect()->route('dashboard')->with('status', 'L\'équipe ne peut-être créée avec cet utilisateur !');
+        return redirect()->route('dashboard')->with('status', "L'équipe ne peut-être créée avec cet utilisateur !");
     }
 
     public function render()
     {
-        return view('livewire.team-controller-jet-stream', [
-            'users' => User::where('email', 'LIKE', "%{$this->email}%")->where('id', '!=', auth()->user()->id)->where(
-                'name',
-                '!=',
-                'Admin'
-            )->get(),
-
-        ]);
+        if (auth()->user()->hasRole('Admin')) {
+            return view('livewire.create-team-controller-jet-stream', [
+                'users' => User::where('email', 'LIKE', "%{$this->email}%")->where('id', '!=', auth()->user()->id)->where(
+                    'name',
+                    '!=',
+                    'Admin'
+                )->get(),
+            ]);
+        } else {
+            return redirect()->route('dashboard');
+        }
     }
 }
