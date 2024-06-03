@@ -51,7 +51,6 @@ class CreateTeamControllerJetStream extends CreateTeamForm
         $this->laravelSabreCalendarHome = new LaravelSabreCalendarHome();
     }
 
-
     public function mount()
     {
         if (!auth()->user()->hasRole('Admin')) {
@@ -88,8 +87,6 @@ class CreateTeamControllerJetStream extends CreateTeamForm
                     'Admin'
                 )->get(),
             ]);
-        } else {
-            return redirect()->route('dashboard');
         }
     }
 }
