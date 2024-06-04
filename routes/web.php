@@ -54,7 +54,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::get('/calendar', Calendar::class)->name('calendar');
 
-    Route::get('/teams/create', CreateTeamControllerJetStream::class)->name('teams.create');
+    Route::get('/teams/create', CreateTeamControllerJetStream::class)->name('teams_create');
 });
 
 $verbs = [
