@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Http\Services\LaravelSabreCalendarHome;
+use App\Http\Services\NavigationService;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Laravel\Jetstream\Http\Livewire\CreateTeamForm;
@@ -53,9 +54,8 @@ class CreateTeamControllerJetStream extends CreateTeamForm
 
     public function mount()
     {
-        if (!auth()->user()->hasRole('Admin')) {
-            return redirect()->route('dashboard');
-        }
+        $nav = new NavigationService();
+        $nav->redirectToDashboardIfUserIsNotAdmin();
     }
 
     public function create(Request $request)
