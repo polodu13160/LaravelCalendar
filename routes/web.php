@@ -5,6 +5,7 @@ use App\Http\Middleware\AccesSabreJustAdmin;
 use App\Livewire\Calendar;
 use App\Livewire\EventComponent;
 use App\Livewire\CreateTeamControllerJetStream;
+use App\Livewire\TeamSettingsController;
 use GuzzleHttp\Client;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/calendar', Calendar::class)->name('calendar');
 
     Route::get('/teams/create', CreateTeamControllerJetStream::class)->name('teams_create');
+    Route::get('/teams/{team}', TeamSettingsController::class)->name('teams_settings');
 });
 
 $verbs = [
