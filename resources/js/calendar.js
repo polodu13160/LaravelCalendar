@@ -4,15 +4,7 @@ import ICAL from "ical.js";
 
 let calendar;
 let iCalContents = {}; 
-window.calendar = {
-    init(allIcsEvents) {
-        // Now you can use allIcsEvents in your JavaScript file.
-        console.log(allIcsEvents);
-    }
-};
-document.addEventListener('allIcsEventsUpdated', (event) => {
-    window.calendar.init(event.detail.allIcsEvents);
-});
+
 
 
 
