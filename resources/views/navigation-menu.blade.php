@@ -54,7 +54,7 @@
                                     <!-- Team Settings -->
                                     @if ($teamUser)
                                         <x-dropdown-link
-                                            href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
+                                            href="{{ route('teams_settings', Auth::user()->currentTeam->id) }}">
                                             {{ __('Team Settings') }}
                                         </x-dropdown-link>
                                     @endif
@@ -213,8 +213,8 @@
 
                     <!-- Team Settings -->
                     @if ($teamUser)
-                        <x-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}"
-                            :active="request()->routeIs('teams.show')">
+                        <x-responsive-nav-link href="{{ route('teams_settings', Auth::user()->currentTeam->id) }}"
+                            :active="request()->routeIs('teams_settings')">
                             {{ __('Team Settings') }}
                         </x-responsive-nav-link>
                     @endif
@@ -242,3 +242,4 @@
         </div>
     </div>
 </nav>
+
