@@ -208,4 +208,9 @@ class User extends Authenticatable
         $team = Team::where('id', $teamId)->first();
         $this->assignRoleAndTeam($nameRole, $team->id);
     }
+
+    public function getTeamFocus()
+    {
+        return $this->current_team_id;
+    }
 }
