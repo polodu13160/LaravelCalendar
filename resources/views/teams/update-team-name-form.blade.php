@@ -25,7 +25,7 @@
         <!-- Team Name -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="name" value="{{ __('Team Name') }}" />
-
+            @if ($isModerator)
             <x-input id="name"
                         type="text"
                         class="mt-1 block w-full"
@@ -33,6 +33,9 @@
                         :disabled="! Gate::check('update', $team)" />
 
             <x-input-error for="name" class="mt-2" />
+            @else
+            <title>{{ $team->name }}</title>
+            @endif
         </div>
     </x-slot>
 
