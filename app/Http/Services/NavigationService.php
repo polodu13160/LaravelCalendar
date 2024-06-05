@@ -6,12 +6,14 @@ class NavigationService
 {
     private $user;
     private $isUserAdmin;
+    private $isUserModerator;
     private $userTeam;
 
     public function __construct()
     {
         $this->user = auth()->user();
         $this->isUserAdmin = auth()->user()->hasRole("Admin");
+        $this->isUserModerator = auth()->user()->hasRole("Moderateur");
         $this->userTeam = auth()->user()->getTeamFocus();
     }
 
@@ -23,6 +25,11 @@ class NavigationService
     public function getIsUserAdmin()
     {
         return $this->isUserAdmin;
+    }
+
+    public function getIsUserModerator()
+    {
+        return $this->isUserModerator;
     }
 
     public function getUserTeam()
