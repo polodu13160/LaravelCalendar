@@ -4,12 +4,44 @@ import ICAL from "ical.js";
 
 let calendar;
 let iCalContents = {}; 
+window.calendar = {
+    init(allIcsEvents) {
+        // Now you can use allIcsEvents in your JavaScript file.
+        console.log(allIcsEvents);
+    }
+};
+document.addEventListener('allIcsEventsUpdated', (event) => {
+    window.calendar.init(event.detail.allIcsEvents);
+});
 
 
-let fetchICal = window.calendarUrls.map((url) => ({
-    url: url,
-    format: "ics",
-}));
+
+let fetchICal = [];
+if (window.calendarUrls.User.length > 0) {
+    fetchICal.push(...window.calendarUrls.User.map((url) => ({
+        url: url,
+        format: "ics",
+        color: "green"
+    })));
+}
+if (window.calendarUrls.Group.length > 0) {
+    fetchICal.push(...window.calendarUrls.Group.map((url) => ({
+        url: url,
+        format: "ics",
+        color: "red"
+    })));
+}
+if (window.calendarUrls.Name.length > 0) {
+    fetchICal.push(...window.calendarUrls.Name.map((url) => ({
+        url: url,
+        format: "ics",
+        color: "blue"
+    })));
+}
+
+
+
+// console.log(fetchICal);
 
 function fetchICalEvents() {
     let fetchPromises = fetchICal.map(element => {

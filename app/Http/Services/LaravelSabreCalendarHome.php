@@ -128,6 +128,7 @@ class LaravelSabreCalendarHome
             $this->pdo->lastInsertId($this->calendarInstancesTableName . '_id_seq'),
         ];
     }
+    
 
 
 
