@@ -48,14 +48,14 @@
                         @foreach ($team->teamInvitations as $invitation)
                             @php($inviteUser = $invitation->load('user')->user)
 
-                            <div class="flex items-center justify-between">
-                                <img class="w-8 h-8 rounded-full object-cover"
+                            <div class="grid grid-cols-10 gap-4 items-center">
+                                <img class="w-8 h-8 rounded-full object-cover col-span-1"
                                     src="{{ $inviteUser->profile_photo_url }}" alt="{{ $inviteUser->name }}">
-                                <div class="text-gray-600">{{ $inviteUser->name }}</div>
-                                <div class="text-gray-600">{{ $inviteUser->email }}</div>
-                                <div class="text-gray-600">{{ $invitation->role }}</div>
+                                <div class="text-gray-600 col-span-3">{{ $inviteUser->name }}</div>
+                                <div class="text-gray-600 text-right col-span-3">{{ $inviteUser->email }}</div>
+                                <div class="text-gray-600 text-center col-span-2">{{ $invitation->role }}</div>
 
-                                <div class="flex items-center">
+                                <div class="flex items-center justify-end col-span-1">
 
                                     <!-- Cancel Team Invitation -->
                                     <button class="cursor-pointer ms-6 text-sm text-red-500 focus:outline-none"
