@@ -5,15 +5,18 @@ namespace App\Http\Services;
 class NavigationService
 {
     private $user;
+
     private $isUserAdmin;
+
     private $isUserModerator;
+
     private $userTeam;
 
     public function __construct()
     {
         $this->user = auth()->user();
-        $this->isUserAdmin = auth()->user()->hasRole("Admin");
-        $this->isUserModerator = auth()->user()->hasRole("Moderateur");
+        $this->isUserAdmin = auth()->user()->hasRole('Admin');
+        $this->isUserModerator = auth()->user()->hasRole('Moderateur');
         $this->userTeam = auth()->user()->getTeamFocus();
     }
 
@@ -39,7 +42,7 @@ class NavigationService
 
     public function redirectToDashboardIfUserIsNotAdmin()
     {
-        if (!$this->isUserAdmin) {
+        if (! $this->isUserAdmin) {
             return redirect()->route('dashboard');
         }
     }

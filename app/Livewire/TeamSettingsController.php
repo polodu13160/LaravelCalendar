@@ -8,6 +8,7 @@ use Livewire\Component;
 class TeamSettingsController extends Component
 {
     public $isAdmin;
+
     public $isModerator;
 
     public function render()
