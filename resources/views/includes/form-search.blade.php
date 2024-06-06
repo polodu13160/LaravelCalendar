@@ -55,7 +55,7 @@
                                 <x-input-error for="role" class="mt-2" />
                                 @foreach ($roleTest as $role)
                                     <button
-                                        class="text-sm m-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l"
+                                        class="text-sm m-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded"
                                         wire:click="setFormValues('{{ $role->name }}','{{ $user->email }}')">
                                         {{ $role->name }}
                                     </button>
