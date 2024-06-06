@@ -8,8 +8,6 @@
             {{ __('The team\'s name and owner information.') }}
         </x-slot>
 
-        <p>{{ $isModerator }}</p>
-
         <x-slot name="form">
             <!-- Team Owner Information -->
             <div class="col-span-6">
@@ -29,19 +27,19 @@
             <!-- Team Name -->
             <div class="col-span-6 sm:col-span-4">
                 <x-label for="name" value="{{ __('Team Name') }}" />
-                @if ($isAdmin)
+                @if ($isModerator)
                     <x-input id="name" type="text" class="mt-1 block w-full" wire:model="state.name"
                         :disabled="!Gate::check('update', $team)" />
 
                     <x-input-error for="name" class="mt-2" />
                 @else
-                    <div>Bonjour</div>
+                    <h3 class="mt-4 font-bold">{{$team->name}}</h3>
                 @endif
             </div>
         </x-slot>
 
         @if (Gate::check('update', $team))
-        @if ($isAdmin)
+        @if ($isModerator)
             <x-slot name="actions">
                 <x-action-message class="me-3" on="saved">
                     {{ __('Saved.') }}
