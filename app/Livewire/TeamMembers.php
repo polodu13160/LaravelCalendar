@@ -9,7 +9,7 @@ use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Http\Livewire\TeamMemberManager;
 use Laravel\Jetstream\TeamInvitation;
 
-class UsersTable extends TeamMemberManager
+class TeamMembers extends TeamMemberManager
 {
     public function updateSearch()
     {

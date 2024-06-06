@@ -9,7 +9,7 @@
 
             <livewire:update-team-name :$team :$isModerator :$isAdmin/>
 
-            @livewire('users-table', ['team' => $team])
+            <livewire:team-members :$team />
 
             @if (Gate::check('delete', $team) && ! $team->personal_team)
                 <x-section-border />
