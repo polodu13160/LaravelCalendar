@@ -118,7 +118,7 @@ class TeamMembers extends TeamMemberManager
      */
     public function render()
     {
-        return view('teams.team-member-manager', [
+        return view('livewire.team-members', [
             'users' => User::where('email', 'LIKE', "%{$this->addTeamMemberForm['email']}%")->where('id', '!=', auth()->user()->id)->where(
                 'name',
                 '!=',
