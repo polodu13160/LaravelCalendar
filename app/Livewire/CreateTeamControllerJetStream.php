@@ -22,7 +22,6 @@ class CreateTeamControllerJetStream extends CreateTeamForm
 
     public function updateSearchAndUser($email)
     {
-
         $this->updateSearch($email);
         $this->updateUserTeamOwnerFunc($email);
     }
@@ -43,8 +42,6 @@ class CreateTeamControllerJetStream extends CreateTeamForm
     public function setFormValues($email)
     {
         $this->email = $email;
-
-        //
     }
 
     public function setLaravelSabreCalendarHome()
@@ -71,10 +68,12 @@ class CreateTeamControllerJetStream extends CreateTeamForm
             // dd($nameTeam,$userMail);
             $user->createTeamPrincipal($nameTeam);
 
-            return redirect()->route('dashboard')->with('status', "L'équipe a été créée avec succès !");
+            // return redirect()->route('dashboard')->with('alert', "L'équipe a été créée avec succès !");
+            return redirect()->route('dashboard');
         }
 
-        return redirect()->route('dashboard')->with('status', "L'équipe ne peut-être créée avec cet utilisateur !");
+        // return redirect()->route('dashboard')->with('status', "L'équipe ne peut-être créée avec cet utilisateur !");
+        return redirect()->route('dashboard');
     }
 
     public function render()
