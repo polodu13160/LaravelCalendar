@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Laravel\Jetstream\Http\Livewire\CreateTeamForm;
 
-class CreateTeamControllerJetStream extends CreateTeamForm
+class CreateTeamController extends CreateTeamForm
 {
     public $email = null;
 
@@ -79,7 +79,7 @@ class CreateTeamControllerJetStream extends CreateTeamForm
     public function render()
     {
         if (auth()->user()->hasRole('Admin')) {
-            return view('livewire.create-team-controller-jet-stream', [
+            return view('livewire.create-team-controller', [
                 'users' => User::where('email', 'LIKE', "%{$this->email}%")->where('id', '!=', auth()->user()->id)->where(
                     'name',
                     '!=',
