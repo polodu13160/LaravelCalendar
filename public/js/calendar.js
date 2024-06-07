@@ -3,36 +3,6 @@ import iCalendarPlugin from "@fullcalendar/icalendar";
 import ICAL from "ical.js";
 
 
-document.addEventListener('DOMContentLoaded', (event) => {
-
-    var moiInput = document.getElementById('moi');
-    var groupeInput = document.getElementById('groupe');
-
-    function fetchData() {
-    fetch(window.location.origin + "/eventsIcs")
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Erreur:', error));
-    var moiChecked = moiInput.checked;
-    console.log("Moi checkbox clicked, checked:", moiChecked);
-
-
-    };
-
-    moiInput.addEventListener('click', fetchData);
-    // function() {
-    //     var moiChecked = moiInput.checked;
-    //     console.log('Moi checkbox clicked, checked:', moiChecked);
-
-        
-        
-  
-
-    groupeInput.addEventListener('click', fetchData);    
-});
-
-
-
 
 let calendar;
 let iCalContents = {}; 
@@ -40,24 +10,28 @@ let iCalContents = {};
 
 
 
-
-
-
-
-
-function createEventSources(urls, color) {
-    return urls.map((url) => ({
+let fetchICal = [];
+if (window.calendarUrls.User.length > 0) {
+    fetchICal.push(...window.calendarUrls.User.map((url) => ({
         url: url,
         format: "ics",
-        color: color
-    }));
+        color: "green"
+    })));
 }
-
-let fetchICal = [
-    ...createEventSources(window.calendarUrls.User, "green"),
-    ...createEventSources(window.calendarUrls.Group, "red"),
-    ...createEventSources(window.calendarUrls.Name, "blue")
-];
+if (window.calendarUrls.Group.length > 0) {
+    fetchICal.push(...window.calendarUrls.Group.map((url) => ({
+        url: url,
+        format: "ics",
+        color: "red"
+    })));
+}
+if (window.calendarUrls.Name.length > 0) {
+    fetchICal.push(...window.calendarUrls.Name.map((url) => ({
+        url: url,
+        format: "ics",
+        color: "blue"
+    })));
+}
 
 
 
@@ -171,6 +145,5 @@ function parseICalContent(iCalContent) {
 
 setInterval(function () {
     calendar.refetchEvents();
-    window.calen
     console.log("Refreshing events...");
 }, 30 * 1000);

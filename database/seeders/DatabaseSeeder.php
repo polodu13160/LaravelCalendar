@@ -6,9 +6,7 @@ use App\Models\Team;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Sabre\CalDAV\Backend\BackendInterface;
-use App\Http\Services\LaravelSabreCalendarHome;
-use Illuminate\Support\Facades\DB;
+
 
 
 class DatabaseSeeder extends Seeder
@@ -23,20 +21,26 @@ class DatabaseSeeder extends Seeder
         
         $this->call(RoleSeeder::class);
        
+       
         //create User Admin
         $admin=User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@test.com',
+            'username' => 'admin',
+            
         ]);
+        dd('ok');
         $admin->createPrincipal();
+        
         $admin->assignJustRole('Admin');
-
+        
+        
 
         //Moderateurs et 1 teams par moderateur
         $moderateurs=User::factory(3)->create();
         foreach ($moderateurs as $moderateur) {
            $moderateur->createPrincipal();
-           $moderateur->createTeamPrincipal($moderateur->username); 
+           $moderateur->createTeamPrincipal('team ' . $moderateur->username); 
         }
         // dd('ok');
 

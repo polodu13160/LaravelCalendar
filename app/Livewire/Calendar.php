@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Calendar extends Component
 {
-    protected $listeners = ['allIcsEventsUpdated' => 'allIcsEventsUpdated'];
+
 
 
 
@@ -44,40 +44,57 @@ class Calendar extends Component
         
     }
 
-    private function getEvents($user=false, $group=false,$name=false, ){
+    public function getEvents(){
+
+        $user = auth()->user();
+       
         
-        
-       $this->allIcsEvents = [
-        'User' => [],
-        'Group' => [],
-        'Name' => [],
-    ];
-    $this->calendarUrl=['User'=>'','Group'=>'','Name'=>''];
+    //    $this->allIcsEvents = [
+    //     'User' => [],
+    //     'Group' => [],
+    //     'Name' => [],
+    // ];
+    // $this->calendarUrl=['User'=>'','Group'=>'','Name'=>''];
 
 
-        if ($user==!false){
-            $user=auth()->user();
-            $this->calendarUrl['User']=auth()->user()->getCalendarUrl();
-            $icsUser=auth()->user()->getEvents();
+        if ($this->choiceUser["User"]==!false){
+           
+           
+            $this->calendarUrl['User']=$user->getCalendarUrl();
+            $icsUser=$user->getEvents();
             foreach ($icsUser as $ics){
                 $this->allIcsEvents['User'][]=$this->calendarUrl['User'] . '/' . $ics->uri;
                 
             };
         }
-        if ($group==!false){
+        else {
+            $this->allIcsEvents['User']=[];
+            $this->calendarUrl['User']='';
+        }
+
+        if ($this->choiceUser["Group"] == !false){
             
-            $teamId=auth()->user()->getTeamFocus();
+            
+            $teamId=$user->getTeamFocus();
             $team=Team::where('id',$teamId)->first();
+            
             $this->calendarUrl['Group']=$team->getCalendarUrl();
             
             $icsGroup=$team->getEvents();
+            // dd($icsGroup);
             foreach ($icsGroup as $ics){
                 $this->allIcsEvents['group'][]=$ics;
             };
 
         
-        }; 
+        }
+        else {
+            $this->allIcsEvents['Group'] = [];
+            $this->calendarUrl['Group'] = '';
+            
+        } 
         
+        return $this->allIcsEvents;
         
     }
     public function allIcsEventsUpdated()
@@ -97,7 +114,7 @@ class Calendar extends Component
     {
         
         
-        $this->getEvents($this->choiceUser['User'],$this->choiceUser['Group'],$this->choiceUser['Name']);
+        $this->getEvents();
 
 
 

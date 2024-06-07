@@ -65,9 +65,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/calendar', Calendar::class)->name('calendar');
+    Route::get('/calendar',function () {
+        return view('calendarPage');
+    })->name('calendar');
 
     Route::get('refetch-events', EventComponent::class)->name('refetch-events');
+
+    Route::get('/eventsIcs', [Calendar::class, 'getEvents']);
+    
 });
 
 
