@@ -79,10 +79,10 @@ $verbs = [
 Router::$verbs = array_merge(Router::$verbs, $verbs);
 $urlName = config('app.laravelSabreRoot');
 
-Route::any('/' . $urlName . '/' . 'calendars' . '/' . '{path}', [DAVController::class, 'init'])
+Route::any('/'.$urlName.'/'.'calendars'.'/'.'{path}', [DAVController::class, 'init'])
     ->name('sabre.dav.calendars.user')
     ->where('path', '(.)*')->withoutMiddleware(AccesSabreJustAdmin::class);
 
-Route::any('/' . $urlName . '{path?}', [DAVController::class, 'init'])
+Route::any('/'.$urlName.'{path?}', [DAVController::class, 'init'])
     ->name('sabre.dav')
     ->where('path', '(.)*')->middleware(AccesSabreJustAdmin::class);

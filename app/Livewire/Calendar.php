@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Http\Services\NavigationService;
 use App\Models\Calendarobject;
 use App\Models\Events;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Calendar extends Component
