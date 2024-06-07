@@ -3,33 +3,33 @@ import iCalendarPlugin from "@fullcalendar/icalendar";
 import ICAL from "ical.js";
 
 
-document.addEventListener('DOMContentLoaded', (event) => {
+// document.addEventListener('DOMContentLoaded', (event) => {
 
-    var moiInput = document.getElementById('moi');
-    var groupeInput = document.getElementById('groupe');
+//     var moiInput = document.getElementById('moi');
+//     var groupeInput = document.getElementById('groupe');
 
-    function fetchData() {
-    fetch(window.location.origin + "/eventsIcs")
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Erreur:', error));
-    var moiChecked = moiInput.checked;
-    console.log("Moi checkbox clicked, checked:", moiChecked);
+//     function fetchData() {
+//     fetch(window.location.origin + "/eventsIcs")
+//     .then(response => response.json())
+//     .then(data => console.log(data))
+//     .catch(error => console.error('Erreur:', error));
+//     var moiChecked = moiInput.checked;
+//     console.log("Moi checkbox clicked, checked:", moiChecked);
 
 
-    };
+//     };
 
-    moiInput.addEventListener('click', fetchData);
-    // function() {
-    //     var moiChecked = moiInput.checked;
-    //     console.log('Moi checkbox clicked, checked:', moiChecked);
+//     moiInput.addEventListener('click', fetchData);
+//     // function() {
+//     //     var moiChecked = moiInput.checked;
+//     //     console.log('Moi checkbox clicked, checked:', moiChecked);
 
         
         
   
 
-    groupeInput.addEventListener('click', fetchData);    
-});
+//     groupeInput.addEventListener('click', fetchData);    
+// });
 
 
 

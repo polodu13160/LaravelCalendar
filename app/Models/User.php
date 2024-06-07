@@ -234,11 +234,11 @@ class User extends Authenticatable
 
     public function getCalendarUrl()
     {
-    $this->laravelSabreRoot = config('app.laravelSabreRoot');
-    $this->appRoot = config('app.appRoot');
+    $laravelSabreRoot = config('app.laravelSabreRoot');
+    $appRoot = config('app.appRoot');
         
        $calendar=Calendarinstances::where('displayname', $this->username)->first();
-       return $this->appRoot . '/' . $this->laravelSabreRoot . '/calendars/' . $this->hashUserName() . '/' . $calendar->uri; 
+       return $appRoot . '/' . $laravelSabreRoot . '/calendars/' . $this->hashUserName() . '/' . $calendar->uri; 
     }
     public function getEvents(){
         $calendar = Calendarinstances::where('displayname', $this->username)->first();

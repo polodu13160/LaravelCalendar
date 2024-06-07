@@ -8,6 +8,7 @@ use Livewire\Component;
 use App\Models\Calendarobject;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Request;
 
 class Calendar extends Component
 {
@@ -24,29 +25,43 @@ class Calendar extends Component
     public $calendarUrl=['User'=>'','Group'=>'','Name'=>''];
     public $choiceUser = [
         'User' => true,
-        'Group' => false,
+        'Group' => true,
         'Name' => false,
     ];
+
+    public function submit()
+    {
+        dd($this->choiceUser);
+        // $user = $request->input('User');
+        // $group = $request->input('Group');
+        // if ($user == true) {
+        //     $this->choiceUser['User'] = true;
+        // }
+        // else {
+        //     $this->choiceUser['User'] = false;
+        // }
+        // if ($group == true) {
+        //     $this->choiceUser['Group'] = true;
+        // }
+        // else {
+        //     $this->choiceUser['Group'] = false;
+        // }
+        
+
+       
+        // return $this->getEvents();
+    }
    
 
 
-    public function checkboxChanged()
-    {
-        $user = false;
-        $group = false;
-        if ($this->choiceUser['User'] == true) {
-            $user=true;
-        }
-        if ($this->choiceUser['Group'] == true) {
-            $group=true;
-        }
-       
-        
-    }
+    
 
     public function getEvents(){
-
+        
         $user = auth()->user();
+       
+
+       
       
        
         
@@ -69,6 +84,7 @@ class Calendar extends Component
             };
         }
         else {
+            
             $this->allIcsEvents['User']=[];
             $this->calendarUrl['User']='';
         }
@@ -84,8 +100,9 @@ class Calendar extends Component
             $icsGroup=$team->getEvents();
             // dd($icsGroup);
             foreach ($icsGroup as $ics){
-                $this->allIcsEvents['group'][]=$ics;
+                $this->allIcsEvents['Group'][] = $this->calendarUrl['Group'] . '/' . $ics->uri;
             };
+            // dd($this->allIcsEvents);
 
         
         }
@@ -97,12 +114,9 @@ class Calendar extends Component
         
         return $this->allIcsEvents;
         
+        
     }
-    public function allIcsEventsUpdated()
-    {
-        $this->dispatchBrowserEvent('allIcsEventsUpdated', ['allIcsEvents' => $this->allIcsEvents]);
-    }
-
+    
 
     
 

@@ -71,7 +71,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     Route::get('refetch-events', EventComponent::class)->name('refetch-events');
 
-    Route::get('/eventsIcs', [Calendar::class, 'getEvents']);
+    Route::post('/eventsIcs', [Calendar::class, 'submit']);
     
 });
 
