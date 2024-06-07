@@ -2,6 +2,8 @@
 
 namespace App\Http\Services;
 
+use Illuminate\Support\Facades\DB;
+
 class NavigationService
 {
     private $user;
@@ -11,6 +13,10 @@ class NavigationService
     private $isUserModerator;
 
     private $userTeam;
+
+    private $calendar;
+
+    private $calendarUrl;
 
     public function __construct()
     {
@@ -40,9 +46,31 @@ class NavigationService
         return $this->userTeam;
     }
 
+    public function getCalendar()
+    {
+        return $this->calendar;
+    }
+
+    public function getCalendarUrl()
+    {
+        return $this->calendarUrl;
+    }
+
+    public function setCalendarUrl()
+    {
+        $appRoot = config('app.appRoot');
+        $laravelSabreRoot = config('app.laravelSabreRoot');
+
+        $hashUserName = $this->user->hashUserName();
+
+        $this->calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', "%/$hashUserName")->first();
+
+        $this->calendarUrl = "$appRoot/$laravelSabreRoot/calendars/$hashUserName/" . $this->calendar->uri;
+    }
+
     public function redirectToDashboardIfUserIsNotAdmin()
     {
-        if (! $this->isUserAdmin) {
+        if (!$this->isUserAdmin) {
             return redirect()->route('dashboard');
         }
     }

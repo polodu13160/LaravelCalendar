@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Http\Services\NavigationService;
 use App\Models\Calendarobject;
 use App\Models\Events;
 use Illuminate\Support\Facades\DB;
@@ -24,20 +25,16 @@ class Calendar extends Component
     {
         $this->events = json_encode(Events::all());
 
-        $laravelSabreRoot = config('app.laravelSabreRoot');
-        $appRoot = config('app.appRoot');
-        $user = auth()->user();
-        $userName = $user->username;
-        $hashUserName = $user->hashUserName();
-        $calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', '%/'.$hashUserName)->first();
+        $nav = new NavigationService();
+        $nav->setCalendarUrl();
+        $this->calendarUrl = $nav->getCalendarUrl();
 
-        $calendarId = $calendar->calendarid;
-        $this->calendarUrl = $appRoot.'/'.$laravelSabreRoot.'/calendars'.'/'.$hashUserName.'/'.$calendar->uri;
-        $calendarobjectsUser = Calendarobject::where('calendarid', $calendarId)->get();
+        $calendarobjectsUser = Calendarobject::where('calendarid', $nav->getCalendar()->calendarid)->get();
 
         foreach ($calendarobjectsUser as $calendarobject) {
+
             $ics = $calendarobject->uri; //cest les données brut d'un fichier ics la
-            $this->allUrlIcsEvents[] = $this->calendarUrl.'/'.$ics;
+            $this->allUrlIcsEvents[] = "$this->calendarUrl/$ics";
         }
 
         return view('livewire.calendar');
