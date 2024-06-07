@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             
         ]);
-        dd('ok');
+        
         $admin->createPrincipal();
         
         $admin->assignJustRole('Admin');

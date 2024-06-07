@@ -40,13 +40,14 @@ class Calendar extends Component
         if ($this->choiceUser['Group'] == true) {
             $group=true;
         }
-        $this->getEvents($user,$group);
+       
         
     }
 
     public function getEvents(){
 
         $user = auth()->user();
+      
        
         
     //    $this->allIcsEvents = [

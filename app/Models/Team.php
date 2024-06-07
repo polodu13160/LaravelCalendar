@@ -34,14 +34,9 @@ class Team extends JetstreamTeam
         'updated' => TeamUpdated::class,
         'deleted' => TeamDeleted::class,
     ];
-    protected $laravelSabreRoot;
-    protected $appRoot;
+    
 
-    public function __construct()
-    {
-        $this->laravelSabreRoot = config('app.laravelSabreRoot');
-        $this->appRoot = config('app.appRoot');
-    }
+  
 
     /**
      * Get the attributes that should be cast.
@@ -110,6 +105,8 @@ class Team extends JetstreamTeam
     }
     public function getCalendarUrl()
     {
+        $this->laravelSabreRoot = config('app.laravelSabreRoot');
+        $this->appRoot = config('app.appRoot');
 
         $calendar = Calendarinstances::where('displayname', $this->name)->first();
        

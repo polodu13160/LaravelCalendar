@@ -73,16 +73,7 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-  
-protected $laravelSabreRoot;
-protected $appRoot;
-
-public function __construct()
-{
-    $this->laravelSabreRoot = config('app.laravelSabreRoot');
-    $this->appRoot = config('app.appRoot');
-}
-
+ 
 
     /**
      * Get the URL to the user's profile photo.
@@ -243,6 +234,8 @@ public function __construct()
 
     public function getCalendarUrl()
     {
+    $this->laravelSabreRoot = config('app.laravelSabreRoot');
+    $this->appRoot = config('app.appRoot');
         
        $calendar=Calendarinstances::where('displayname', $this->username)->first();
        return $this->appRoot . '/' . $this->laravelSabreRoot . '/calendars/' . $this->hashUserName() . '/' . $calendar->uri; 
