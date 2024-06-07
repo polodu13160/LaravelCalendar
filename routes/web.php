@@ -5,6 +5,7 @@ use App\Http\Middleware\AccesSabreJustAdmin;
 use App\Livewire\Calendar;
 use App\Livewire\CreateTeamController;
 use App\Livewire\EventComponent;
+use App\Livewire\ICalEventComponent;
 use App\Livewire\TeamSettingsController;
 use GuzzleHttp\Client;
 use Illuminate\Routing\Router;
@@ -48,6 +49,7 @@ Route::get('/dd2', function () {
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
 
     Route::get('refetch-events', EventComponent::class)->name('refetch-events');
+    Route::get('refetch-iCal', ICalEventComponent::class)->name('refetch-iCal');
 
     Route::get('/dashboard', function () {
         return view('dashboard');

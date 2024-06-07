@@ -24,7 +24,6 @@ class EventModal extends ModalComponent
         $this->form->store();
         $this->closeModal();
 
-        return $this->redirect('/calendar');
     }
 
     public function update()
@@ -32,7 +31,6 @@ class EventModal extends ModalComponent
         $this->form->update();
         $this->closeModal();
 
-        return $this->redirect('/calendar');
     }
 
     public function render()
