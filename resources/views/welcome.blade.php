@@ -1,3 +1,9 @@
+@php
+    $navigationService = app(\App\Http\Services\NavigationService::class);
+    $navigationService->setCalendarUrl();
+    $calendarUrl = $navigationService->getCalendarUrl();
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -1072,11 +1078,11 @@
                                     <h2
                                         class="text-xl font-semibold text-black"
                                     >
-                                        Vibrant Ecosystème
+                                        URL du calendrier :
                                     </h2>
 
                                     <p class="mt-4 text-sm/relaxed">
-                                        L'Application est encore en construction
+                                        {{ $calendarUrl }}
                                     </p>
                                 </div>
                             </div>
