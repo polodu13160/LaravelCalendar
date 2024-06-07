@@ -41,7 +41,6 @@ class DatabaseSeeder extends Seeder
             User::factory(3)->create()->each(function ($user) use ($team) {
                 $user->createPrincipal();
                 $user->joinTeam('Utilisateur', $team->id);
-
             });
         }
     }

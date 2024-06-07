@@ -17,10 +17,8 @@ class RoleSeeder extends Seeder
 
         foreach ($roles as $role) {
             Role::create(['name' => $role]);
-
         }
         Permission::create(['name' => 'group.*'])
             ->assignRole(Role::firstWhere('name', 'Moderateur'));
-
     }
 }
