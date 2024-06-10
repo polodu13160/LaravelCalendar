@@ -36,6 +36,8 @@ class Calendar extends Component
             $this->allUrlIcsEvents[] = "$this->calendarUrl/$ics";
         }
 
-        return view('livewire.calendar');
+        return view('livewire.calendar')->with([
+            'team' => $nav->getUser()->currentTeam,
+        ]);
     }
 }

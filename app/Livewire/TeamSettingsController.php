@@ -18,7 +18,7 @@ class TeamSettingsController extends Component
         $this->isModerator = $nav->getIsUserModerator();
 
         return view('livewire.team-settings-controller')->with([
-            'team' => auth()->user()->currentTeam,
+            'team' => $nav->getUser()->currentTeam,
             'isAdmin' => $this->isAdmin,
             'isModerator' => $this->isModerator,
         ]);

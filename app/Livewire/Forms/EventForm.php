@@ -16,7 +16,7 @@ class EventForm extends Form
     public ?Events $events;
 
     // #[Validate('required')]
-    public int $user_id = 1;
+    public int $user_id;
 
     // #[Validate('required')]
     public string $title = '';
@@ -61,7 +61,7 @@ class EventForm extends Form
     public function store(): void
     {
         $this->visibility = $this->visibility === '1' ? 'private' : 'public';
-
+        $this->user_id = auth()->user()->id;
         Events::create($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility']));
         $this->storeiCalEvent();
     }
