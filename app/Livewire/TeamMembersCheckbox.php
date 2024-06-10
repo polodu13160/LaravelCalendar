@@ -12,6 +12,11 @@ use Laravel\Jetstream\TeamInvitation;
 class TeamMembersCheckbox extends TeamMemberManager
 {
     public $selectedUsers = [];
+
+    public function checkedBox() {
+
+        $this->dispatch("aUserHasBeenSelected", $this->selectedUsers);
+    }
     
     public function updateSearch()
     {
