@@ -67,7 +67,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     Route::get('/calendar', Calendar::class)->name('calendar');
 
-    Route::get('refetch-events', EventComponent::class)->name('refetch-events');
+    Route::get('refetch-events', '\App\Livewire\EventComponent@refetchEvents')->name('refetch-events');
 });
 
 

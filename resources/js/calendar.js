@@ -25,7 +25,7 @@ document.addEventListener("livewire:initialized", function () {
                 fixedWeekCount: false,
             },
         },
-        eventSources: fetchICalEvents(),
+        eventSources: "refetch-events",
 
         select: function (info) {
             console.log(info);
@@ -65,7 +65,8 @@ function fetchICalEvents() {
 }
 
 function fetchJSONEvents() {
-    return JSON.parse(window.events);
+    let jsonEvents = [JSON.parse(window.events)];
+    return jsonEvents;
 }
 
 
