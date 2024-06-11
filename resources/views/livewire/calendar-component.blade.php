@@ -61,19 +61,10 @@
                                         component: "event-modal"
                                     });
                                 }
-                                Livewire.on("aUserHasBeenSelected", () => {
-                                    console.log("ETAPE 1, une case a été cochée, on va chercher les events");
-                                })
-                                Livewire.on("eventsHaveBeenFetched", () => {
-                                    console.log("ETAPE 2, les events ont été fetchés, on va les afficher");
-                                })
 
-                                Livewire.on("GO", () => {
-                                    console.log(JSON.parse(@this.events).original);
-                                    console.log("ETAPE 3, les events sont récupérés, ils doivent s'afficher");
+                                Livewire.on("eventsHaveBeenFetched", () => {
                                     calendar.removeAllEventSources();
                                     calendar.addEventSource(fetchJSONEvents());
-                                    calendar.refetchEvents();
                                 });
                             });
 
