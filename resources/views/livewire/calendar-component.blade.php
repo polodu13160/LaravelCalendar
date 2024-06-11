@@ -71,6 +71,7 @@
                                 Livewire.on("GO", () => {
                                     console.log(JSON.parse(@this.events).original);
                                     console.log("ETAPE 3, les events sont récupérés, ils doivent s'afficher");
+                                    calendar.removeAllEventSources();
                                     calendar.addEventSource(fetchJSONEvents());
                                     calendar.refetchEvents();
                                 });
