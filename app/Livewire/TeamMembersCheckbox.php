@@ -13,11 +13,12 @@ class TeamMembersCheckbox extends TeamMemberManager
 {
     public $selectedUsers = [];
 
-    public function checkedBox() {
+    public function checkedBox()
+    {
 
-        $this->dispatch("aUserHasBeenSelected", $this->selectedUsers);
+        $this->dispatch('aUserHasBeenSelected', $this->selectedUsers);
     }
-    
+
     public function updateSearch()
     {
         $this->render();

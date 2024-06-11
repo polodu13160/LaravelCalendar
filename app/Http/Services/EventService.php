@@ -39,13 +39,12 @@ class EventService
             $eventQuery = Events::query();
             $eventQuery->where('user_id', $selectedUser);
             $events = $eventQuery->get();
-            // $userEvents = [];
             $existingsEventsIDs = [];
             if ($events) {
 
                 foreach ($events as $event) {
 
-                    if (!(int) $event['is_all_day']) {
+                    if (! (int) $event['is_all_day']) {
                         $event['allDay'] = false;
                         $event['start'] = $event['start'];
                         $event['end'] = $event['end'];
@@ -62,9 +61,8 @@ class EventService
                 }
             }
 
-            // array_push($allUsersEvents, $event);
         }
-        // dd($allUsersEvents);
+
         return $allUsersEvents;
     }
 }
