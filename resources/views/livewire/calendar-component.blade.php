@@ -61,18 +61,17 @@
                                         component: "event-modal"
                                     });
                                 }
-                                Livewire.on("aUserHasBeenSelected",() => {
+                                Livewire.on("aUserHasBeenSelected", () => {
                                     console.log("ETAPE 1, une case a été cochée, on va chercher les events");
                                 })
-                                Livewire.on("eventsHaveBeenFetched",() => {
+                                Livewire.on("eventsHaveBeenFetched", () => {
                                     console.log("ETAPE 2, les events ont été fetchés, on va les afficher");
                                 })
 
-                                Livewire.on("GO", ($data) => {
+                                Livewire.on("GO", () => {
                                     console.log(@this.events);
                                     console.log("ETAPE 3, les events sont récupérés, ils doivent s'afficher");
-                                    calendar.addEventSource(fetchJSONEvents($data));
-                                    calendar.render();
+                                    calendar.addEventSource(fetchJSONEvents());
                                     calendar.refetchEvents();
                                 });
                             });
@@ -97,9 +96,8 @@
                                 return iCalEvents;
                             }
 
-                            function fetchJSONEvents($data) {
-                                console.log($data);
-                                return $data;
+                            function fetchJSONEvents() {
+                                return JSON.parse(@this.events);
                             }
 
 
