@@ -10,7 +10,7 @@
                     <div class="border-box">
                         <script>
                             window.calendarUrls = @json($this->allUrlIcsEvents);
-                            // window.events = @json($this->events);
+                            window.events = @json($this->events);
                         </script>
                         <div id="calendar-container" wire:ignore class="border-box">
                             <div id="calendar" class="border-box">
@@ -69,7 +69,7 @@
                                 })
 
                                 Livewire.on("GO", () => {
-                                    console.log(@this.events);
+                                    console.log(JSON.parse(@this.events).original);
                                     console.log("ETAPE 3, les events sont récupérés, ils doivent s'afficher");
                                     calendar.addEventSource(fetchJSONEvents());
                                     calendar.refetchEvents();
@@ -97,7 +97,7 @@
                             }
 
                             function fetchJSONEvents() {
-                                return JSON.parse(@this.events);
+                                return JSON.parse(@this.events).original;
                             }
 
 
