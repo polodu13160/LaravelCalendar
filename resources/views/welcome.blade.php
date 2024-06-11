@@ -1,9 +1,3 @@
-@php
-    $navigationService = app(\App\Http\Services\NavigationService::class);
-    $navigationService->setCalendarUrl();
-    $calendarUrl = $navigationService->getCalendarUrl();
-@endphp
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
