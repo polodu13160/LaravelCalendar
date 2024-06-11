@@ -6,6 +6,7 @@ use App\Livewire\EventComponent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DAVController;
 use App\Http\Middleware\AccesSabreJustAdmin;
+use App\Livewire\CalendarPage;
 use GuzzleHttp\Client;
 use Sabre\VObject\Component\VCalendar;
 use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
@@ -65,9 +66,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/calendar',function () {
-        return view('calendarPage');
-    })->name('calendar');
+    Route::get('/calendar', CalendarPage::class)->name('calendar');
+    
 
     Route::get('refetch-events', EventComponent::class)->name('refetch-events');
 
