@@ -21,9 +21,9 @@ class NavigationService
     public function __construct()
     {
         $this->user = auth()->user();
-        $this->isUserAdmin = auth()->user()->hasRole('Admin');
-        $this->isUserModerator = auth()->user()->hasRole('Moderateur');
-        $this->userTeam = auth()->user()->getTeamFocus();
+        $this->isUserAdmin = $this->user ? auth()->user()->hasRole('Admin') : null;
+        $this->isUserModerator = $this->user ? auth()->user()->hasRole('Moderateur') : null;
+        $this->userTeam = $this->user ? auth()->user()->getTeamFocus() : null;
     }
 
     public function getUser()
@@ -58,6 +58,11 @@ class NavigationService
 
     public function setCalendarUrl()
     {
+        if (!$this->user) {
+
+            return null;
+        }
+        
         $appRoot = config('app.appRoot');
         $laravelSabreRoot = config('app.laravelSabreRoot');
 
@@ -65,12 +70,12 @@ class NavigationService
 
         $this->calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', "%/$hashUserName")->first();
 
-        $this->calendarUrl = "$appRoot/$laravelSabreRoot/calendars/$hashUserName/".$this->calendar->uri;
+        $this->calendarUrl = "$appRoot/$laravelSabreRoot/calendars/$hashUserName/" . $this->calendar->uri;
     }
 
     public function redirectToDashboardIfUserIsNotAdmin()
     {
-        if (! $this->isUserAdmin) {
+        if (!$this->isUserAdmin) {
             return redirect()->route('dashboard');
         }
     }
