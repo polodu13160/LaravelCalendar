@@ -3,12 +3,10 @@
 namespace App\Livewire;
 
 use App\Http\Services\EventService;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class EventComponent extends Component
 {
-    #[On('aUserHasBeenSelected')]
     public function refetchEvents($data = null)
     {
         if (!$data) {
@@ -16,7 +14,6 @@ class EventComponent extends Component
         }
         $eventService = new EventService(auth()->user());
         $eventsData = $eventService->allEvents($data);
-        $this->dispatch('eventsHaveBeenFetched', response()->json($eventsData));
 
         return response()->json($eventsData);
     }

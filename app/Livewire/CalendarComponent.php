@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Http\Services\NavigationService;
 use App\Models\Calendarobject;
-use App\Models\Events;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -16,11 +15,13 @@ class CalendarComponent extends Component
 
     public $calendarUrl;
 
-    #[On('eventsHaveBeenFetched')]
-    public function fetchEvents($eventsData)
+    #[On('aUserHasBeenSelected')]
+    public function fetchEvents($selectedUsers)
     {
-        $this->events = json_encode($eventsData);
-        $this->dispatch('GO', $this->events);
+        $EC = new EventComponent();
+        $this->events = json_encode($EC->refetchEvents($selectedUsers));
+
+        $this->dispatch('eventsHaveBeenFetched');
     }
 
     /**
