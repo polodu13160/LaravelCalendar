@@ -12,7 +12,7 @@ class EventComponent extends Component
     public function refetchEvents($data = null)
     {
         if (!$data) {
-            $data = [1];
+            $data = [0];
         }
         $eventService = new EventService(auth()->user());
         $eventsData = $eventService->allEvents($data);
