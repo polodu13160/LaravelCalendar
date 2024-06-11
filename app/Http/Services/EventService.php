@@ -38,29 +38,31 @@ class EventService
         foreach ($selectedUsers as $selectedUser) {
             $eventQuery = Events::query();
             $eventQuery->where('user_id', $selectedUser);
-
             $events = $eventQuery->get();
-            $userEvents = [];
+            // $userEvents = [];
             $existingsEventsIDs = [];
+            if ($events) {
 
-            foreach ($events as $event) {
+                foreach ($events as $event) {
 
-                if (! (int) $event['is_all_day']) {
-                    $event['allDay'] = false;
-                    $event['start'] = $event['start'];
-                    $event['end'] = $event['end'];
-                    $event['endDay'] = $event['end'];
-                    $event['startDay'] = $event['start'];
-                } else {
-                    $event['allDay'] = true;
-                    $event['endDay'] = $event['end'];
-                    $event['end'] = $event['end'];
-                    $event['startDay'] = $event['start'];
+                    if (!(int) $event['is_all_day']) {
+                        $event['allDay'] = false;
+                        $event['start'] = $event['start'];
+                        $event['end'] = $event['end'];
+                        $event['endDay'] = $event['end'];
+                        $event['startDay'] = $event['start'];
+                    } else {
+                        $event['allDay'] = true;
+                        $event['endDay'] = $event['end'];
+                        $event['end'] = $event['end'];
+                        $event['startDay'] = $event['start'];
+                    }
+                    array_push($allUsersEvents, $event);
+                    array_push($existingsEventsIDs, $event->event_id);
                 }
-                // array_push($userEvents, $event);
-                array_push($existingsEventsIDs, $event->event_id);
             }
-            array_push($allUsersEvents, $event);
+
+            // array_push($allUsersEvents, $event);
         }
         // dd($allUsersEvents);
         return $allUsersEvents;
