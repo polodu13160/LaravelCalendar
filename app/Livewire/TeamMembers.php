@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Http\Services\NavigationService;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -115,6 +116,8 @@ class TeamMembers extends TeamMemberManager
      */
     public function render()
     {
+        $nav = new NavigationService();
+
         return view('livewire.team-members', [
             'users' => User::where('email', 'LIKE', "%{$this->addTeamMemberForm['email']}%")->where('id', '!=', auth()->user()->id)->where(
                 'name',
@@ -122,6 +125,6 @@ class TeamMembers extends TeamMemberManager
                 'Admin'
             )->get(),
             'roleTest' => Role::where('name', '!=', 'Admin')->get(),
-        ]);
+        ])->with('isAdmin', $nav->getIsUserAdmin());
     }
 }

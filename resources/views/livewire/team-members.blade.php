@@ -118,9 +118,8 @@
 
                                             <!-- Leave Team -->
 
-                                            @if ($this->user->id === $user->id)
+                                            @if ($isAdmin)
                                                 <!-- Remove Team Member -->
-                                            @else
                                                 <button class="cursor-pointer ms-6 text-sm text-green-500"
                                                     wire:click="changeLeader('{{ $user->id }}')">
                                                     {{ __('Chef de groupe') }}
