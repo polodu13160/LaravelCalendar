@@ -22,17 +22,17 @@
                                     Le groupe
                                 </label>
                             </div>
-    
-    
-    
+
+
+
                         </div>
                     </div>
-    
+
                     <div class="max-w-7xl mx-auto">
-    
-                       
+
+
                         <div wire:ignore id="calendar"></div>
-    
+
                     </div>
                 </div>
             </div>
@@ -43,12 +43,12 @@
 
 
 
-    
 
-   
-   
 
-    
+
+
+
+
 </div>
 
 {{-- Le reste de votre code Blade --}}
@@ -58,12 +58,13 @@
 
 @script
 <script>
-let iCalContents = {};
+    let iCalContents = {};
 let calendar;
 let checkUser ;
 let checkGroup;
 let userEventSources;
 let groupEventSources;
+
 
 
     
@@ -106,78 +107,21 @@ Livewire.on('refresh', () => {
         });
         checkGroup=newCheckGroup;
         }
-    }
-
-
-
-    // for (let event of events){
-    //     // let ok=event.source.internalEventSource.ui.backgroundColor;
-        
-    //     // console.log(event.source.internalEventSource.meta);
-    // }
-    // console.log(events);
-        
-        // events.forEach(event => {
-        // let backgroundColor = event.source.internalEventSource.ui.backgroundColor;
-
-        // if (newCheckUser==!checkUser){
-        //     if (newCheckUser==true){
-        //         userEventSources.forEach(source => {
-        //         calendar.addEventSource(source);
-        //         });
-        //     }
-        //     else {
-        //         if (backgroundColor === 'blue') {
-        //         event.remove();
-        //     }
-        //     checkUser=newCheckUser;
-        //     }
-        // }
-        // if (newCheckGroup==!checkGroup){
-        //     if (newCheckGroup==true){
-        //     groupEventSources.forEach(source => {
-        //     calendar.addEventSource(source);
-        //     });
-        //     }
-        //     else {
-        //     if (backgroundColor === 'green') {
-        //     event.remove();
-        //     }
-        //     checkGroup=newCheckUser;
-        //     }
-        // }
-        // });
-    
-    
+    }   
     });
-
-    
-
-    
-    
-
-
-        
-        // calendar.removeAllEventSources();
-        // if (moiChecked) {
-
-        //     let moiEventSources = createEventSources(@this.icsUser, "blue");
-        //     moiEventSources.forEach(source => {
-        //         calendar.addEventSource(source);
-        //     });
-        // }
-        // if (groupeChecked) {
-
-        //     let groupeEventSources = createEventSources(@this.icsGroup, "green");
-        //     groupeEventSources.forEach(source => {
-        //         calendar.addEventSource(source);
-        //     });
-        // }
-    
-
-   
-        
+      
 function initializeCalendar() {
+        let tooltip = document.createElement('div');
+        tooltip.style.position = 'absolute';
+        tooltip.style.backgroundColor = 'white';
+        tooltip.style.border = '1px solid black';
+        tooltip.style.padding = '10px';
+        tooltip.style.width = '400px';
+        tooltip.style.zIndex = '10000';
+        tooltip.style.display = 'none'; 
+        document.body.appendChild(tooltip);
+        let currentEvent = null;
+        
 
         let calendarEl = document.getElementById("calendar");
         userEventSources =createEventSources(@this.icsUser, "blue")
@@ -213,32 +157,25 @@ function initializeCalendar() {
                 ...groupEventSources
             ],
             eventMouseEnter: function(info) {
-                fetchEventData(info.event.source.url).then(iCalText => {
-                let iCalContent = parseICalContent(iCalText);
-                let tooltip = document.createElement('div');
-                tooltip.style.position = 'absolute';
-                tooltip.style.backgroundColor = 'white';
-                tooltip.style.border = '1px solid black';
-                tooltip.style.padding = '10px';
-                tooltip.style.width = '400px';
-                tooltip.style.zIndex = '10000'; 
-                tooltip.innerHTML = `
-                    <strong>${info.event.title}</strong><br>
-                    <strong>Date debut </strong> : ${info.event.start}<br>
-                    <strong>Date fin </strong> : ${info.event.end}<br>
-                    <strong>Description </strong> : ${info.event.extendedProps.description}<br>
-                    <strong>Catégories </strong> : ${iCalContent.CATEGORIES}<br> 
-                `;
-                document.body.appendChild(tooltip);
-                let rect = info.el.getBoundingClientRect();
-                tooltip.style.left = (window.scrollX + rect.right) + 'px';
-                tooltip.style.top = (window.scrollY + rect.top) + 'px';
-                info.el.onmouseout = function() {
-                if (document.body.contains(tooltip)) {
-                document.body.removeChild(tooltip);
-                }
-                };
-       
+            currentEvent = info.event;
+            fetchEventData(info.event.source.url).then(iCalText => {
+            let iCalContent = parseICalContent(iCalText);
+            tooltip.innerHTML = `
+            <strong>${info.event.title}</strong><br>
+            <strong>Date debut </strong> : ${info.event.start}<br>
+            <strong>Date fin </strong> : ${info.event.end}<br>
+            <strong>Description </strong> : ${info.event.extendedProps.description}<br>
+            <strong>Catégories </strong> : ${iCalContent.CATEGORIES}<br>
+            `;
+            let rect = info.el.getBoundingClientRect();
+            tooltip.style.left = (window.scrollX + rect.right) + 'px';
+            tooltip.style.top = (window.scrollY + rect.top) + 'px';
+            tooltip.style.display = 'block';
+            info.el.addEventListener('mouseleave', function() {
+            tooltip.style.display = 'none';
+            currentEvent = null;
+            });
+            
             });
             },
             select: function (info) {
@@ -251,9 +188,9 @@ function initializeCalendar() {
             },
         });
 
-        window.addEventListener('scroll', function() {
-            calendar.updateSize();
-        });
+        // window.addEventListener('scroll', function() {
+        //     calendar.updateSize();
+        // });
 
 
         calendar.render();
