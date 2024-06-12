@@ -20,7 +20,7 @@
             </x-slot>
 
             <x-slot name="actions">
-                <x-action-message class="me-3" on="saved">
+                <x-action-message class="me-3" on="teamMemberAdded">
                     {{ __('Added.') }}
                 </x-action-message>
 
@@ -139,7 +139,7 @@
                     </div>
                 </x-slot>
                 <x-slot name="actions">
-                    <x-action-message class="me-3" on="good">
+                    <x-action-message class="me-3" on="leaderChanged">
                         {{ __('Saved.') }}
                     </x-action-message>
 

@@ -8,10 +8,10 @@
             <x-action-section>
                 <x-slot name="title">
                     {{ __('Team Members') }}
-                    </x-slot>
-                    
-                    <x-slot name="description">
-                        {{ __('All of the people that are part of this team.') }}
+                </x-slot>
+
+                <x-slot name="description">
+                    {{ __('All of the people that are part of this team.') }}
                 </x-slot>
 
                 <!-- Team Member List -->
@@ -31,23 +31,19 @@
                                     </div>
                                     <div class="flex items">
                                         <label for="">{{ $user->id }}</label>
-                                        <input type="checkbox" wire:model="selectedUsers" value="{{ $user->id }}" wire:change="$refresh" wire:click="checkedBox()" class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
+                                        <input type="checkbox" wire:model="selectedUsers" value="{{ $user->id }}"
+                                            wire:change="$refresh" wire:click="checkedBox()"
+                                            class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
                                     </div>
                                 </div>
                             @endif
                         @endforeach
                     </div>
                 </x-slot>
-                <x-slot name="actions">
-                    <x-action-message class="me-3" on="good">
-                        {{ __('Saved.') }}
-                        </x-action-message>
-                        
-                        </x-slot>
-                        </x-action-section>
-                        </div>
-                        @endif
-                        
-                        Selected Users : {{ implode(', ', $selectedUsers) }}
+            </x-action-section>
+        </div>
+    @endif
+
+    Selected Users : {{ implode(', ', $selectedUsers) }}
 </div>
 

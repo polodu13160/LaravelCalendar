@@ -80,7 +80,7 @@ class TeamMembers extends TeamMemberManager
 
         $this->team = $this->team->fresh();
 
-        $this->dispatch('saved');
+        $this->dispatch('teamMemberAdded');
     }
 
     public function setRole($role, $user, $teamId)
@@ -88,7 +88,7 @@ class TeamMembers extends TeamMemberManager
         $teamUser = User::find($user)->teams->find($teamId)->membership;
         $teamUser->role = $role;
         $teamUser->save();
-        $this->dispatch('good');
+        $this->dispatch('saved');
     }
 
     public function changeLeader($user_id)
@@ -102,11 +102,9 @@ class TeamMembers extends TeamMemberManager
             $this->team->user_id = $user_id;
             $this->team->save();
 
-            $this->dispatch('good');
+            // $this->js('window.location.reload()');
 
-            $this->js('window.location.reload()');
-
-            return;
+            $this->dispatch('leaderChanged');
         }
     }
 
