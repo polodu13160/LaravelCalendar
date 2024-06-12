@@ -102,7 +102,7 @@ class TeamMembers extends TeamMemberManager
             $this->team->user_id = $user_id;
             $this->team->save();
 
-            // $this->js('window.location.reload()');
+            $this->js('window.location.reload()');
 
             $this->dispatch('leaderChanged');
         }

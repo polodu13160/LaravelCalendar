@@ -31,9 +31,7 @@
                                     </div>
                                     <div class="flex items">
                                         <label for="">{{ $user->id }}</label>
-                                        <input type="checkbox" wire:model="selectedUsers" value="{{ $user->id }}"
-                                            wire:change="$refresh" wire:click="checkedBox()"
-                                            class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
+                                        <input type="checkbox" wire:model="selectedUsers" value="{{ $user->id }}" wire:click="checkedBox()" class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
                                     </div>
                                 </div>
                             @endif
