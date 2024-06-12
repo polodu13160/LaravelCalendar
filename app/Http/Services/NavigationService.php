@@ -58,11 +58,11 @@ class NavigationService
 
     public function setCalendarUrl()
     {
-        if (!$this->user) {
+        if (! $this->user) {
 
             return null;
         }
-        
+
         $appRoot = config('app.appRoot');
         $laravelSabreRoot = config('app.laravelSabreRoot');
 
@@ -70,12 +70,12 @@ class NavigationService
 
         $this->calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', "%/$hashUserName")->first();
 
-        $this->calendarUrl = "$appRoot/$laravelSabreRoot/calendars/$hashUserName/" . $this->calendar->uri;
+        $this->calendarUrl = "$appRoot/$laravelSabreRoot/calendars/$hashUserName/".$this->calendar->uri;
     }
 
     public function redirectToDashboardIfUserIsNotAdmin()
     {
-        if (!$this->isUserAdmin) {
+        if (! $this->isUserAdmin) {
             return redirect()->route('dashboard');
         }
     }

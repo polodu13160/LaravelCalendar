@@ -93,7 +93,6 @@ class TeamMembers extends TeamMemberManager
 
     public function changeLeader($user_id)
     {
-
         if (Auth::user()->isAdmin() && $this->team->user_id == Auth::user()->id) {
 
             $userTeamNewLeader = User::find($user_id)->teams->find($this->team->id)->membership;
