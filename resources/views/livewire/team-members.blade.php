@@ -122,11 +122,11 @@
                                                 <!-- Remove Team Member -->
                                                 <button class="cursor-pointer ms-6 text-sm text-green-500"
                                                     wire:click="changeLeader('{{ $user->id }}')">
-                                                    {{ __('Chef de groupe') }}
+                                                    {{ __('Définir comme Leader') }}
                                                 </button>
                                                 <button class="cursor-pointer ms-6 text-sm text-red-500"
                                                     wire:click="confirmTeamMemberRemoval('{{ $user->id }}')">
-                                                    {{ __('Remove') }}
+                                                    {{ __('Supprimer') }}
                                                 </button>
                                             @endif
                                         @endif
