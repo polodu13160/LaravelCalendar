@@ -39,7 +39,7 @@
             </div>
         </div>
     </div>
-    @vite('resources/js/calendar.js')
+    {{-- @vite('resources/js/calendar.js')
     @script
     <script>
         let calendar;
@@ -189,5 +189,5 @@
         
     
     </script>
-    @endscript
+    @endscript --}}
 </div>

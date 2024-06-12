@@ -13,49 +13,76 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Calendar extends Component
 {
-    public $name = 'Barry';
     public $events = [];
-    
-    public function updatedName()
+    public $icsUser = [];
+    public $icsGroup = [];
+    public $icsName = [];
+    public $calendarUrl = ['User' => '', 'Group' => '', 'Name' => ''];
+    public $choiceUser = [
+        'User' => true,
+        'Group' => true,
+        'Name' => false,
+    ];
+    public function getEvents($submit=null)
     {
-        $this->emit("refreshCalendar");
-    }
 
-    public function getNamesProperty()
-    {
-      return [
-        'Barry',
-        'Taylor',
-        'Caleb',
-      ];
-    }
 
-    public function getTasksProperty()
-    {
-        switch ($this->name) {
-          case 'Barry':
-            return ['Debugbar', 'IDE Helper'];
-          case 'Taylor':
-            return ['Laravel', 'Jetstream'];
-          case 'Caleb':
-            return ['Livewire', 'Sushi'];  
+
+        $user = auth()->user();
+
+
+
+        if ($this->choiceUser["User"] == !false) {
+            $this->icsUser = [];
+            $this->calendarUrl['User'] = '';
+
+
+            $this->calendarUrl['User'] = $user->getCalendarUrl();
+
+            $icsUser = $user->getEvents();
+
+            foreach ($icsUser as $ics) {
+                $this->icsUser[] = $this->calendarUrl['User'] . '/' . $ics->uri;
+            };
+        } else {
+
+            $this->icsUser = [];
+            $this->calendarUrl['User'] = '';
         }
 
-        return [];
-    }
+        if ($this->choiceUser["Group"] == !false) {
+            $this->icsGroup = [];
+            $this->calendarUrl['Group'] = '';
 
-    public function eventReceive($event)
-    {
-        $this->events[] = 'eventReceive: ' . print_r($event, true);
-    }
 
-    public function eventDrop($event, $oldEvent)
-    {
-      $this->events[] = 'eventDrop: ' . print_r($oldEvent, true) . ' -> ' . print_r($event, true);
+            $teamId = $user->getTeamFocus();
+
+            $team = Team::where('id', $teamId)->first();
+
+            $this->calendarUrl['Group'] = $team->getCalendarUrl();
+
+
+            $icsGroup = $team->getEvents();
+
+            // dd($icsGroup);
+            foreach ($icsGroup as $ics) {
+                $this->icsGroup[] = $this->calendarUrl['Group'] . '/' . $ics->uri;
+            };
+        } else {
+            $this->icsGroup = [];
+            $this->calendarUrl['Group'] = '';
+        };
+
+        if ($submit=='submit'){
+            $this->dispatch('refresh');
+        }
+        
+        
     }
 
     public function render()
     {
+        $this->getEvents();
         return view('livewire.calendar');
     }
 }

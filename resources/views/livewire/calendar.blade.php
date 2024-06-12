@@ -1,152 +1,311 @@
 <div>
-<div id='external-events'>
-    <p>
-        <strong>Draggable Events</strong>
-    </p>
-
-    <select wire:model="name" id="selectName">
-        <option value="">Choose user</option>
-        @foreach ($this->names as $name)
-        <option value="{{ $name }}">{{ $name }}</option>
-        @endforeach
-    </select>
-
-    @foreach ($this->tasks as $task)
-    <div data-event='@json([' id'=> uniqid(), 'title' => $task])' class='fc-event fc-h-event fc-daygrid-event
-        fc-daygrid-block-event'>
-        <div class='fc-event-main'>{{ $task}}</div>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                {{--
+                <x-welcome /> --}}
+                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
+                    <div class="center-block">
+                        <div class="max-w-7xl mx-auto">
+                            <h2>Afficher Calendrier </h2>
+                            <div class="checkbox-container">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="moi" name="affichage" value="moi"
+                                        wire:model="choiceUser.User" wire:click="getEvents('submit')">
+                                    <span class="checkbox-custom"></span>
+                                    Moi
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="groupe" name="affichage" value="Groupe"
+                                        wire:model="choiceUser.Group" wire:click="getEvents('submit')">
+                                    <span class="checkbox-custom"></span>
+                                    Le groupe
+                                </label>
+                            </div>
+    
+    
+    
+                        </div>
+                    </div>
+    
+                    <div class="max-w-7xl mx-auto">
+    
+                       
+                        <div wire:ignore id="calendar"></div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    @endforeach
 
-    <p>
-        <input type='checkbox' id='drop-remove' />
-        <label for='drop-remove'>remove after drop</label>
-    </p>
 
-    <ul>
-        @foreach (array_reverse($events) as $event)
-        <li>lalalalalalalala {{ $event }}</li>
-        @endforeach
-    </ul>
+
+
+
+    
+
+   
+   
+
+    
 </div>
 
-<div id='calendar-container' wire:ignore>
-    <div id='calendar'></div>
-</div>
-</div>
-</div>
-@push('scripts')
+{{-- Le reste de votre code Blade --}}
 
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.js'></script>
+@vite('resources/js/calendar.js')
 
+
+@script
 <script>
-    document.addEventListener('livewire:load', function() {
-        var Calendar = FullCalendar.Calendar;
-        var Draggable = FullCalendar.Draggable;
+let iCalContents = {};
+let calendar;
+let checkUser ;
+let checkGroup;
+let userEventSources;
+let groupEventSources;
 
-        var containerEl = document.getElementById('external-events');
-        var calendarEl = document.getElementById('calendar');
-        var checkbox = document.getElementById('drop-remove');
 
-        // initialize the external events
-        // -----------------------------------------------------------------
+    
+document.addEventListener("livewire:initialized", initializeCalendar);
 
-        new Draggable(containerEl, {
-        itemSelector: '.fc-event'
-        });
+    
+Livewire.on('refresh', () => {
+    let newCheckUser = document.getElementById('moi').checked;
+    let newCheckGroup = document.getElementById('groupe').checked;
+    let eventSources=calendar.getEventSources();
+    let events = calendar.getEvents();
 
-        // initialize the calendar
-        // -----------------------------------------------------------------
-
-        var calendar = new Calendar(calendarEl, {
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        editable: true,
-        droppable: true, // this allows things to be dropped onto the calendar
-        drop: function(info) {
-            // is the "remove after drop" checkbox checked?
-            if (checkbox.checked) {
-            // if so, remove the element from the "Draggable Events" list
-            info.draggedEl.parentNode.removeChild(info.draggedEl);
+    if (newCheckUser==!checkUser){
+        if (newCheckUser==true){
+            userEventSources.forEach(source => {
+            calendar.addEventSource(source);
+            });
+        }
+        else {
+            eventSources.forEach(source => {
+                if (source.internalEventSource.ui.backgroundColor === 'blue') {
+                source.remove();
             }
-        },
-        eventReceive: info => @this.eventReceive(info.event),
-        eventDrop: info => @this.eventDrop(info.event, info.oldEvent),
-        loading: function(isLoading) {
-                if (!isLoading) {
-                    // Reset custom events
-                    this.getEvents().forEach(function(e){
-                        if (e.source === null) {
-                            e.remove();
-                        }
-                    });
-                }
-            }
+            });
+           
+        }
+        checkUser=newCheckUser;
+    }
+    if (newCheckGroup==!checkGroup){
+        if (newCheckGroup==true){
+        groupEventSources.forEach(source => {
+        calendar.addEventSource(source);
         });
-
-        calendar.addEventSource( {
-            url: '/calendar/events',
-            extraParams: function() {
-                return {
-                    name: @this.name
-                };
-            }
+        }
+        else {
+        eventSources.forEach(source => {
+            if (source.internalEventSource.ui.backgroundColor === 'green') {
+            source.remove();
+        }
         });
+        checkGroup=newCheckGroup;
+        }
+    }
 
-        calendar.render();
 
-        @this.on(`refreshCalendar`, () => {
-            calendar.refetchEvents()
-        });
+
+    // for (let event of events){
+    //     // let ok=event.source.internalEventSource.ui.backgroundColor;
+        
+    //     // console.log(event.source.internalEventSource.meta);
+    // }
+    // console.log(events);
+        
+        // events.forEach(event => {
+        // let backgroundColor = event.source.internalEventSource.ui.backgroundColor;
+
+        // if (newCheckUser==!checkUser){
+        //     if (newCheckUser==true){
+        //         userEventSources.forEach(source => {
+        //         calendar.addEventSource(source);
+        //         });
+        //     }
+        //     else {
+        //         if (backgroundColor === 'blue') {
+        //         event.remove();
+        //     }
+        //     checkUser=newCheckUser;
+        //     }
+        // }
+        // if (newCheckGroup==!checkGroup){
+        //     if (newCheckGroup==true){
+        //     groupEventSources.forEach(source => {
+        //     calendar.addEventSource(source);
+        //     });
+        //     }
+        //     else {
+        //     if (backgroundColor === 'green') {
+        //     event.remove();
+        //     }
+        //     checkGroup=newCheckUser;
+        //     }
+        // }
+        // });
+    
+    
     });
 
+    
+
+    
+    
+
+
+        
+        // calendar.removeAllEventSources();
+        // if (moiChecked) {
+
+        //     let moiEventSources = createEventSources(@this.icsUser, "blue");
+        //     moiEventSources.forEach(source => {
+        //         calendar.addEventSource(source);
+        //     });
+        // }
+        // if (groupeChecked) {
+
+        //     let groupeEventSources = createEventSources(@this.icsGroup, "green");
+        //     groupeEventSources.forEach(source => {
+        //         calendar.addEventSource(source);
+        //     });
+        // }
+    
+
+   
+        
+function initializeCalendar() {
+
+        let calendarEl = document.getElementById("calendar");
+        userEventSources =createEventSources(@this.icsUser, "blue")
+        groupEventSources = createEventSources(@this.icsGroup, "green")
+        checkUser= document.getElementById('moi').checked;
+        checkGroup= document.getElementById('groupe').checked;
+        
+       
+
+        calendar = new window.Calendar(calendarEl, {
+            plugins: [window.iCalendarPlugin],
+            editable: true,
+            slotMinTime: "06:00:00",
+            slotMaxTime: "20:00:00",
+            selectable: true,
+            droppable: true,
+            selectMirror: true,
+            locale: "fr",
+            weekNumberCalculation: "ISO",
+            initialView: "timeGridWeek",
+            headerToolbar: {
+                left: "prev,next today",
+                center: "title",
+                right: "dayGridMonth,timeGridWeek,timeGridDay",
+            },
+            views: {
+                dayGridMonth: {
+                    fixedWeekCount: false,
+                },
+            },
+            eventSources: [
+                ...userEventSources,
+                ...groupEventSources
+            ],
+            eventMouseEnter: function(info) {
+                fetchEventData(info.event.source.url).then(iCalText => {
+                let iCalContent = parseICalContent(iCalText);
+                let tooltip = document.createElement('div');
+                tooltip.style.position = 'absolute';
+                tooltip.style.backgroundColor = 'white';
+                tooltip.style.border = '1px solid black';
+                tooltip.style.padding = '10px';
+                tooltip.style.width = '400px';
+                tooltip.style.zIndex = '10000'; 
+                tooltip.innerHTML = `
+                    <strong>${info.event.title}</strong><br>
+                    <strong>Date debut </strong> : ${info.event.start}<br>
+                    <strong>Date fin </strong> : ${info.event.end}<br>
+                    <strong>Description </strong> : ${info.event.extendedProps.description}<br>
+                    <strong>Catégories </strong> : ${iCalContent.CATEGORIES}<br> 
+                `;
+                document.body.appendChild(tooltip);
+                let rect = info.el.getBoundingClientRect();
+                tooltip.style.left = (window.scrollX + rect.right) + 'px';
+                tooltip.style.top = (window.scrollY + rect.top) + 'px';
+                info.el.onmouseout = function() {
+                if (document.body.contains(tooltip)) {
+                document.body.removeChild(tooltip);
+                }
+                };
+       
+            });
+            },
+            select: function (info) {
+                console.log(info);
+                openModal(info.startStr);
+            },
+            eventClick: function (info) {
+                console.log(info.event);
+                openModal(info.startStr);
+            },
+        });
+
+        window.addEventListener('scroll', function() {
+            calendar.updateSize();
+        });
+
+
+        calendar.render();
+    };
+
+function openModal(date) {
+    console.log(date);
+    Livewire.dispatch('openModal', { component: 'event-modal', arguments: { date: date } })
+}
+
+   
+
+   
+
+    
+
+   
+async function fetchEventData(url) {
+    const response = await fetch(url);
+    const data = await response.text();
+    return data;
+}
+
+function parseICalContent(iCalContent) {
+       
+    let lines = iCalContent.split('\n');
+    let iCalObject = lines.reduce((acc, line) => {
+    let [key, ...value] = line.split(':');
+    acc[key] = value.join(':').trim();
+    return acc;
+    }, {});
+    
+    return iCalObject;
+    }
+
+function createEventSources(urls, color) {
+    
+    
+    return urls.map((url) => ({
+    url: url,
+    format: "ics",
+    color: color
+    }));
+    }
+
+
+    
+
 </script>
+@endscript
 
 
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.css' rel='stylesheet' />
 
-<style>
-    html,
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-        font-size: 14px;
-    }
 
-    #external-events {
-        position: fixed;
-        z-index: 2;
-        top: 20px;
-        left: 20px;
-        width: 150px;
-        padding: 0 10px;
-        border: 1px solid #ccc;
-        background: #eee;
-    }
-
-    .demo-topbar+#external-events {
-        /* will get stripped out */
-        top: 60px;
-    }
-
-    #external-events .fc-event {
-        cursor: move;
-        margin: 3px 0;
-    }
-
-    #calendar-container {
-        position: relative;
-        z-index: 1;
-        margin-left: 200px;
-    }
-
-    #calendar {
-        max-width: 1100px;
-        margin: 20px auto;
-    }
-</style>
-@endpush
+</div>
