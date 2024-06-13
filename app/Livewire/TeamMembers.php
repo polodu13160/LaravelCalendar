@@ -124,6 +124,11 @@ class TeamMembers extends TeamMemberManager
                 ->where('name', '!=', 'Admin')
                 ->get(),
             'nonTeamMembers' => User::join('team_user', 'users.id', '=', 'team_user.user_id')
+                ->whereNotIn('users.id', function ($query) {
+                    $query->select('user_id')
+                        ->from('team_user')
+                        ->where('team_id', $this->team->id);
+                })
                 ->where('team_user.team_id', '!=', $this->team->id)
                 ->where('users.id', '!=', auth()->user()->id)
                 ->where('users.name', '!=', 'Admin')
