@@ -16,6 +16,20 @@
                 <!-- Team Member List -->
                 <x-slot name="content">
                     <div class="space-y-6">
+                        <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="ms-4">
+                                            Tous
+                                        </div>
+
+                                    </div>
+                                    <div class="flex items">
+                                        {{-- <label for="">{{ $user->id }}</label> --}}
+                                        <input type="checkbox" wire:model="selectedUsers"
+                                            wire:click="checkedBox()" value="{{$team->users->pluck('id')}}"
+                                            class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
+                                    </div>
+                                </div>
                         @foreach ($team->users->sortBy('name') as $user)
                             @if (!$user->hasrole('Admin'))
                                 <div class="flex items-center justify-between">
