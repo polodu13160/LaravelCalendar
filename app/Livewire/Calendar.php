@@ -103,7 +103,7 @@ class Calendar extends Component
 
 
 
-        if ($user->isAdmin() || $user->canDoAction("Moderateur", $team)) {
+        if ($user->isAdmin() || $user->canDoAction("Moderateur", $this->teamId)) {
         foreach ($this->choiceUser['Team'] as $key => $bool) {
             $userTeam= User::where('id',$key)->first();
             if ($bool == false) {
@@ -188,7 +188,7 @@ class Calendar extends Component
         $user=auth()->user();
         $this->teamId = $user->getTeamFocus();
 
-        if ($user->isAdmin() || $user->canDoAction("Moderateur",$teamId)){
+        if ($user->isAdmin() || $user->canDoAction("Moderateur",$this->teamId)){
             if ($user->isAdmin()){
             $this->teamUsers=Team::where('id',$this->teamId)->first()->users()->wherePivot('role', '!=', 1)->get();
         }

@@ -156,30 +156,30 @@ Livewire.on('refresh', () => {
         checkGroup=newCheckGroup;
     }
     
-    for (let element in checkTeam) {
+    // for (let element in checkTeam) {
         
-        let newCheckTeam = document.getElementById('team.' + element).checked;
-        // console.log(checkTeam[element],newCheckTeam);
+    //     let newCheckTeam = document.getElementById('team.' + element).checked;
+    //     // console.log(checkTeam[element],newCheckTeam);
 
-        if (newCheckUser==!checkUser[element]){
-            console.log("ha");
-        if (newCheckUser==true){
-        teamEventSources.forEach(source => {
-        calendar.addEventSource(source);
-        });
-        }
-        else {
-        eventSources.forEach(source => {
-        if (source.internalEventSource.ui.backgroundColor === @this.color['User']) {
-        console.log("remove");
-        source.remove();
-        }
-        });
+    //     if (newCheckUser==!checkUser[element]){
+    //         console.log("ha");
+    //     if (newCheckUser==true){
+    //     teamEventSources.forEach(source => {
+    //     calendar.addEventSource(source);
+    //     });
+    //     }
+    //     else {
+    //     eventSources.forEach(source => {
+    //     if (source.internalEventSource.ui.backgroundColor === @this.color['User']) {
+    //     console.log("remove");
+    //     source.remove();
+    //     }
+    //     });
         
-        }
-        checkUser=newCheckUser;
-        }
-    }
+    //     }
+    //     checkUser=newCheckUser;
+    //     }
+    // }
     
     
 
