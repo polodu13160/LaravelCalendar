@@ -119,11 +119,15 @@ class TeamMembers extends TeamMemberManager
         $nav = new NavigationService();
 
         return view('livewire.team-members', [
-            'users' => User::where('email', 'LIKE', "%{$this->addTeamMemberForm['email']}%")->where('id', '!=', auth()->user()->id)->where(
-                'name',
-                '!=',
-                'Admin'
-            )->get(),
+            'users' => User::where('email', 'LIKE', "%{$this->addTeamMemberForm['email']}%")
+                ->where('id', '!=', auth()->user()->id)
+                ->where('name', '!=', 'Admin')
+                ->get(),
+            'nonTeamMembers' => User::join('team_user', 'users.id', '=', 'team_user.user_id')
+                ->where('team_user.team_id', '!=', $this->team->id)
+                ->where('users.id', '!=', auth()->user()->id)
+                ->where('users.name', '!=', 'Admin')
+                ->get(),
             'roleTest' => Role::where('name', '!=', 'Admin')->get(),
         ])->with('isAdmin', $nav->getIsUserAdmin());
     }
