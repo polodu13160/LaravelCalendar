@@ -21,7 +21,37 @@
                                     <span class="checkbox-custom"></span>
                                     Le groupe
                                 </label>
+                                @isAdminOrModerator($this->teamId)
+                                @foreach ($this->teamUsers as $item)
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="team.{{ $item->id }}" name="affichage"
+                                        value="{{ $item->username }}" wire:model="choiceUser.Team.{{ $item->id }}"
+                                        wire:click="getEvents('submit')">
+                                    <span class="checkbox-custom"></span>
+                                    {{ $item->name }}
+                                </label>
+                                @endforeach
+                                @endisAdminOrModerator
+
+
                             </div>
+                            <p>
+                                <span
+                                    style="display: inline-block; width: 20px; height: 20px; background-color: {{ $this->color['User'] }};"></span>
+                                Moi : {{ $this->calendarUrl["User"] }}
+                            </p>
+                            <p>
+                                <span
+                                    style="display: inline-block; width: 20px; height: 20px; background-color: {{ $this->color['Group'] }};"></span>
+                                Groupe : {{ $this->calendarUrl["Group"] }}
+                            </p>
+                            @foreach ($this->calendarUrl["Team"] as $key => $item)
+                            <p>
+                                <span
+                                    style="display: inline-block; width: 20px; height: 20px; background-color: {{ $this->color['Team'][$key] }};"></span>
+                                {{ $item[0] }} : {{ $item[1] }}
+                            </p>
+                            @endforeach
 
 
 
@@ -60,18 +90,33 @@
 <script>
     let iCalContents = {};
 let calendar;
+
 let checkUser ;
-let checkGroup;
 let userEventSources;
+
+let checkGroup;
 let groupEventSources;
+
+
+let teamUsers ;
+let teamEventIcs ;
+let teamColor ;
+let checkTeam;
+let teamEventSources;
+
+
+
+
 
 
 
     
 document.addEventListener("livewire:initialized", initializeCalendar);
 
+
     
 Livewire.on('refresh', () => {
+    
     let newCheckUser = document.getElementById('moi').checked;
     let newCheckGroup = document.getElementById('groupe').checked;
     let eventSources=calendar.getEventSources();
@@ -85,7 +130,8 @@ Livewire.on('refresh', () => {
         }
         else {
             eventSources.forEach(source => {
-                if (source.internalEventSource.ui.backgroundColor === 'blue') {
+                if (source.internalEventSource.ui.backgroundColor === @this.color['User']) {
+                    console.log("remove");
                 source.remove();
             }
             });
@@ -101,13 +147,46 @@ Livewire.on('refresh', () => {
         }
         else {
         eventSources.forEach(source => {
-            if (source.internalEventSource.ui.backgroundColor === 'green') {
+            if (source.internalEventSource.ui.backgroundColor === @this.color['Group']) {
             source.remove();
         }
         });
-        checkGroup=newCheckGroup;
+        
         }
-    }   
+        checkGroup=newCheckGroup;
+    }
+    
+    for (let element in checkTeam) {
+        
+        let newCheckTeam = document.getElementById('team.' + element).checked;
+        // console.log(checkTeam[element],newCheckTeam);
+
+        if (newCheckUser==!checkUser[element]){
+            console.log("ha");
+        if (newCheckUser==true){
+        teamEventSources.forEach(source => {
+        calendar.addEventSource(source);
+        });
+        }
+        else {
+        eventSources.forEach(source => {
+        if (source.internalEventSource.ui.backgroundColor === @this.color['User']) {
+        console.log("remove");
+        source.remove();
+        }
+        });
+        
+        }
+        checkUser=newCheckUser;
+        }
+    }
+    
+    
+
+
+
+
+
     });
       
 function initializeCalendar() {
@@ -124,10 +203,31 @@ function initializeCalendar() {
         
 
         let calendarEl = document.getElementById("calendar");
-        userEventSources =createEventSources(@this.icsUser, "blue")
-        groupEventSources = createEventSources(@this.icsGroup, "green")
+
+        userEventSources =createEventSources(@this.icsUser, @this.color['User'])
+        groupEventSources = createEventSources(@this.icsGroup, @this.color['Group'])
         checkUser= document.getElementById('moi').checked;
         checkGroup= document.getElementById('groupe').checked;
+
+        teamEventSources = [];
+        teamEventIcs = JSON.parse('@json($this->icsTeam)');
+        teamUsers = JSON.parse('@json($this->userTeamIds)');
+        checkTeam = {};
+        
+
+        for (let userTeamId of teamUsers) {
+        let checkbox = document.getElementById('team.' + userTeamId);
+        if (checkbox) {
+        checkTeam[userTeamId] = checkbox.checked;
+        }
+        }
+        
+
+        for (let key in teamEventIcs) {
+           teamEventSources = teamEventSources.concat(createEventSources(teamEventIcs[key], @this.color['Team'][key]));
+        }
+        
+        
         
        
 
@@ -154,7 +254,8 @@ function initializeCalendar() {
             },
             eventSources: [
                 ...userEventSources,
-                ...groupEventSources
+                ...groupEventSources,
+                ...teamEventSources,
             ],
             eventMouseEnter: function(info) {
             currentEvent = info.event;
@@ -217,19 +318,28 @@ async function fetchEventData(url) {
 function parseICalContent(iCalContent) {
        
     let lines = iCalContent.split('\n');
+    console.log(iCalContent);
+
+
+
+
+
     let iCalObject = lines.reduce((acc, line) => {
     let [key, ...value] = line.split(':');
     acc[key] = value.join(':').trim();
     return acc;
     }, {});
-    
     return iCalObject;
     }
 
 function createEventSources(urls, color) {
     
+   
+    return urls.map((url) => (
+      
     
-    return urls.map((url) => ({
+    {
+   
     url: url,
     format: "ics",
     color: color
@@ -241,8 +351,4 @@ function createEventSources(urls, color) {
 
 </script>
 @endscript
-
-
-
-
 </div>
