@@ -3,7 +3,7 @@
     <x-section-border />
 
     <!-- Add Team Member -->
-    @canDoAction('Modérateur', $team->id)
+    @canDoAction('Moderateur', $team->id)
     <div class="mt-10 sm:mt-0">
         <x-form-section submit="addTeamMember">
             <x-slot name="title">
