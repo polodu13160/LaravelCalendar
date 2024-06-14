@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
 use Spatie\IcalendarGenerator\Components\Event;
 
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+
 
 Route::get('/dd', function () {
     $fetch = new EventComponent();
@@ -46,7 +46,7 @@ Route::get('/dd2', function () {
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-
+    Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
     Route::get('refetch-events/', "App\Livewire\EventComponent@refetchEvents")->name('refetch-events');
     Route::get('refetch-iCal', ICalEventComponent::class)->name('refetch-iCal');
 
