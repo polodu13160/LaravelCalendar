@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Http\Services\LaravelSabreCalendarHome;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -15,9 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-        // $laravelCalendarHome=new LaravelSabreCalendarHome();
-
         $this->call(RoleSeeder::class);
 
         //create User Admin
@@ -25,6 +20,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@test.com',
         ]);
+        
         $admin->createPrincipal();
         $admin->assignJustRole('Admin');
 
@@ -43,5 +39,7 @@ class DatabaseSeeder extends Seeder
                 $user->joinTeam('Utilisateur', $team->id);
             });
         }
+
+        $this->call(EventSeeder::class);
     }
 }
