@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class EventFactory extends Factory
+class EventsFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class EventFactory extends Factory
         return [
             'user_id' => $user->id,
             'start' => $this->faker->dateTimeBetween($start, $end),
-            'end' => $this->faker->dateTimeBetween($start, $end),
+            'end' => $start->copy()->addHours(2),
             'title' => $this->faker->text(15),
             'description' => $this->faker->text(60),
             'is_all_day' => $this->faker->boolean(50),
