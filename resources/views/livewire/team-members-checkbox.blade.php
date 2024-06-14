@@ -25,13 +25,12 @@
                                     </div>
                                     <div class="flex items">
                                         {{-- <label for="">{{ $user->id }}</label> --}}
-                                        <input type="checkbox" wire:model="selectedUsers"
-                                            wire:click="checkedBox()" value="{{$team->users->pluck('id')}}"
+                                        <input type="checkbox" wire:model="selectAll"
+                                            wire:click="allCheckedBox()" 
                                             class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
                                     </div>
                                 </div>
-                        @foreach ($team->users->sortBy('name') as $user)
-                            @if (!$user->hasrole('Admin'))
+                        @foreach ($this->userTeam->sortBy('name') as $user)
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center">
                                         <img class="w-8 h-8 rounded-full object-cover"
@@ -48,7 +47,7 @@
                                             class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
                                     </div>
                                 </div>
-                            @endif
+                          
                         @endforeach
                     </div>
                 </x-slot>

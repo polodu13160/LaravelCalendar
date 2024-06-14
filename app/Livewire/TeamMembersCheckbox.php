@@ -9,10 +9,30 @@ use Laravel\Jetstream\Http\Livewire\TeamMemberManager;
 class TeamMembersCheckbox extends TeamMemberManager
 {
     public $selectedUsers = [];
+    public $team;
+    public $userTeam;
+    public $selectAll;
 
     public function checkedBox()
     {
         $this->dispatch('aUserHasBeenSelected', $this->selectedUsers);
+    }
+    public function allCheckedBox()
+    {
+        // dd($this->selectedUsers);
+        if ($this->selectAll) {
+            $x = 0;
+            foreach ($this->userTeam as $user) {
+                $this->selectedUsers[$x] = "$user->id";
+                $x++;
+            } 
+        }
+        else {
+            $this->selectedUsers = [];
+        }
+        $this->dispatch('aUserHasBeenSelected', $this->selectedUsers);
+        
+        // dd($this->selectedUsers);
     }
 
     /**
@@ -22,13 +42,8 @@ class TeamMembersCheckbox extends TeamMemberManager
      */
     public function render()
     {
-        return view('livewire.team-members-checkbox', [
-            'users' => User::where('email', 'LIKE', "%{$this->addTeamMemberForm['email']}%")->where('id', '!=', auth()->user()->id)->where(
-                'name',
-                '!=',
-                'Admin'
-            )->get(),
-            'roleTest' => Role::where('name', '!=', 'Admin')->get(),
-        ]);
+        $this->userTeam=$this->team->users()->where('role','!=', 1)->get();
+       
+        return view('livewire.team-members-checkbox');
     }
 }

@@ -10,10 +10,13 @@ class Calendar extends Component
     public function render()
     {
         $nav = new NavigationService();
-        $nav->setCalendarUrl();
-
+        $nav->setCalendarUrl()
+        ;
+        $user=auth()->user();
+        $team = $user->currentTeam;
+        
         return view('livewire.calendar')->with([
-            'team' => $nav->getUser()->currentTeam,
+            'team' => $team,
         ]);
     }
 }
