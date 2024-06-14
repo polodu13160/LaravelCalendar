@@ -25,8 +25,21 @@
                                     </div>
                                     <div class="flex items">
                                         {{-- <label for="">{{ $user->id }}</label> --}}
-                                        <input type="checkbox" wire:model="selectAll"
+                                        <input type="checkbox" wire:model="selectedAll"
                                             wire:click="allCheckedBox()" 
+                                            class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="ms-4">
+                                            Team
+                                        </div>
+                                
+                                    </div>
+                                    <div class="flex items">
+                                        {{-- <label for="">{{ $user->id }}</label> --}}
+                                        <input type="checkbox" wire:model="selectedTeam"  wire:click="checkedBox()"
                                             class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
                                     </div>
                                 </div>

@@ -5,27 +5,24 @@
                 <div class="max-w-7xl mx-auto border-box">
                     <div class="p-6 pt-0 lg:p-8 text-center">
                         <p class="text-lg leading-6 text-gray-500">Pour relier ce calendrier à Thunderbird :
-                            {{ $this->calendarUrl }}</p>
+                            {{ $this->calendarUrlUserConnected }}</p>
                     </div>
                     <div class="border-box">
-                        <script>
-                            window.calendarUrls = @json($this->allUrlIcsEvents);
-                            window.events = @json($this->events);
-                        </script>
                         <div id="calendar-container" wire:ignore class="border-box">
                             <div id="calendar" class="border-box">
                             </div>
                         </div>
                     </div>
-                    <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar/index.global.min.js"></script>
+                    {{-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar/index.global.min.js"></script> --}}
+                    @vite(['resources/js/calendar.js'])
                     @script
                         <script>
                             let calendar;
 
                             document.addEventListener("livewire:initialized", function() {
                                 let calendarEl = document.querySelector("#calendar");
-                                calendar = new FullCalendar.Calendar(calendarEl, {
+                                calendar = new window.Calendar(calendarEl, {
                                     editable: true,
                                     selectable: true,
                                     droppable: true,
@@ -73,10 +70,10 @@
                                 console.log("Refreshing events...");
                             }, 30 * 1000);
 
-                            let fetchICal = window.calendarUrls.map((url) => ({
-                                url: url,
-                                format: "ics",
-                            }));
+                            // let fetchICal = window.calendarUrls.map((url) => ({
+                            //     url: url,
+                            //     format: "ics",
+                            // }));
 
                             function fetchICalEvents() {
 
