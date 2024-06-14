@@ -54,7 +54,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/calendar', Calendar::class)->name('calendar');
+    Route::get('/calendar',function () {
+        return view('calendarPage');
+    })->name('calendar');
 
     Route::get('/teams/create', CreateTeamController::class)->name('teams_create');
     Route::get('/teams/{team}', TeamSettingsController::class)->name('teams_settings');

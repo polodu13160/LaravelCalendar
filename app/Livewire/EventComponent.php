@@ -18,8 +18,8 @@ class EventComponent extends Component
         return response()->json($eventsData);
     }
 
-    public function render()
-    {
-        return view('livewire.event-component');
-    }
+    // public function render()
+    // {
+    //     return view('livewire.event-component');
+    // }
 }

@@ -2,14 +2,16 @@
 
 namespace App\Livewire\Forms;
 
-use App\Models\Events;
 use DateTime;
+use Livewire\Form;
+use Ramsey\Uuid\Uuid;
+use App\Models\Events;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
-use Livewire\Form;
-use Spatie\IcalendarGenerator\Components\Calendar;
 use Spatie\IcalendarGenerator\Components\Event;
+use Spatie\IcalendarGenerator\Components\Calendar;
 use Spatie\IcalendarGenerator\Enums\Classification;
+use Spatie\IcalendarGenerator\Properties\TextProperty;
 
 class EventForm extends Form
 {
@@ -19,16 +21,20 @@ class EventForm extends Form
     public int $user_id;
 
     // #[Validate('required')]
-    public string $title = '';
+    public int $user_id;
 
     // #[Validate('required')]
-    public string $event_id = '';
+    public string $title;
+
+    
+    public $event_id=null;
 
     // #[Validate('required')]
-    public string $start = '';
+    public string $start;
 
     // #[Validate('required')]
-    public string $end = '';
+    public string $end;
+    public $categorieIcal='évenement';
 
     public string $description = '';
 
@@ -107,18 +113,18 @@ class EventForm extends Form
     public function classification($value)
     {
 
-        if ($value === 'public') {
+        if ($value === 0) {
             return Classification::public();
         } elseif ($value === 'private') {
             return Classification::private();
-        } else {
+        } else if ($value === 2){ // ne sera jamais utilisé car je ne gere que 0 ou 1 sur le form 
             return Classification::confidential();
         }
     }
 
     public function update()
     {
-        $this->visibility = $this->visibility === '1' ? 'private' : 'public';
-        $this->events->update($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility']));
+        // $this->visibility = $this->visibility === '1' ? 'private' : 'public';
+        // $this->events->update($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility']));
     }
 }

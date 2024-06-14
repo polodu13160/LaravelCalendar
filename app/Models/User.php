@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Http\Services\LaravelSabreCalendarHome;
-use Exception;
+use App\Livewire\Calendar;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -38,6 +38,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        
     ];
 
     /**
@@ -60,6 +61,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+  
 
     /**
      * The accessors to append to the model's array form.
@@ -69,6 +71,16 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+  
+protected $laravelSabreRoot;
+protected $appRoot;
+
+public function __construct()
+{
+    $this->laravelSabreRoot = config('app.laravelSabreRoot');
+    $this->appRoot = config('app.appRoot');
+}
+
 
     /**
      * Get the URL to the user's profile photo.
@@ -209,8 +221,7 @@ class User extends Authenticatable
         $this->assignRoleAndTeam($nameRole, $team->id);
     }
 
-    public function getTeamFocus()
-    {
-        return $this->current_team_id;
-    }
+    
+    
+    
 }

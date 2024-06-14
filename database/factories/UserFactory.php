@@ -23,15 +23,16 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $password = config('app.password');
-        $realm = config('app.realm');
-        $username = fake()->unique()->userName();
-
-        $digesta1 = md5($username.':'.$realm.':'.$password);
+       
+   $password = config('app.password');
+   $realm = config('app.realm');
+   $username = $this->faker->unique()->userName();
+  
 
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'username' => $username,
             'email_verified_at' => now(),
             'password' => Hash::make($password),
             'two_factor_secret' => null,
@@ -39,8 +40,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
-            'username' => $username,
-            'digesta1' => null,
+            'digesta1' => $digesta1,
         ];
     }
 
