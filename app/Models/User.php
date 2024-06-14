@@ -220,6 +220,29 @@ public function __construct()
         $team = Team::where('id', $teamId)->first();
         $this->assignRoleAndTeam($nameRole, $team->id);
     }
+   
+    
+   
+    public function getTeamFocus()
+    {
+
+        return $this->current_team_id;
+    }
+
+    public function getCalendarUrl()
+    {
+        $laravelSabreRoot = config('app.laravelSabreRoot');
+        $appRoot = config('app.appRoot');
+
+        $calendar = Calendarinstances::where('displayname', $this->username)->first();
+        return $appRoot . '/' . $laravelSabreRoot . '/calendars/' . $this->hashUserName() . '/' . $calendar->uri;
+    }
+    public function getEvents()
+    {
+        $calendar = Calendarinstances::where('displayname', $this->username)->first();
+
+        return $calendarobject = Calendarobject::where('calendarid', $calendar->calendarid)->get();
+    }
 
     
     
