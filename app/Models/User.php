@@ -71,15 +71,8 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-  
-protected $laravelSabreRoot;
-protected $appRoot;
 
-public function __construct()
-{
-    $this->laravelSabreRoot = config('app.laravelSabreRoot');
-    $this->appRoot = config('app.appRoot');
-}
+
 
 
     /**
