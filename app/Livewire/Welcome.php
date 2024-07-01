@@ -15,6 +15,6 @@ class Welcome extends Component
         $nav->setCalendarUrl();
         $this->calendarUrl = $nav->getCalendarUrl();
 
-        return view('livewire.welcome');
+        return view('livewire.welcome')->layout('layouts.guest');
     }
 }

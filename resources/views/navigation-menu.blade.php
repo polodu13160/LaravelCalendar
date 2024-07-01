@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 p-4">
     <!-- Variables PHP  -->
     @php($teamUser = Auth::user()->currentTeam ? true : false)
     <!-- Primary Navigation Menu -->
