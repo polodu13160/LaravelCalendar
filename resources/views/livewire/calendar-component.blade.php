@@ -13,8 +13,7 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar/index.global.min.js"></script> --}}
+                   
                     @vite(['resources/js/calendar.js'])
                     @script
                         <script>
