@@ -78,3 +78,4 @@ class EventService
         return $iCalObject;
     }
 }
+}
