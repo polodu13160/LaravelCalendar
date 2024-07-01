@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Livewire;
 
 use App\Http\Services\NavigationService;
+use Livewire\Component;
 
-class WelcomeController
+class Welcome extends Component
 {
     public $calendarUrl;
 
-    public function index()
+    public function render()
     {
         $nav = new NavigationService();
         $nav->setCalendarUrl();
         $this->calendarUrl = $nav->getCalendarUrl();
 
-        return view('welcome')->with([
-            'calendarUrl' => $this->calendarUrl,
-        ]);
+        return view('livewire.welcome')->layout('layouts.guest');
     }
 }

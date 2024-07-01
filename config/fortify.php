@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Laravel\Fortify\Features;
 
 return [
@@ -73,7 +74,7 @@ return [
     |
     */
 
-    'home' => '/dashboard',
+    'home' => url()->current(),
 
     /*
     |--------------------------------------------------------------------------
