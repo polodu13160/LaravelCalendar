@@ -11,9 +11,7 @@ class Welcome extends Component
 
     public function render()
     {
-        $nav = new NavigationService();
-        $nav->setCalendarUrl();
-        $this->calendarUrl = $nav->getCalendarUrl();
+        $this->calendarUrl = auth()->user()->getCalendarUrl();
 
         return view('livewire.welcome')->layout('layouts.guest');
     }

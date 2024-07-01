@@ -35,7 +35,7 @@ class Team extends JetstreamTeam
         'updated' => TeamUpdated::class,
         'deleted' => TeamDeleted::class,
     ];
-  
+
 
     /**
      * Get the attributes that should be cast.
@@ -107,7 +107,7 @@ class Team extends JetstreamTeam
         $appRoot = config('app.appRoot');
 
         $calendar = Calendarinstances::where('displayname', $this->name)->first();
-       
+
         return $appRoot . '/' . $laravelSabreRoot . '/calendars/' . $this->hashName($this->name) . '/' . $calendar->uri;
     }
     public function getEvents()

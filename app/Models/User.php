@@ -61,7 +61,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-  
+
 
     /**
      * The accessors to append to the model's array form.
@@ -195,8 +195,12 @@ class User extends Authenticatable
         $pivotTable->save();
     }
 
-    public function createTeamPrincipal($name)
+    public function createTeamPrincipal($stringName)
     {
+
+        $name= str_replace(
+            ' ',
+            '', $stringName);
         $team = new Team();
         $team->createTeam($name, $this->id);
 
@@ -213,9 +217,9 @@ class User extends Authenticatable
         $team = Team::where('id', $teamId)->first();
         $this->assignRoleAndTeam($nameRole, $team->id);
     }
-   
-    
-   
+
+
+
     public function getTeamFocus()
     {
 
@@ -237,7 +241,7 @@ class User extends Authenticatable
         return $calendarobject = Calendarobject::where('calendarid', $calendar->calendarid)->get();
     }
 
-    
-    
-    
+
+
+
 }
