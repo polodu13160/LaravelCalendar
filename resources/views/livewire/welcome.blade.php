@@ -14,7 +14,7 @@
     <div class="bg-gray-50 text-black/50">
         <div
             class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#475b10] selection:text-white">
-            <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
+            <div class="relative w-full max-w-2xl px-6 lg:max-w-fit">
 
                 <div class="mt-6">
                     <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
@@ -85,7 +85,6 @@
                                     </g>
                                 </svg>
                             </div>
-
                             <div class="pt-3 sm:pt-5">
                                 <h2 class="text-xl font-semibold text-black">
                                     URL de votre Calendrier :
