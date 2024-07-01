@@ -9,7 +9,7 @@
 
     <x-dynamic-component :component="$component" href="#" x-on:click.prevent="$root.submit();">
         <div class="flex items-center">
-            <div class="truncate">{{ $team->name }}</div>
+            <div class="truncate {{ Auth::user()->isCurrentTeam($team) ? ' font-bold' : '' }} text-xl">{{ $team->name }}</div>
 
             @if (Auth::user()->isCurrentTeam($team))
                 <svg class="ms-2 h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

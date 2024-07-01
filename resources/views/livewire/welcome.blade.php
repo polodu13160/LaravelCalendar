@@ -65,7 +65,7 @@
                                             Calendrier :
                                         </h2>
 
-                                        <p class="mt-4 text-sm/relaxed">
+                                        <p class="mt-4 text-m/relaxed">
                                             Retrouvez tous vos rendez-vous
                                         </p>
                                     </div>
@@ -91,7 +91,7 @@
                                     URL de votre Calendrier :
                                 </h2>
 
-                                <p class="mt-4 text-sm/relaxed">
+                                <p class="mt-4 text-m/relaxed">
                                     {{ $calendarUrl }}
                                 </p>
                             </div>
@@ -115,7 +115,7 @@
                                     Dashboard :
                                 </h2>
 
-                                <p class="mt-4 text-sm/relaxed">
+                                <p class="mt-4 text-m/relaxed">
                                     Retrouvez les dernières informations
                                 </p>
                             </div>
@@ -141,7 +141,7 @@
                                     </h2>
                                 </div>
                             </div>
-                            <div class="flex flex-col items-start gap-4 rounded-lg bg-white p-6 transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#475b10] text-xl font-semibold text-black">
+                            <div class="flex flex-col items-start gap-4 rounded-lg bg-white p-6 transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#475b10]">
                                 @foreach (Auth::user()->allTeams() as $team)
                                     <x-switchable-team  :team="$team" />
                                 @endforeach
