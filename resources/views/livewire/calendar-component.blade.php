@@ -30,64 +30,104 @@
                             let team;
                             let all;
 
+                            document.addEventListener("livewire:initialized", initializeCalendar);
 
-                            document.addEventListener("livewire:initialized", function() {
+
+
+
+                            function initializeCalendar() {
+                                let tooltip = document.createElement('div');
+                                tooltip.style.position = 'absolute';
+                                tooltip.style.backgroundColor = 'white';
+                                tooltip.style.border = '1px solid black';
+                                tooltip.style.padding = '10px';
+                                tooltip.style.width = '400px';
+                                tooltip.style.zIndex = '10000';
+                                tooltip.style.display = 'none';
+                                document.body.appendChild(tooltip);
+                                let currentEvent = null;
+
                                 let calendarEl = document.querySelector("#calendar");
                                 calendar = new window.Calendar(calendarEl, {
-                                    plugins: [window.iCalendarPlugin],
-                                    editable: true,
-                                    selectable: true,
-                                    droppable: true,
-                                    selectMirror: true,
-                                    locale: "fr",
-                                    weekNumberCalculation: "ISO",
-                                    initialView: "timeGridWeek",
-                                    headerToolbar: {
-                                        left: "prev,next today",
-                                        center: "title",
-                                        right: "dayGridMonth,timeGridWeek,timeGridDay",
-                                    },
-                                    views: {
-                                        dayGridMonth: {
-                                            fixedWeekCount: false,
-                                        },
-                                    },
+                                plugins: [window.iCalendarPlugin],
+                                editable: true,
+                                selectable: true,
+                                droppable: true,
+                                selectMirror: true,
+                                locale: "fr",
+                                weekNumberCalculation: "ISO",
+                                initialView: "timeGridWeek",
+                                headerToolbar: {
+                                left: "prev,next today",
+                                center: "title",
+                                right: "dayGridMonth,timeGridWeek,timeGridDay",
+                                },
+                                views: {
+                                dayGridMonth: {
+                                fixedWeekCount: false,
+                                },
+                                },
+                                eventMouseEnter: function(info) {
+                                currentEvent = info.event;
+                                fetchEventData(info.event.source.url).then(iCalText => {
+                                let iCalContent = parseICalContent(iCalText);
+                                tooltip.innerHTML = `
+                                <strong>${info.event.title}</strong><br>
+                                <strong>Date debut </strong> : ${info.event.start}<br>
+                                <strong>Date fin </strong> : ${info.event.end}<br>
+                                <strong>Description </strong> : ${info.event.extendedProps.description}<br>
+                                <strong>Catégories </strong> : ${iCalContent.CATEGORIES}<br>
+                                `;
+                                let rect = info.el.getBoundingClientRect();
+                                tooltip.style.left = (window.scrollX + rect.right) + 'px';
+                                tooltip.style.top = (window.scrollY + rect.top) + 'px';
+                                tooltip.style.display = 'block';
+                                info.el.addEventListener('mouseleave', function() {
+                                tooltip.style.display = 'none';
+                                currentEvent = null;
+                                });
 
-                                    select: function(info) {
-                                        console.log(info);
-                                        openModal();
-                                    },
-                                    eventClick: function(info) {
-                                        console.log(info.event);
-                                        openModal();
-                                    },
+                                });
+                                },
+
+                                select: function(info) {
+                                console.log(info);
+                                openModal();
+                                },
+                                eventClick: function(info) {
+                                console.log(info.event);
+                                openModal();
+                                },
                                 });
 
                                 calendar.render();
 
-                                function openModal() {
-                                    Livewire.dispatch("openModal", {
-                                        component: "event-modal"
-                                    });
-                                }
 
-                                Livewire.on("eventsHaveBeenFetched", () => {
-                                    // calendar.removeAllEventSources();
-                                    console.log("Events have been fetched");
-                                    console.log(@this.allUrlIcsEvents);
-                                    for (let idOrTeam in @this.allUrlIcsEvents) {
-                                        console.log(idOrTeam);
-                                        let eventsIcs = @this.allUrlIcsEvents[idOrTeam];
-                                        let color= @this.colorByUserAndTeam[idOrTeam];
-                                        console.log(eventsIcs);
-                                        createEventSources(eventsIcs, color);
+
+                            }
+                            Livewire.on("eventsHaveBeenFetched", () => {
+                            calendar.removeAllEventSources();
+                            console.log("Events have been fetched");
+                            console.log(@this.allUrlIcsEvents);
+                            for (let idOrTeam in @this.allUrlIcsEvents) {
+                            console.log(idOrTeam);
+                            let eventsIcs = @this.allUrlIcsEvents[idOrTeam];
+                            let color= @this.colorByUserAndTeam[idOrTeam];
+                            console.log(eventsIcs);
+                            createEventSources(eventsIcs, color);
 
 
 
-                                    }
+                            }
 
-                                });
                             });
+                            function openModal() {
+                            Livewire.dispatch("openModal", {
+                            component: "event-modal"
+                            });
+                            }
+
+
 
                             // setInterval(function() {
                             //     calendar.refetchEvents();
@@ -155,6 +195,11 @@
                             return acc;
                             }, {});
                             return iCalObject;
+                            }
+                            async function fetchEventData(url) {
+                            const response = await fetch(url);
+                            const data = await response.text();
+                            return data;
                             }
 
 
