@@ -40,7 +40,7 @@
                                     <div class="flex items">
                                         {{-- <label for="">{{ $user->id }}</label> --}}
                                         <input type="checkbox" wire:model="selectedTeam"  wire:click="checkedBox()"
-                                            class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
+                                            class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" style="color: #008000 " />
                                     </div>
                                 </div>
 
