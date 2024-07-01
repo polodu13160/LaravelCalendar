@@ -14,6 +14,7 @@ class CalendarComponent extends Component
     public $events = [];
 
     public $allUrlIcsEvents = [];
+    public $namesUsers = [];
 
     public $calendarUrls = [];
     public $calendarUrlUserConnected = "";
@@ -56,14 +57,25 @@ class CalendarComponent extends Component
     public function fetchEvents($selectedUsers, $selectedTeam=false)
     {
         $this->allUrlIcsEvents = [];
+        $this->calendarUrls = [];
 
         $this->events = json_encode($this->refetchEvents($selectedUsers));
 
         foreach ($selectedUsers as $userId) {
-            $user= User::find($userId);
+            $user = User::find($userId);
+            if ($userId!==strval(auth()->user()->id)){
+
+                $this->calendarUrls[$userId] = $user->getCalendarUrl();
+            }
             $events=$user->getEvents();
             foreach ($events as $event) {
-                $this->allUrlIcsEvents[$userId][] = $user->getCalendarUrl() . "/" . $event->uri;
+                if ($userId == auth()->user()->id) {
+                    $this->allUrlIcsEvents[$userId][] = auth()->user()->getCalendarUrl() . "/" . $event->uri;
+                }
+                else {
+                $this->allUrlIcsEvents[$userId][] = $this->calendarUrls[$userId] . "/" . $event->uri;
+                }
+
             }
 
         }
@@ -73,27 +85,17 @@ class CalendarComponent extends Component
             foreach ($events as $event) {
                 $this->allUrlIcsEvents['team'][] = $this->team->getCalendarUrl() . "/" . $event->uri;
             }
-            dd($this->calendarUrls['team']);
-
         }
+
 
         $this->dispatch('eventsHaveBeenFetched');
     }
-    public function refetchEvents($data = null)
+    public function modificationEvent($event)
     {
-        if (!$data) {
-            return response()->json([]);
-        }
-        else {
-            $eventService = new EventService(auth()->user());
-            $eventsData = $eventService->allEvents($data);
-
-            return response()->json($eventsData);
-
-
-        }
 
     }
+    
+
     public function colorsAttribution()
     {
        $usersTeam= $this->team->users()->where('role','!=', 1)->get();
@@ -101,6 +103,8 @@ class CalendarComponent extends Component
         foreach ($usersTeam as $user) {
             $this->colorByUserAndTeam[$user->id] = $this->allColors[$x];
             $x++;
+            $this->namesUsers[$user->id] = $user->name;
+
         }
         $this->colorByUserAndTeam['team'] = $this->allColors[$x];
     }
