@@ -26,7 +26,7 @@
                                     <div class="flex items">
                                         {{-- <label for="">{{ $user->id }}</label> --}}
                                         <input type="checkbox" wire:model="selectedAll"
-                                            wire:click="allCheckedBox()" 
+                                            wire:click="allCheckedBox()"
                                             class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
                                     </div>
                                 </div>
@@ -35,7 +35,7 @@
                                         <div class="ms-4">
                                             Team
                                         </div>
-                                
+
                                     </div>
                                     <div class="flex items">
                                         {{-- <label for="">{{ $user->id }}</label> --}}
@@ -43,6 +43,7 @@
                                             class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
                                     </div>
                                 </div>
+
                         @foreach ($this->userTeam->sortBy('name') as $user)
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center">
@@ -60,7 +61,7 @@
                                             class="form-checkbox h-5 w-5 text-indigo-600 transition duration-100 ease-in-out" />
                                     </div>
                                 </div>
-                          
+
                         @endforeach
                     </div>
                 </x-slot>

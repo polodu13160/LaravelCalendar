@@ -4,6 +4,14 @@
             <div class="p-6 pt-0 lg:p-8 border-b border-box">
                 <div class="max-w-7xl mx-auto border-box">
                     <div class="p-6 pt-0 lg:p-8 text-center">
+                        <p class="text-lg leading-6 text-gray-500">Mon calendrier :
+                            {{ $this->calendarUrlUserConnected }}</p>
+
+
+
+
+
+
                         <p class="text-lg leading-6 text-gray-500">Pour relier ce calendrier à Thunderbird :
                             {{ $this->calendarUrlUserConnected }}</p>
                     </div>
@@ -13,15 +21,20 @@
                             </div>
                         </div>
                     </div>
-                   
+
                     @vite(['resources/js/calendar.js'])
                     @script
                         <script>
                             let calendar;
+                            let users;
+                            let team;
+                            let all;
+
 
                             document.addEventListener("livewire:initialized", function() {
                                 let calendarEl = document.querySelector("#calendar");
                                 calendar = new window.Calendar(calendarEl, {
+                                    plugins: [window.iCalendarPlugin],
                                     editable: true,
                                     selectable: true,
                                     droppable: true,
@@ -59,15 +72,27 @@
                                 }
 
                                 Livewire.on("eventsHaveBeenFetched", () => {
-                                    calendar.removeAllEventSources();
-                                    calendar.addEventSource(fetchJSONEvents());
+                                    // calendar.removeAllEventSources();
+                                    console.log("Events have been fetched");
+                                    console.log(@this.allUrlIcsEvents);
+                                    for (let idOrTeam in @this.allUrlIcsEvents) {
+                                        console.log(idOrTeam);
+                                        let eventsIcs = @this.allUrlIcsEvents[idOrTeam];
+                                        let color= @this.colorByUserAndTeam[idOrTeam];
+                                        console.log(eventsIcs);
+                                        createEventSources(eventsIcs, color);
+
+
+
+                                    }
+
                                 });
                             });
 
-                            setInterval(function() {
-                                calendar.refetchEvents();
-                                console.log("Refreshing events...");
-                            }, 30 * 1000);
+                            // setInterval(function() {
+                            //     calendar.refetchEvents();
+                            //     console.log("Refreshing events...");
+                            // }, 30 * 1000);
 
                             // let fetchICal = window.calendarUrls.map((url) => ({
                             //     url: url,
@@ -84,20 +109,60 @@
                                 return iCalEvents;
                             }
 
-                            function fetchJSONEvents() {
-                                return JSON.parse(@this.events).original;
+                            // function fetchJSONEvents() {
+                            //     return JSON.parse(@this.events).original;
+                            // }
+
+
+                            // function fetchAllSources() {
+
+                            //     let allEvents = [];
+
+                            //     allEvents.push(fetchICalEvents());
+                            //     allEvents.push(fetchJSONEvents());
+                            //     console.log(allEvents);
+                            //     return allEvents;
+                            // }
+
+                            function createEventSources(urls, color) {
+
+
+                            urls.map((url) => (
+                            calendar.addEventSource(
+                                {
+                                    url: url,
+                                    format: "ics",
+                                    color: color,
+                                }
+                            )
+
+                            ));
+
+                            }
+
+                            function parseICalContent(iCalContent) {
+
+                            let lines = iCalContent.split('\n');
+                            console.log(iCalContent);
+
+
+
+
+
+                            let iCalObject = lines.reduce((acc, line) => {
+                            let [key, ...value] = line.split(':');
+                            acc[key] = value.join(':').trim();
+                            return acc;
+                            }, {});
+                            return iCalObject;
                             }
 
 
-                            function fetchAllSources() {
 
-                                let allEvents = [];
 
-                                allEvents.push(fetchICalEvents());
-                                allEvents.push(fetchJSONEvents());
-                                console.log(allEvents);
-                                return allEvents;
-                            }
+
+
+
                         </script>
                     @endscript
                 </div>
