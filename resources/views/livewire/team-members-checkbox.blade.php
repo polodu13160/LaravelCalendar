@@ -30,19 +30,6 @@
                                             class="form-checkbox h-5 w-5 transition duration-100 ease-in-out" style="color: black " />
                                     </div>
                                 </div>
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center">
-                                        <div class="ms-4">
-                                            Team
-                                        </div>
-
-                                    </div>
-                                    <div class="flex items">
-                                        {{-- <label for="">{{ $user->id }}</label> --}}
-                                        <input type="checkbox" wire:model="selectedTeam"  wire:click="checkedBox()"
-                                            class="form-checkbox h-5 w-5 transition duration-100 ease-in-out" style="color: white" />
-                                    </div>
-                                </div>
 
                         @foreach ($this->userTeam->sortBy('name') as $user)
                                 <div class="flex items-center justify-between">

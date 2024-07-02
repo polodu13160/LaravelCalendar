@@ -8,7 +8,7 @@
                             Mon calendrier : {{ $this->calendarUrlUserConnected }}
                         </p>
 
-                        @foreach ($this->calendarUrls as $key => $calendar)
+                        {{-- @foreach ($this->calendarUrls as $key => $calendar)
                             @if ($key == 'team')
                                 <p class="text-lg leading-6 text-gray-500"> {{ $team->name }} : {{ $calendar }}
                                 </p>
@@ -16,7 +16,7 @@
                                 <p class="text-lg leading-6 text-gray-500"> {{ $this->namesUsers[$key] }} :
                                     {{ $calendar }} </p>
                             @endif
-                        @endforeach
+                        @endforeach --}}
 
                         <p><span class="text-sm italic">*à copier dans votre calendrier personnel</span></p>
                     </div>
@@ -114,13 +114,13 @@
 
                                 calendar.addEventSource(fetchJSONEvents());
 
-                                // for (let idOrTeam in @this.allUrlIcsEvents) {
-                                //     console.log(idOrTeam);
-                                //     let eventsIcs = @this.allUrlIcsEvents[idOrTeam];
-                                //     let color = @this.colorByUserAndTeam[idOrTeam];
-                                //     console.log(eventsIcs);
-                                //     createEventSources(eventsIcs, color);
-                                // }
+                                for (let idOrTeam in @this.allUrlIcsEvents) {
+                                    console.log(idOrTeam);
+                                    let eventsIcs = @this.allUrlIcsEvents[idOrTeam];
+                                    let color = @this.colorByUserAndTeam[idOrTeam];
+                                    console.log(eventsIcs);
+                                    createEventSources(eventsIcs, color);
+                                }
                             });
 
                             function openModal() {
