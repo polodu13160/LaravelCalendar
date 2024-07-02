@@ -12,52 +12,23 @@ class EventModal extends ModalComponent
 
     public EventForm $form;
 
-    public $date;
-
-    public $dateTest;
-
-    public $allCategoriesIcal;
-
     public function mount(?Events $events = null)
     {
-        $date = new \DateTime($this->date);
-        $this->form->start = $date->format('Y-m-d H:i:s');
-        $date->modify('+1 hour');
-        $this->form->end = $date->format('Y-m-d H:i:s');
-        $this->allCategoriesIcal = [
-            'appel',
-            'évenement',
-            'réunion',
-            'rdv',
-            'congé',
-            'formation',
-            'autre',
-        ];
-
+        if ($events && $events->exists) {
+            $this->form->setEvent($events);
+        }
     }
 
     public function save()
     {
-        $validatedData = $this->validate([
-            'form.title' => 'required|max:255',
-            'form.description' => 'nullable',
-            'form.is_all_day' => 'boolean',
-            'form.visibility' => 'boolean',
-            'form.start' => 'required|date',
-            'form.end' => 'required|date|after_or_equal:form.start',
-            'form.categorieIcal' => 'required|in:appel,évenement,réunion,rdv,congé,formation,autre',
-        ]);
-
         $this->form->store();
         $this->closeModal();
-
     }
 
     public function update()
     {
         $this->form->update();
         $this->closeModal();
-
     }
 
     public function render()
@@ -65,12 +36,3 @@ class EventModal extends ModalComponent
         return view('livewire.event-modal');
     }
 }
-
-// $validatedData = $this->validate([
-//             'form.title' => 'required|max:255',
-//             'form.description' => 'nullable',
-//             'form.is_all_day' => 'boolean',
-//             'form.visibility' => 'boolean',
-//             'form.start' => 'required|date',
-//             'form.end' => 'required|date|after_or_equal:form.start',
-//             'form.categorieIcal' => 'required|in:appel,évenement,réunion,rdv,congé,formation,autre',

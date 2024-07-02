@@ -54,28 +54,6 @@
             />
             <x-input-error for="form.end" class="mt-2" />
         </div>
-        <div>
-            <x-label for="backgroundColor" :value="__('Background Color')" />
-            <x-input wire:model="form.backgroundColor" id="backgroundColor" class="mt-1 block w-16" type="color" />
-            <x-input-error for="form.backgroundColor" class="mt-2" />
-        </div>
-        
-        <div>
-            <x-label for="borderColor" :value="__('Border Color')" />
-            <x-input wire:model="form.borderColor" id="borderColor" class="mt-1 block w-16" type="color" />
-            <x-input-error for="form.borderColor" class="mt-2" />
-        </div>
-        <div>
-            <x-label for="categorieIcal">{{ __('Categorie') }}</x-label>
-            <select wire:model="form.categorieIcal" id="categorieIcal" class="mt-1 block w-45">
-                @foreach ($allCategoriesIcal as $value)
-                <option value="{{ $value }}">{{ $value }}</option>
-                @endforeach
-            </select>
-            <x-input-error for="categorieIcal" class="mt-2" />
-        </div>
-        
-
         <!-- Save button -->
         <div class="mt-4">
             <x-button> Save </x-button>

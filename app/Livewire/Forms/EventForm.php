@@ -19,9 +19,6 @@ class EventForm extends Form
     public int $user_id;
 
     // #[Validate('required')]
-    public int $user_id;
-
-    // #[Validate('required')]
     public string $title;
 
     public $event_id = null;
@@ -31,8 +28,6 @@ class EventForm extends Form
 
     // #[Validate('required')]
     public string $end;
-
-    public $categorieIcal = 'évenement';
 
     public string $description = '';
 
@@ -113,7 +108,7 @@ class EventForm extends Form
 
         if ($value === 0) {
             return Classification::public();
-        } elseif ($value === 'private') {
+        } elseif ($value === 1) {
             return Classification::private();
         } elseif ($value === 2) { // ne sera jamais utilisé car je ne gere que 0 ou 1 sur le form
             return Classification::confidential();
@@ -122,7 +117,7 @@ class EventForm extends Form
 
     public function update()
     {
-        // $this->visibility = $this->visibility === '1' ? 'private' : 'public';
-        // $this->events->update($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility']));
+        $this->visibility = $this->visibility === '1' ? 'private' : 'public';
+        $this->events->update($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility']));
     }
 }
