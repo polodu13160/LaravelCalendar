@@ -2,9 +2,10 @@
 
 namespace Database\Factories;
 
+use DateTime;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EventsFactory extends Factory
 {
@@ -18,11 +19,17 @@ class EventsFactory extends Factory
         $user = User::inRandomOrder()->first();
         $start = Carbon::now('Europe/Paris')->startOfMonth();
         $end = Carbon::now('Europe/Paris')->endOfMonth();
+        $timestamp = mt_rand($start->timestamp, $end->timestamp);
+        $datestart=Carbon::createFromTimestamp($timestamp, 'Europe/Paris');
+        $dateend=$datestart->copy()->addHours(2);
+
+
+
 
         return [
             'user_id' => $user->id,
-            'start' => $this->faker->dateTimeBetween($start, $end),
-            'end' => $start->copy()->addHours(2),
+            'start' => $datestart,
+            'end' => $dateend,
             'title' => $this->faker->text(15),
             'description' => $this->faker->text(60),
             'is_all_day' => $this->faker->boolean(50),
