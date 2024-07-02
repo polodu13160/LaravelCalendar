@@ -2,7 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\Events;
 use App\Models\User;
+use Carbon\Carbon;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -51,9 +53,19 @@ class CalendarComponent extends Component
         $this->dispatch('eventsHaveBeenFetched');
     }
 
-    public function modificationEvent($event)
+    public function updateEvent($eventID, $start, $end, $isAllDay = false)
     {
+        $event = Events::find($eventID);
 
+        if ($isAllDay) {
+            $start = Carbon::parse($start)->startOfDay();
+            $end = Carbon::parse($start)->endOfDay();
+        }
+        $event->update([
+            'start' => Carbon::parse($start),
+            'end' => Carbon::parse($end),
+            'is_all_day' => $isAllDay,
+        ]);
     }
 
     /**

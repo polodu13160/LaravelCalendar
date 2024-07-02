@@ -91,7 +91,13 @@
 
                                         });
                                     },
-                                    eventResize: function(info) {},
+                                    eventResize: function(info) {
+                                        @this.updateEvent(info.event.id, info.event.startStr, info.event.endStr);
+                                    },
+
+                                    eventDrop: function(info) {
+                                        @this.updateEvent(info.event.id, info.event.startStr, info.event.endStr, info.event.allDay);
+                                    },
 
                                     select: function(info) {
                                         console.log(info);
@@ -109,14 +115,14 @@
                             Livewire.on("eventsHaveBeenFetched", () => {
 
                                 calendar.removeAllEventSources();
-                                console.log("Events have been fetched");
-
+                                
                                 calendar.addEventSource(fetchJSONEvents());
-
+                                
                                 for (let idOrTeam in @this.allUrlIcsEvents) {
                                     let eventsIcs = @this.allUrlIcsEvents[idOrTeam];
                                     createEventSources(eventsIcs);
                                 }
+                                console.log("Events have been fetched");
                             });
 
                             function openModal() {

@@ -65,10 +65,12 @@ class EventForm extends Form
         $this->event_id = uniqid();
         $this->backgroundColor = $user->color;
         $this->borderColor = $user->color. 80;
+        $this->start = Carbon::parse($this->start);
+        $this->end = Carbon::parse($this->end);
 
         Events::create($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility', 'backgroundColor', 'borderColor']));
 
-        $this->storeiCalEvent();
+        // $this->storeiCalEvent();
     }
 
     public function storeiCalEvent()
@@ -94,7 +96,7 @@ class EventForm extends Form
             ->description($this->description != null ? $this->description : '')
             ->uniqueIdentifier($this->event_id)
             ->classification($classification)
-            ->createdAt(Carbon::now())->withoutTimezone()
+            ->createdAt(Carbon::now())
             ->startsAt(Carbon::parse($this->start))
             ->endsAt(Carbon::parse($this->end));
 
