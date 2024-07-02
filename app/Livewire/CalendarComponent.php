@@ -18,10 +18,8 @@ class CalendarComponent extends Component
 
     public $team;
 
-    public $colorByUserAndTeam = [];
-
     #[On('aUserHasBeenSelected')]
-    public function fetchEvents($selectedUsers, $selectedTeam = false)
+    public function fetchEvents($selectedUsers)
     {
         $this->allUrlIcsEvents = [];
         $this->calendarUrls = [];
@@ -50,17 +48,6 @@ class CalendarComponent extends Component
             }
         }
 
-        if ($selectedTeam) {
-
-            $this->calendarUrls['team'] = $this->team->getCalendarUrl();
-
-            $events = $this->team->getEvents();
-
-            foreach ($events as $event) {
-
-                $this->allUrlIcsEvents['team'][] = $this->team->getCalendarUrl().'/'.$event->uri;
-            }
-        }
         $this->dispatch('eventsHaveBeenFetched');
     }
 
@@ -79,6 +66,5 @@ class CalendarComponent extends Component
         $this->calendarUrlUserConnected = auth()->user()->getCalendarUrl();
 
         return view('livewire.calendar-component');
-
     }
 }
