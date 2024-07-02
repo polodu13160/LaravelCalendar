@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\DAVController;
-use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\AccesSabreJustAdmin;
 use App\Livewire\Calendar;
 use App\Livewire\CreateTeamController;

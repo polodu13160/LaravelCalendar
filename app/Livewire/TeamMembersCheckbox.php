@@ -2,24 +2,25 @@
 
 namespace App\Livewire;
 
-use App\Models\Role;
-use App\Models\User;
 use Laravel\Jetstream\Http\Livewire\TeamMemberManager;
 
 class TeamMembersCheckbox extends TeamMemberManager
 {
     public $selectedUsers = [];
+
     public $team;
 
     public $userTeam;
-    public $selectedAll;
-    public $selectedTeam;
 
+    public $selectedAll;
+
+    public $selectedTeam;
 
     public function checkedBox()
     {
-        $this->dispatch('aUserHasBeenSelected', $this->selectedUsers,$this->selectedTeam);
+        $this->dispatch('aUserHasBeenSelected', $this->selectedUsers, $this->selectedTeam);
     }
+
     public function allCheckedBox()
     {
         // dd($this->selectedUsers);
@@ -29,14 +30,13 @@ class TeamMembersCheckbox extends TeamMemberManager
                 $this->selectedUsers[$x] = "$user->id";
                 $x++;
             }
-            $this->selectedTeam=true;
+            $this->selectedTeam = true;
 
-        }
-        else {
+        } else {
             $this->selectedUsers = [];
             $this->selectedTeam = false;
         }
-        $this->dispatch('aUserHasBeenSelected', $this->selectedUsers,$this->selectedTeam);
+        $this->dispatch('aUserHasBeenSelected', $this->selectedUsers, $this->selectedTeam);
 
         // dd($this->selectedUsers);
     }
@@ -48,9 +48,7 @@ class TeamMembersCheckbox extends TeamMemberManager
      */
     public function render()
     {
-     
-
-        $this->userTeam=$this->team->users()->where('role','!=', 1)->get();
+        $this->userTeam = $this->team->users()->where('role', '!=', 1)->get();
 
         return view('livewire.team-members-checkbox');
     }

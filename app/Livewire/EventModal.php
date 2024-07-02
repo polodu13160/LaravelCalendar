@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\CategoriesIcal;
 use App\Livewire\Forms\EventForm;
 use App\Models\Events;
 use LivewireUI\Modal\ModalComponent;
@@ -12,10 +11,12 @@ class EventModal extends ModalComponent
     public ?Events $events = null;
 
     public EventForm $form;
-    public $date;
-    public $dateTest;
-    public  $allCategoriesIcal;
 
+    public $date;
+
+    public $dateTest;
+
+    public $allCategoriesIcal;
 
     public function mount(?Events $events = null)
     {
@@ -35,8 +36,6 @@ class EventModal extends ModalComponent
 
     }
 
-    
-
     public function save()
     {
         $validatedData = $this->validate([
@@ -48,8 +47,7 @@ class EventModal extends ModalComponent
             'form.end' => 'required|date|after_or_equal:form.start',
             'form.categorieIcal' => 'required|in:appel,évenement,réunion,rdv,congé,formation,autre',
         ]);
-        
-        
+
         $this->form->store();
         $this->closeModal();
 
@@ -67,8 +65,6 @@ class EventModal extends ModalComponent
         return view('livewire.event-modal');
     }
 }
-
-
 
 // $validatedData = $this->validate([
 //             'form.title' => 'required|max:255',

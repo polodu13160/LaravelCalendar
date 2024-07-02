@@ -2,7 +2,6 @@
 
 namespace App\Http\Services;
 
-
 use App\Models\Events;
 
 class EventService
@@ -45,7 +44,7 @@ class EventService
 
                 foreach ($events as $event) {
 
-                    if (!(int) $event['is_all_day']) {
+                    if (! (int) $event['is_all_day']) {
                         $event['allDay'] = false;
                         $event['start'] = $event['start'];
                         $event['end'] = $event['end'];
@@ -65,17 +64,17 @@ class EventService
 
         return $allUsersEvents;
 
-    function parseICalContent($iCalContent)
-    {
-        $lines = explode("\n", $iCalContent);
-        $iCalObject = [];
+        function parseICalContent($iCalContent)
+        {
+            $lines = explode("\n", $iCalContent);
+            $iCalObject = [];
 
-        foreach ($lines as $line) {
-            list($key, $value) = explode(':', $line, 2);
-            $iCalObject[$key] = trim($value);
+            foreach ($lines as $line) {
+                [$key, $value] = explode(':', $line, 2);
+                $iCalObject[$key] = trim($value);
+            }
+
+            return $iCalObject;
         }
-
-        return $iCalObject;
     }
-}
 }

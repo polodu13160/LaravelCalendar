@@ -23,11 +23,10 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-       
-   $password = config('app.password');
-   $realm = config('app.realm');
-   $username = $this->faker->unique()->userName();
-  
+
+        $password = config('app.password');
+        $realm = config('app.realm');
+        $username = $this->faker->unique()->userName();
 
         return [
             'name' => $this->faker->name(),
@@ -41,7 +40,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
-           
+
         ];
     }
 

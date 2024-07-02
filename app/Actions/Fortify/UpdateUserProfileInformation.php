@@ -45,7 +45,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         $userEvents = Events::where('user_id', $user->id)->get();
 
         $userEvents->each(function ($event) use ($user) {
-            $event->update(['backgroundColor' => $user->color, 'borderColor' => $user->color . 80]);
+            $event->update(['backgroundColor' => $user->color, 'borderColor' => $user->color. 80]);
         });
     }
 

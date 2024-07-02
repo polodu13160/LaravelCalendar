@@ -2,16 +2,14 @@
 
 namespace App\Livewire\Forms;
 
-use DateTime;
-use Livewire\Form;
-use Ramsey\Uuid\Uuid;
 use App\Models\Events;
+use DateTime;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
-use Spatie\IcalendarGenerator\Components\Event;
+use Livewire\Form;
 use Spatie\IcalendarGenerator\Components\Calendar;
+use Spatie\IcalendarGenerator\Components\Event;
 use Spatie\IcalendarGenerator\Enums\Classification;
-use Spatie\IcalendarGenerator\Properties\TextProperty;
 
 class EventForm extends Form
 {
@@ -26,15 +24,15 @@ class EventForm extends Form
     // #[Validate('required')]
     public string $title;
 
-    
-    public $event_id=null;
+    public $event_id = null;
 
     // #[Validate('required')]
     public string $start;
 
     // #[Validate('required')]
     public string $end;
-    public $categorieIcal='évenement';
+
+    public $categorieIcal = 'évenement';
 
     public string $description = '';
 
@@ -117,7 +115,7 @@ class EventForm extends Form
             return Classification::public();
         } elseif ($value === 'private') {
             return Classification::private();
-        } else if ($value === 2){ // ne sera jamais utilisé car je ne gere que 0 ou 1 sur le form 
+        } elseif ($value === 2) { // ne sera jamais utilisé car je ne gere que 0 ou 1 sur le form
             return Classification::confidential();
         }
     }

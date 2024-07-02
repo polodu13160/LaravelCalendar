@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Http\Services\LaravelSabreCalendarHome;
-use App\Livewire\Calendar;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -61,7 +60,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-  
 
     /**
      * The accessors to append to the model's array form.
@@ -71,9 +69,6 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-
-
-
 
     /**
      * Get the URL to the user's profile photo.
@@ -213,9 +208,7 @@ class User extends Authenticatable
         $team = Team::where('id', $teamId)->first();
         $this->assignRoleAndTeam($nameRole, $team->id);
     }
-   
-    
-   
+
     public function getTeamFocus()
     {
 
@@ -228,16 +221,14 @@ class User extends Authenticatable
         $appRoot = config('app.appRoot');
 
         $calendar = Calendarinstances::where('displayname', $this->username)->first();
-        return $appRoot . '/' . $laravelSabreRoot . '/calendars/' . $this->hashUserName() . '/' . $calendar->uri;
+
+        return $appRoot.'/'.$laravelSabreRoot.'/calendars/'.$this->hashUserName().'/'.$calendar->uri;
     }
+
     public function getEvents()
     {
         $calendar = Calendarinstances::where('displayname', $this->username)->first();
 
         return $calendarobject = Calendarobject::where('calendarid', $calendar->calendarid)->get();
     }
-
-    
-    
-    
 }

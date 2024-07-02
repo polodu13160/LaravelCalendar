@@ -6,8 +6,6 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-
-
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -16,27 +14,24 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(RoleSeeder::class);
-       
-       
+
         //create User Admin
         $admin = User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@test.com',
             'username' => 'admin',
-            
+
         ]);
-        
+
         $admin->createPrincipal();
-        
+
         $admin->assignJustRole('Admin');
-        
-        
 
         //Moderateurs et 1 teams par moderateur
         $moderateurs = User::factory(3)->create();
         foreach ($moderateurs as $moderateur) {
-           $moderateur->createPrincipal();
-           $moderateur->createTeamPrincipal('team ' . $moderateur->username); 
+            $moderateur->createPrincipal();
+            $moderateur->createTeamPrincipal('team '.$moderateur->username);
         }
         // dd('ok');
 
