@@ -66,7 +66,7 @@ class EventForm extends Form
         $this->backgroundColor = $user->color;
         $this->borderColor = $user->color. 80;
 
-        // Events::create($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility', 'backgroundColor', 'borderColor']));
+        Events::create($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility', 'backgroundColor', 'borderColor']));
 
         $this->storeiCalEvent();
     }

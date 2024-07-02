@@ -110,16 +110,12 @@
 
                                 calendar.removeAllEventSources();
                                 console.log("Events have been fetched");
-                                console.log(@this.allUrlIcsEvents);
 
                                 calendar.addEventSource(fetchJSONEvents());
 
                                 for (let idOrTeam in @this.allUrlIcsEvents) {
-                                    console.log(idOrTeam);
                                     let eventsIcs = @this.allUrlIcsEvents[idOrTeam];
-                                    let color = @this.colorByUserAndTeam[idOrTeam];
-                                    console.log(eventsIcs);
-                                    createEventSources(eventsIcs, color);
+                                    createEventSources(eventsIcs);
                                 }
                             });
 
@@ -129,37 +125,22 @@
                                 });
                             }
 
-                            // setInterval(function() {
-                            //     calendar.refetchEvents();
-                            //     console.log("Refreshing events...");
-                            // }, 30 * 1000);
-
-                            // let fetchICal = window.calendarUrls.map((url) => ({
-                            //     url: url,
-                            //     format: "ics",
-                            // }));
-
-                            function fetchICalEvents() {
-
-                                let iCalEvents = [];
-
-                                fetchICal.forEach(element => {
-                                    iCalEvents.push(element);
-                                });
-                                return iCalEvents;
-                            }
+                            setInterval(function() {
+                                calendar.refetchEvents();
+                                console.log("Refreshing events...");
+                            }, 30 * 1000);
 
                             function fetchJSONEvents() {
                                 return JSON.parse(@this.events).original;
                             }
 
-                            function createEventSources(urls, color) {
+                            function createEventSources(urls) {
 
                                 urls.map((url) => (
                                     calendar.addEventSource({
                                         url: url,
                                         format: "ics",
-                                        color: color,
+                                        color: "black",
                                     })
                                 ));
                             }
@@ -167,7 +148,6 @@
                             function parseICalContent(iCalContent) {
 
                                 let lines = iCalContent.split('\n');
-                                console.log(iCalContent);
 
                                 let iCalObject = lines.reduce((acc, line) => {
                                     let [key, ...value] = line.split(':');
@@ -182,7 +162,6 @@
                                 const data = await response.text();
                                 return data;
                             }
-
                         </script>
                     @endscript
                 </div>
