@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Events;
+use Carbon\Carbon;
 use DateTime;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ class EventForm extends Form
     // #[Validate('required')]
     public string $title;
 
-    public $event_id = null;
+    public $event_id;
 
     // #[Validate('required')]
     public string $start;
@@ -29,7 +30,7 @@ class EventForm extends Form
     // #[Validate('required')]
     public string $end;
 
-    public string $description = '';
+    public ?string $description = null;
 
     public int $status = 0;
 
@@ -37,17 +38,17 @@ class EventForm extends Form
 
     public string $visibility = 'public';
 
-    public string $backgroundColor = '';
+    public string $backgroundColor;
 
-    public string $borderColor = '';
+    public string $borderColor;
 
     public function setEvent(Events $events): void
     {
         $this->events = $events;
-        $this->user_id;
+        $this->user_id = $events->user_id;
         $this->title = $events->title;
         $this->description = $events->description;
-        $this->event_id = $events->id;
+        $this->event_id = $events->event_id;
         $this->start = $events->start;
         $this->end = $events->end;
         $this->status = $events->status;
@@ -59,9 +60,14 @@ class EventForm extends Form
 
     public function store(): void
     {
-        $this->visibility = $this->visibility === '1' ? 'private' : 'public';
-        $this->user_id = auth()->user()->id;
-        Events::create($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility']));
+        $user = auth()->user();
+        $this->user_id = $user->id;
+        $this->event_id = uniqid();
+        $this->backgroundColor = $user->color;
+        $this->borderColor = $user->color. 80;
+
+        // Events::create($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility', 'backgroundColor', 'borderColor']));
+
         $this->storeiCalEvent();
     }
 
@@ -79,18 +85,18 @@ class EventForm extends Form
         $appRoot = config('app.appRoot');
         $calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', '%/'.$hashUserName)->first();
 
-        $url = $appRoot.'/'.$laravelSabreRoot.'/calendars'.'/'.$hashUserName.'/'.$calendar->uri.'/'.$hashTitle.'.ics';
+        $url = "$appRoot/$laravelSabreRoot/calendars/$hashUserName/$calendar->uri/$hashTitle.ics";
 
         $classification = $this->classification($this->visibility);
 
         $test = Event::create()
             ->name($this->title)
-            ->description($this->description)
+            ->description($this->description != null ? $this->description : '')
             ->uniqueIdentifier($this->event_id)
             ->classification($classification)
-            ->createdAt(new DateTime('now'))
-            ->startsAt(new DateTime($this->start))
-            ->endsAt(new DateTime($this->end));
+            ->createdAt(Carbon::now())->withoutTimezone()
+            ->startsAt(Carbon::parse($this->start))
+            ->endsAt(Carbon::parse($this->end));
 
         $cal = Calendar::create()->event($test)->get();
 
@@ -105,7 +111,6 @@ class EventForm extends Form
 
     public function classification($value)
     {
-
         if ($value === 0) {
             return Classification::public();
         } elseif ($value === 1) {
@@ -117,7 +122,6 @@ class EventForm extends Form
 
     public function update()
     {
-        $this->visibility = $this->visibility === '1' ? 'private' : 'public';
         $this->events->update($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility']));
     }
 }
