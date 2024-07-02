@@ -21,16 +21,19 @@ class EventsFactory extends Factory
         $timestamp = mt_rand($start->timestamp, $end->timestamp);
         $startDate = Carbon::createFromTimestamp($timestamp, 'Europe/Paris');
         $endDate = $startDate->copy()->addHours(2);
+        $isAllDay = $this->faker->boolean(50);
 
         return [
             'user_id' => $user->id,
-            'start' => $startDate,
-            'end' => $endDate,
+            'start' => $isAllDay == true ? Carbon::parse($startDate)->startOfDay() : $startDate,
+            'end' => $isAllDay == true ? Carbon::parse($endDate)->endOfDay() : $endDate,
+            'is_all_day' => $isAllDay,
             'title' => $this->faker->text(15),
             'description' => $this->faker->text(60),
-            'is_all_day' => $this->faker->boolean(50),
             'backgroundColor' => $user->color,
             'borderColor' => $user->color.'80',
+            'event_id' => uniqid(),
+            'visibility' => 'public',
         ];
     }
 }
