@@ -33,6 +33,6 @@ class EventModal extends ModalComponent
 
     public function render()
     {
-        return view('livewire.event-modal');
+        return view('livewire.event-form');
     }
 }
