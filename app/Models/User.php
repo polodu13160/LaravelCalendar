@@ -176,8 +176,15 @@ class User extends Authenticatable
 
     public function createCalendar()
     {
+
         $laravelCalendarHome = new LaravelSabreCalendarHome();
-        $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser', $this->username, $this);
+        $calendarId = $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser', $this->username, $this);
+        $this->calendar_id= intval($calendarId[0]) ;
+
+        $this->save();
+
+
+
     }
 
     public function assignJustRole($roleName)
@@ -230,5 +237,9 @@ class User extends Authenticatable
         $calendar = Calendarinstances::where('displayname', $this->username)->first();
 
         return $calendarobject = Calendarobject::where('calendarid', $calendar->calendarid)->get();
+    }
+    public function getCalendarInstance()
+    {
+        return $calendar = Calendarinstances::where('id', $this->calendar_id)->first();
     }
 }

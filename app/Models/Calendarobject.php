@@ -10,4 +10,13 @@ class Calendarobject extends Model
     use HasFactory;
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'event_id',
+        'last_modified',
+        'etag',
+        
+        'uid',
+        'calendar_data',
+    ];
 }

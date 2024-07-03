@@ -51,6 +51,11 @@ return [
     */
 
     'channels' => [
+        'events-ics' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/events-ics.log'),
+            'level' => 'debug',
+        ],
 
         'stack' => [
             'driver' => 'stack',

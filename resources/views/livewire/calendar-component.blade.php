@@ -115,9 +115,9 @@
                             Livewire.on("eventsHaveBeenFetched", () => {
 
                                 calendar.removeAllEventSources();
-                                
+
                                 calendar.addEventSource(fetchJSONEvents());
-                                
+
                                 for (let idOrTeam in @this.allUrlIcsEvents) {
                                     let eventsIcs = @this.allUrlIcsEvents[idOrTeam];
                                     createEventSources(eventsIcs);
