@@ -104,8 +104,7 @@
                                         openModal();
                                     },
                                     eventClick: function(info) {
-                                        console.log(info.event);
-                                        openModal();
+                                        openModal(info);
                                     },
                                 });
 
@@ -125,9 +124,12 @@
                                 console.log("Events have been fetched");
                             });
 
-                            function openModal() {
+                            function openModal(info) {
                                 Livewire.dispatch("openModal", {
-                                    component: "event-modal"
+                                    component: "event-modal",
+                                    arguments: {
+                                        events: findEventById(info),
+                                    },
                                 });
                             }
 
@@ -138,6 +140,17 @@
 
                             function fetchJSONEvents() {
                                 return JSON.parse(@this.events).original;
+                            }
+
+                            function findEventById(info) {
+
+                                let events = fetchJSONEvents();
+
+                                for (let event of events) {
+                                    if (event.id == info.event.id) {
+                                       return event;
+                                    }
+                                }
                             }
 
                             function createEventSources(urls) {
