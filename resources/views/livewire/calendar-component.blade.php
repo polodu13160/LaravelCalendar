@@ -117,10 +117,6 @@
                                 
                                 calendar.addEventSource(fetchJSONEvents());
                                 
-                                for (let idOrTeam in @this.allUrlIcsEvents) {
-                                    let eventsIcs = @this.allUrlIcsEvents[idOrTeam];
-                                    createEventSources(eventsIcs);
-                                }
                                 console.log("Events have been fetched");
                             });
 
@@ -139,29 +135,7 @@
                             }, 30 * 1000);
 
                             function fetchJSONEvents() {
-                                return JSON.parse(@this.events).original;
-                            }
-
-                            function findEventById(info) {
-
-                                let events = fetchJSONEvents();
-
-                                for (let event of events) {
-                                    if (event.id == info.event.id) {
-                                       return event;
-                                    }
-                                }
-                            }
-
-                            function createEventSources(urls) {
-
-                                urls.map((url) => (
-                                    calendar.addEventSource({
-                                        url: url,
-                                        format: "ics",
-                                        color: "black",
-                                    })
-                                ));
+                                return JSON.parse(@this.events);
                             }
 
                             function parseICalContent(iCalContent) {
