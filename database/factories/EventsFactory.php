@@ -30,9 +30,12 @@ class EventsFactory extends Factory
             'is_all_day' => $isAllDay,
             'title' => $this->faker->text(15),
             'description' => $this->faker->text(60),
+            'categories' => $this->faker->text(10),
             'backgroundColor' => $user->color,
             'borderColor' => $user->color.'80',
             'event_id' => uniqid(),
+            'hubspot_id' => uniqid(),
+            'calendarobject_id' => uniqid(),
             'visibility' => 'public',
         ];
     }

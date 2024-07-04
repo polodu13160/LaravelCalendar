@@ -21,9 +21,12 @@ return new class extends Migration
             $table->string('visibility')->default(null)->nullable();
             $table->string('title');
             $table->text('description')->nullable();
+            $table->string('categories')->nullable();
             $table->string('backgroundColor')->nullable();
             $table->string('borderColor')->nullable();
             $table->string('event_id')->nullable();
+            $table->string('hubspot_id')->nullable();
+            $table->string('calendarobject_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
