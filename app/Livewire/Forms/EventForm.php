@@ -15,31 +15,49 @@ class EventForm extends Form
 {
     public ?Events $events;
 
-    // #[Validate('required')]
     public int $user_id;
 
-    // #[Validate('required')]
-    public string $title;
-
-    public $event_id;
-
-    // #[Validate('required')]
     public string $start;
-
-    // #[Validate('required')]
+    
     public string $end;
-
+    
+    public string $title;
+    
     public ?string $description = null;
-
-    public int $status = 0;
-
-    public int $is_all_day = 0;
-
+    
+    public string $category = 'RDV';
+    
     public string $visibility = 'public';
-
+    
+    public int $status = 0;
+    
+    public bool $is_all_day = false;
+    
     public string $backgroundColor;
-
+    
     public string $borderColor;
+    
+    /**
+     * Définit les règles de validation pour le formulaire.
+     *
+     * @return array
+     */
+    protected function rules(): array
+    {
+        return [
+            'user_id' => 'required|integer',
+            'title' => 'required|string|max:255',
+            'start' => 'required|date',
+            'end' => 'required|date|after:start',
+            'description' => 'nullable|string|max:1000',
+            'status' => 'required|integer',
+            'is_all_day' => 'required|boolean',
+            'visibility' => 'required|string',
+            'category' => 'required|in:RDV,Appels|string',
+            'backgroundColor' => 'required|string',
+            'borderColor' => 'required|string',
+        ];
+    }
 
     public function setEvent(Events $events): void
     {
@@ -47,12 +65,12 @@ class EventForm extends Form
         $this->user_id = $events->user_id;
         $this->title = $events->title;
         $this->description = $events->description;
-        $this->event_id = $events->event_id;
         $this->start = $events->start;
         $this->end = $events->end;
         $this->status = $events->status;
         $this->is_all_day = $events->is_all_day;
         $this->visibility = $events->visibility;
+        $this->category = $events->category;
         $this->backgroundColor = $events->backgroundColor;
         $this->borderColor = $events->borderColor;
     }
@@ -60,15 +78,14 @@ class EventForm extends Form
     public function store(): void
     {
         $user = auth()->user();
+        
         $this->user_id = $user->id;
-        $this->event_id = uniqid();
         $this->backgroundColor = $user->color;
         $this->borderColor = $user->color. 80;
-        $this->start = Carbon::parse($this->start);
-        $this->end = Carbon::parse($this->end);
-
-        Events::create($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility', 'backgroundColor', 'borderColor']));
-
+        
+        $validatedData = $this->validate();
+        Events::create($validatedData);
+ 
         // $this->storeiCalEvent();
     }
 
@@ -123,6 +140,7 @@ class EventForm extends Form
 
     public function update()
     {
-        $this->events->update($this->only(['title', 'description', 'event_id', 'user_id', 'start', 'end', 'status', 'is_all_day', 'visibility']));
+        $validatedData = $this->validate();
+        $this->events->update($validatedData);
     }
 }
