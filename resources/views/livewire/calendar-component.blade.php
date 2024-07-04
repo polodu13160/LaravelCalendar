@@ -124,7 +124,7 @@
                                 Livewire.dispatch("openModal", {
                                     component: "event-modal",
                                     arguments: {
-                                        events: findEventById(info),
+                                        events: info.event.id,
                                     },
                                 });
                             }
