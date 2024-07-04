@@ -24,6 +24,16 @@
                                         <span
                                             class="text-xs font-medium leading-4 tracking-wider text-gray-500 uppercase">Description</span>
                                     </th>
+                                    <th class="px-6 py-3 text-left bg-gray-50">
+                                        <button type="button"
+                                            class="text-xs font-medium leading-4 tracking-wider text-gray-500 uppercase bg-transparent border-none cursor-pointer">Date
+                                            Debut</button>
+                                    </th>
+                                    <th class="px-6 py-3 text-left bg-gray-50">
+                                        <button type="button"
+                                            class="text-xs font-medium leading-4 tracking-wider text-gray-500 uppercase bg-transparent border-none cursor-pointer">Date
+                                            Fin</button>
+                                    </th>
                                     <th class="px-6 py-3 text-left bg-gray-50"></th>
                                 </tr>
                             </thead>
@@ -36,6 +46,13 @@
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900">
                                             {{ $event->description }}
+                                        </td>
+                                        <td class="px-6 py-4 text-sm leading-5 text-gray-900">
+
+                                            {{ $event->start }}
+                                        </td>
+                                        <td class="px-6 py-4 text-sm leading-5 text-gray-900">
+                                            {{ $event->end }}
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900">
                                             <x-button
