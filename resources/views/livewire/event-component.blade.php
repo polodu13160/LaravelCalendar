@@ -4,9 +4,7 @@
             {{ __('Events') }}
         </h2>
     </x-slot>
-    <x-button wire:click="$dispatch('openModal', { component: 'event-modal' })" class="mb-4">
-        New Product
-    </x-button>
+
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
@@ -34,7 +32,9 @@
                                             class="text-xs font-medium leading-4 tracking-wider text-gray-500 uppercase bg-transparent border-none cursor-pointer">Date
                                             Fin</button>
                                     </th>
-                                    <th class="px-6 py-3 text-left bg-gray-50"></th>
+                                    <th class="px-6 py-3 text-left bg-gray-50"><x-button wire:click="$dispatch('openModal', { component: 'event-modal' })" class="mb-4">
+                                        New Event
+                                    </x-button></th>
                                 </tr>
                             </thead>
                             <!-- Table Body -->
