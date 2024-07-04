@@ -63,18 +63,5 @@ class EventService
         }
 
         return $allUsersEvents;
-
-        function parseICalContent($iCalContent)
-        {
-            $lines = explode("\n", $iCalContent);
-            $iCalObject = [];
-
-            foreach ($lines as $line) {
-                [$key, $value] = explode(':', $line, 2);
-                $iCalObject[$key] = trim($value);
-            }
-
-            return $iCalObject;
-        }
     }
 }
