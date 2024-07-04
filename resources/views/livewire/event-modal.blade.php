@@ -1,5 +1,5 @@
 <div class="p-6">
-    <form wire:submit="save">
+    <form wire:submit="update" >
         <!-- title input -->
         <div>
             <x-label for="title" :value="__('Titre')" />

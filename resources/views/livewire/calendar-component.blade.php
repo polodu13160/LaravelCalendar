@@ -104,8 +104,7 @@
                                         openModal();
                                     },
                                     eventClick: function(info) {
-                                        console.log(info.event);
-                                        openModal();
+                                        openModal(info);
                                     },
                                 });
 
@@ -117,17 +116,16 @@
                                 calendar.removeAllEventSources();
 
                                 calendar.addEventSource(fetchJSONEvents());
-
-                                for (let idOrTeam in @this.allUrlIcsEvents) {
-                                    let eventsIcs = @this.allUrlIcsEvents[idOrTeam];
-                                    createEventSources(eventsIcs);
-                                }
+                                
                                 console.log("Events have been fetched");
                             });
 
-                            function openModal() {
+                            function openModal(info) {
                                 Livewire.dispatch("openModal", {
-                                    component: "event-modal"
+                                    component: "event-modal",
+                                    arguments: {
+                                        events: info.event.id,
+                                    },
                                 });
                             }
 
@@ -137,18 +135,7 @@
                             }, 30 * 1000);
 
                             function fetchJSONEvents() {
-                                return JSON.parse(@this.events).original;
-                            }
-
-                            function createEventSources(urls) {
-
-                                urls.map((url) => (
-                                    calendar.addEventSource({
-                                        url: url,
-                                        format: "ics",
-                                        color: "black",
-                                    })
-                                ));
+                                return JSON.parse(@this.events);
                             }
 
                             function parseICalContent(iCalContent) {
