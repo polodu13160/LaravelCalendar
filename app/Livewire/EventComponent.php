@@ -6,6 +6,8 @@ use App\Http\Services\EventService;
 use App\Models\Events;
 use Livewire\Component;
 
+use function Safe\json_encode;
+
 class EventComponent extends Component
 {
     public function refetchEvents($data = null)
@@ -15,8 +17,7 @@ class EventComponent extends Component
         }
         $eventService = new EventService(auth()->user());
         $eventsData = $eventService->allEvents($data);
-
-        return response()->json($eventsData);
+        return json_encode($eventsData);
     }
 
     public function render()
