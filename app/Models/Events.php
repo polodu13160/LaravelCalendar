@@ -11,6 +11,7 @@ use Spatie\IcalendarGenerator\Components\Event;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\IcalendarGenerator\Properties\TextProperty;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
 
@@ -64,8 +65,11 @@ class Events extends Model
             ->description($this->description)
             ->createdAt(Carbon::parse($this->created_at))
             ->startsAt(Carbon::parse($this->start))
-            ->endsAt(Carbon::parse($this->end));
-            // ->location
+            ->endsAt(Carbon::parse($this->end))
+            ->appendProperty(TextProperty::create('CATEGORIES', ($this->categories )));
+            // le remplacer par this->categories (nom de la colonne dans la table events)
+
+
 
         $cal = ComponentsCalendar::create()->event($test)->get();
 
