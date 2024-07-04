@@ -71,7 +71,7 @@
                                         },
                                     },
                                     eventMouseEnter: function(info) {
-                                        console.log(currentEvent = info.event.extendedProps);
+                                       currentEvent = info.event;
                                         // let iCalContent = parseICalContent(iCalText);
                                         tooltip.innerHTML = `<strong>${info.event.title}</strong><br>
                                         <strong>Date debut </strong> : ${info.event.extendedProps.startDay}<br>
