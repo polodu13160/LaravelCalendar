@@ -16,8 +16,8 @@ class EventsFactory extends Factory
     public function definition(): array
     {
         $user = User::inRandomOrder()->first();
-        $start = Carbon::now('Europe/Paris')->startOfMonth();
-        $end = Carbon::now('Europe/Paris')->endOfMonth();
+        $start = Carbon::now()->startOfMonth();
+        $end = Carbon::now()->endOfMonth();
         $timestamp = mt_rand($start->timestamp, $end->timestamp);
         $startDate = Carbon::createFromTimestamp($timestamp);
         $endDate = $startDate->copy()->addHours(2);
