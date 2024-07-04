@@ -63,7 +63,7 @@
                                     headerToolbar: {
                                         left: "prev,next today",
                                         center: "title",
-                                        right: "dayGridMonth,timeGridWeek,timeGridDay",
+                                        right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
                                     },
                                     views: {
                                         dayGridMonth: {
