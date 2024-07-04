@@ -71,25 +71,24 @@
                                         },
                                     },
                                     eventMouseEnter: function(info) {
-                                        currentEvent = info.event;
-                                        fetchEventData(info.event.source.url).then(iCalText => {
-                                            let iCalContent = parseICalContent(iCalText);
-                                            tooltip.innerHTML = `<strong>${info.event.title}</strong><br>
-                                                <strong>Date debut </strong> : ${info.event.start}<br>
-                                                <strong>Date fin </strong> : ${info.event.end}<br>
-                                                <strong>Description </strong> : ${info.event.extendedProps.description}<br>
-                                                <strong>Catégories </strong> : ${iCalContent.CATEGORIES}<br>`;
+                                        console.log(currentEvent = info.event.extendedProps);
+                                        // let iCalContent = parseICalContent(iCalText);
+                                        tooltip.innerHTML = `<strong>${info.event.title}</strong><br>
+                                        <strong>Date debut </strong> : ${info.event.extendedProps.startDay}<br>
+                                        <strong>Date fin </strong> : ${info.event.extendedProps.endDay}<br>
+                                        <strong>Description </strong> : ${info.event.extendedProps.description}<br>
+                                        <strong>Catégories </strong> : ${info.event.extendedProps.categories}<br>`;
 
-                                            let rect = info.el.getBoundingClientRect();
-                                            tooltip.style.left = (window.scrollX + rect.right) + 'px';
-                                            tooltip.style.top = (window.scrollY + rect.top) + 'px';
-                                            tooltip.style.display = 'block';
-                                            info.el.addEventListener('mouseleave', function() {
-                                                tooltip.style.display = 'none';
-                                                currentEvent = null;
-                                            });
-
+                                        let rect = info.el.getBoundingClientRect();
+                                        tooltip.style.left = (window.scrollX + rect.right) + 'px';
+                                        tooltip.style.top = (window.scrollY + rect.top) + 'px';
+                                        tooltip.style.display = 'block';
+                                        info.el.addEventListener('mouseleave', function() {
+                                            tooltip.style.display = 'none';
+                                            currentEvent = null;
                                         });
+
+
                                     },
                                     eventResize: function(info) {
                                         @this.updateEvent(info.event.id, info.event.startStr, info.event.endStr);
@@ -116,7 +115,7 @@
                                 calendar.removeAllEventSources();
 
                                 calendar.addEventSource(fetchJSONEvents());
-                                
+
                                 console.log("Events have been fetched");
                             });
 
