@@ -67,7 +67,7 @@ class Events extends Model
             ->createdAt(Carbon::parse($this->created_at))
             ->startsAt(Carbon::parse($this->start))
             ->endsAt(Carbon::parse($this->end))
-            ->appendProperty(TextProperty::create('CATEGORIES', ($this->categories)));
+            ->appendProperty(TextProperty::create('CATEGORIES', ($this->category)));
         // le remplacer par this->categories (nom de la colonne dans la table events)
 
         $cal = ComponentsCalendar::create()->event($test)->get();
