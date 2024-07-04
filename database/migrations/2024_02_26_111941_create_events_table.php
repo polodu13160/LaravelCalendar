@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('visibility')->default(null)->nullable();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('categories')->nullable();
+            $table->string('category')->nullable();
             $table->string('backgroundColor')->nullable();
             $table->string('borderColor')->nullable();
             $table->string('event_id')->nullable();

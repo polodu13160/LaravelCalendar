@@ -2,8 +2,6 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
-use App\Console\Commands\SendEmailsCommand;
-use App\Console\Commands\VerifyEventsIcs;
 use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {

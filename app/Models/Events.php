@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use DateTime;
 use Carbon\Carbon;
-use Ramsey\Uuid\Uuid;
 use GuzzleHttp\Client;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\IcalendarGenerator\Components\Event;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\IcalendarGenerator\Properties\TextProperty;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Ramsey\Uuid\Uuid;
 use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
+use Spatie\IcalendarGenerator\Components\Event;
+use Spatie\IcalendarGenerator\Properties\TextProperty;
 
 class Events extends Model
 {
@@ -26,6 +24,7 @@ class Events extends Model
         'description',
         'is_all_day',
         'visibility',
+        'category',
         'user_id',
         'event_id',
         'backgroundColor',
@@ -36,17 +35,19 @@ class Events extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
     public function calendarObject(): HasOne
     {
         return $this->hasOne(CalendarObject::class, 'event_id');
     }
+
     public function createIcs(): void
     {
-        $user= $this->user()->first();
-        $calendarUrl= $user->getCalendarUrl();
+        $user = $this->user()->first();
+        $calendarUrl = $user->getCalendarUrl();
         $uuid = Uuid::uuid1()->toString();
-        $uri= $uuid . '.ics';
-        $ics = $calendarUrl . '/' .$uri ;
+        $uri = $uuid.'.ics';
+        $ics = $calendarUrl.'/'.$uri;
 
         // $this->calendarObject()->create([
         //     'calendar_id' => $this->user()->first()->getCalendarInstance()->id,
@@ -66,14 +67,13 @@ class Events extends Model
             ->createdAt(Carbon::parse($this->created_at))
             ->startsAt(Carbon::parse($this->start))
             ->endsAt(Carbon::parse($this->end))
-            ->appendProperty(TextProperty::create('CATEGORIES', ($this->categories )));
-            // le remplacer par this->categories (nom de la colonne dans la table events)
-
-
+            ->appendProperty(TextProperty::create('CATEGORIES', ($this->categories)));
+        // le remplacer par this->categories (nom de la colonne dans la table events)
 
         $cal = ComponentsCalendar::create()->event($test)->get();
 
-        $response = $client->request('PUT',
+        $response = $client->request(
+            'PUT',
             $ics,
             [
                 'body' => $cal,
@@ -84,7 +84,6 @@ class Events extends Model
             ]
         );
         $statusCode = $response->getStatusCode();
-        // $etag = $response->getHeaderLine('ETag');
 
         if ($statusCode == 201) {
 
@@ -98,16 +97,19 @@ class Events extends Model
             $this->save();
             $this->timestamps = $timestampsOriginal;
         }
-
     }
-    public function modificationEventToICS(){
+
+    public function modificationEventToICS()
+    {
 
         $eventIcs = $this->calendarObject()->first();
         $eventIcs->DELETE();
         $this->createIcs();
     }
-    public function modificationIcsToEvent(){
-        $eventIcs=$this->calendarObject()->first();
+
+    public function modificationIcsToEvent()
+    {
+        $eventIcs = $this->calendarObject()->first();
         $timestampsOriginal = $this->timestamps;
         $this->timestamps = false;
 
@@ -118,8 +120,5 @@ class Events extends Model
         ]);
 
         $this->timestamps = $timestampsOriginal;
-
-
-
     }
 }
