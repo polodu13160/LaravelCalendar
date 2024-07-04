@@ -38,7 +38,6 @@ class EventsFactory extends Factory
             'borderColor' => $user->color.'80',
             'event_id' => uniqid(),
             'hubspot_id' => uniqid(),
-            'calendarobject_id' => uniqid(),
             'visibility' => 'public',
         ];
     }
