@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class CalendarComponent extends Component
 {
-    public $events = [];
+    public $events;
 
     public $allUrlIcsEvents = [];
 
@@ -27,13 +27,12 @@ class CalendarComponent extends Component
         $this->calendarUrls = [];
 
         $EC = new EventComponent();
-        $this->events = json_encode($EC->refetchEvents($selectedUsers));
-
+        $this->events = $EC->refetchEvents($selectedUsers);
         foreach ($selectedUsers as $userId) {
-
+            
             $user = User::find($userId);
-
-            if ($userId !== strval(auth()->user()->id)) {
+            
+            if ($userId != auth()->user()->id) {
 
                 $this->calendarUrls[$userId] = $user->getCalendarUrl();
             }
