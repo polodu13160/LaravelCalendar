@@ -56,6 +56,7 @@ class CreateTeamController extends CreateTeamForm
         if (!$user->hasRole('Admin')) {
         redirect()->route('dashboard');
         }
+        
     }
 
     public function create(Request $request)
