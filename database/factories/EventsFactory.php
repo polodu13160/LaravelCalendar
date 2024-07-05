@@ -24,7 +24,7 @@ class EventsFactory extends Factory
         $isAllDay = $this->faker->boolean(50);
         $category = include base_path('app/Tableaux/Categories.php');
         $visibility = include base_path('app/Tableaux/Visibility.php');
-        $status = include base_path('app/Tableaux/Status.php');
+        $status =array_keys(include base_path('app/Tableaux/Status.php'));
 
         return [
             'user_id' => $user->id,
