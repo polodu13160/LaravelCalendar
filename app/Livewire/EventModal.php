@@ -11,12 +11,14 @@ class EventModal extends ModalComponent
     public ?Events $events = null;
 
     public $visibilityOptions ;
+    public $categoryOptions;
 
     public EventForm $form;
 
     public function mount(?Events $events = null)
     {
-        $this->visibilityOptions = include('app/Tableaux/Visibility.php');
+        $this->visibilityOptions = include base_path('app/Tableaux/Visibility.php');
+        $this->categoryOptions = include base_path('app/Tableaux/Categories.php');
         if ($events && $events->exists) {
             $this->form->setEvent($events);
         }

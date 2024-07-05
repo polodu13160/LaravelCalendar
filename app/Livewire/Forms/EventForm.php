@@ -30,6 +30,12 @@ class EventForm extends Form
 
     public string $visibility = 'public';
 
+    public $visibilityForm;
+
+    public $statusForm;
+
+    public $categoriesForm;
+
     public int $status = 0;
 
     public bool $is_all_day = false;
@@ -38,6 +44,8 @@ class EventForm extends Form
 
     public string $borderColor;
 
+
+
     /**
      * Définit les règles de validation pour le formulaire.
      *
@@ -45,18 +53,21 @@ class EventForm extends Form
      */
     protected function rules(): array
     {
-        $visibility= include('app/Tableaux/Visibility.php');
-        $status= array_keys(include('app/Tableaux/Status.php'));
+        $this->visibilityForm = include base_path('app/Tableaux/Visibility.php');
+        $this->statusForm = array_keys(include base_path('app/Tableaux/Status.php'));
+        $this->categoriesForm = include base_path('app/Tableaux/Categories.php');
+
+
         return [
             'user_id' => 'required|integer',
             'title' => 'required|string|max:255',
             'start' => 'required|date',
             'end' => 'required|date|after:start',
             'description' => 'nullable|string|max:1000',
-            'status' => ['required', 'integer', Rule::in($status)],
+            'status' => ['required', 'integer', Rule::in($this->statusForm)],
             'is_all_day' => 'required|boolean',
-            'visibility' => 'required|string',
-            'category' => ['required','string',Rule::in($visibility)],
+            'visibility' => ['required', 'string', Rule::in($this->visibilityForm)],
+            'category' => ['required', 'string', Rule::in($this->categoriesForm)],
             'backgroundColor' => 'required|string',
             'borderColor' => 'required|string',
         ];
@@ -87,59 +98,53 @@ class EventForm extends Form
         $this->borderColor = $user->color. 80;
 
         $validatedData = $this->validate();
+
+
         Events::create($validatedData);
+       
 
         // $this->storeiCalEvent();
     }
 
-    public function storeiCalEvent()
-    {
+    // public function storeiCalEvent()
+    // {
         // Créer un nouveau client Guzzle
-        $client = new Client();
+        // $client = new Client();
 
-        $user = auth()->user();
-        $hashUserName = $user->hashUserName();
+        // $user = auth()->user();
+        // $hashUserName = $user->hashUserName();
 
-        $hashTitle = md5($this->title);
+        // $hashTitle = md5($this->title);
 
-        $laravelSabreRoot = config('app.laravelSabreRoot');
-        $appRoot = config('app.appRoot');
-        $calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', '%/'.$hashUserName)->first();
+        // $laravelSabreRoot = config('app.laravelSabreRoot');
+        // $appRoot = config('app.appRoot');
+        // $calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', '%/'.$hashUserName)->first();
 
-        $url = "$appRoot/$laravelSabreRoot/calendars/$hashUserName/$calendar->uri/$hashTitle.ics";
+        // $url = "$appRoot/$laravelSabreRoot/calendars/$hashUserName/$calendar->uri/$hashTitle.ics";
 
-        $classification = $this->classification($this->visibility);
+        // $classification = $this->classification($this->visibility);
 
-        $test = Event::create()
-            ->name($this->title)
-            ->description($this->description != null ? $this->description : '')
-            ->uniqueIdentifier($this->event_id)
-            ->classification($classification)
-            ->createdAt(Carbon::now())
-            ->startsAt(Carbon::parse($this->start))
-            ->endsAt(Carbon::parse($this->end));
+        // $test = Event::create()
+        //     ->name($this->title)
+        //     ->description($this->description != null ? $this->description : '')
+        //     ->uniqueIdentifier($this->event_id)
+        //     ->classification($classification)
+        //     ->createdAt(Carbon::now())
+        //     ->startsAt(Carbon::parse($this->start))
+        //     ->endsAt(Carbon::parse($this->end));
 
-        $cal = Calendar::create()->event($test)->get();
+        // $cal = Calendar::create()->event($test)->get();
 
-        $response = $client->request('PUT', $url, [
-            'body' => $cal,
-            'headers' => [
-                'Content-Type' => 'text/calendar; charset=UTF-8',
-                'If-None-Match' => '*',
-            ],
-        ]);
-    }
+        // $response = $client->request('PUT', $url, [
+        //     'body' => $cal,
+        //     'headers' => [
+        //         'Content-Type' => 'text/calendar; charset=UTF-8',
+        //         'If-None-Match' => '*',
+        //     ],
+        // ]);
+    // }
 
-    public function classification($value)
-    {
-        if ($value === 0) {
-            return Classification::public();
-        } elseif ($value === 1) {
-            return Classification::private();
-        } elseif ($value === 2) { // ne sera jamais utilisé car je ne gere que 0 ou 1 sur le form
-            return Classification::confidential();
-        }
-    }
+
 
     public function update()
     {

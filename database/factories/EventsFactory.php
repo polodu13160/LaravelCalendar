@@ -25,7 +25,7 @@ class EventsFactory extends Factory
 
         $formattedStart = $isAllDay ? $startDate->startOfDay()->format('Y-m-d H:i') : $startDate->format('Y-m-d H:i');
         $formattedEnd = $isAllDay ? $endDate->endOfDay()->format('Y-m-d H:i') : $endDate->format('Y-m-d H:i');
-        $category = include base_path('app/Tableaux/Categorie.php');
+        $category = include base_path('app/Tableaux/Categories.php');
 
         return [
             'user_id' => $user->id,
