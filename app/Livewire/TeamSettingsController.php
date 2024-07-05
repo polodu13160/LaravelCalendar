@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Http\Services\NavigationService;
+
 use Livewire\Component;
 
 class TeamSettingsController extends Component
@@ -10,15 +10,18 @@ class TeamSettingsController extends Component
     public $isAdmin;
 
     public $isModerator;
+    public $team;
 
     public function render()
     {
-        $nav = new NavigationService;
-        $this->isAdmin = $nav->getIsUserAdmin();
-        $this->isModerator = $nav->getIsUserModerator();
+        $this->team= auth()->user()->currentTeam;
+
+
+        $this->isAdmin = auth()->user()->isAdmin();
+        $this->isModerator = auth()->user()->canDoAction('Moderateur',$this->team->id);
 
         return view('livewire.team-settings-controller')->with([
-            'team' => $nav->getUser()->currentTeam,
+            'team' => $this->team,
             'isAdmin' => $this->isAdmin,
             'isModerator' => $this->isModerator,
         ]);

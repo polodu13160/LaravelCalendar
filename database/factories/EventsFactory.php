@@ -22,9 +22,9 @@ class EventsFactory extends Factory
         $end = $start->copy()->addHours(2);
         $endAllDay = $start->copy()->addDays(1);
         $isAllDay = $this->faker->boolean(50);
-        $category = ['Appel', 'RDV'];
-        $visibility = ['public', 'private'];
-        $status = ["Planifié", "Terminé", "Replanifié", "Manqué", "Annulé", "Tenu"];
+        $category = include base_path('app/Tableaux/Categories.php');
+        $visibility = include base_path('app/Tableaux/Visibility.php');
+        $status = include base_path('app/Tableaux/Status.php');
 
         return [
             'user_id' => $user->id,

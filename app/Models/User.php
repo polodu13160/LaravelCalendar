@@ -104,6 +104,11 @@ class User extends Authenticatable
     {
         return $this->hasRole('Admin');
     }
+    public function isLeader($idTeam): bool
+    {
+        $team = Team::find($idTeam);
+        return $team->user_id == $this->id;
+    }
 
     public function hashUserName()
     {

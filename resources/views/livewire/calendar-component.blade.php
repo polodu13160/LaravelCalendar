@@ -19,6 +19,8 @@
                         @endforeach --}}
 
                         <p><span class="text-sm italic">*à copier dans votre calendrier personnel</span></p>
+                        <p><span class="text-sm italic text-red-500">Les modification prises en compte par votre calendrier personnels sont uniquement la date,<br> les modifications de titres, ou autres elements ne seront pas pris en compte dans <strong>Hotspot</strong>.</span></p>
+
                     </div>
                     <div class="border-box">
                         <div id="calendar-container" wire:ignore class="border-box">

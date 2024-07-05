@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Forms;
 
-use App\Models\Events;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\DB;
 use Livewire\Form;
-use Spatie\IcalendarGenerator\Components\Calendar;
+use App\Models\Events;
+use GuzzleHttp\Client;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Spatie\IcalendarGenerator\Components\Event;
+use Spatie\IcalendarGenerator\Components\Calendar;
 use Spatie\IcalendarGenerator\Enums\Classification;
 
 class EventForm extends Form
@@ -20,25 +21,31 @@ class EventForm extends Form
     public int $user_id;
 
     public string $start;
-    
+
     public string $end;
-    
+
     public string $title;
-    
+
     public ?string $description = null;
-    
+
     public string $category = 'RDV';
-    
+
     public string $visibility = 'public';
-    
-    public string $status = 'Planifié';
-    
+
+    public $visibilityForm;
+
+    public $statusForm;
+
+    public $categoriesForm;
+
+    public int $status = 0;
+
     public bool $is_all_day = false;
-    
+
     public string $backgroundColor;
-    
+
     public string $borderColor;
-    
+
     /**
      * Définit les règles de validation pour le formulaire.
      *
@@ -46,17 +53,21 @@ class EventForm extends Form
      */
     protected function rules(): array
     {
+        $this->visibilityForm = include base_path('app/Tableaux/Visibility.php');
+        $this->statusForm = array_keys(include base_path('app/Tableaux/Status.php'));
+        $this->categoriesForm = include base_path('app/Tableaux/Categories.php');
+
+
         return [
             'user_id' => 'required|integer',
             'title' => 'required|string|max:255',
             'start' => 'required|date',
             'end' => 'required|date|after:start',
             'description' => 'nullable|string|max:1000',
-            'status' => 'required|integer',
+            'status' => ['required', 'integer', Rule::in($this->statusForm)],
             'is_all_day' => 'required|boolean',
-            'visibility' => 'required|string',
-            'category' => 'required|in:RDV,Appel|string',
-            'status' => 'required|in:Planifié,Terminé,Replanifié,Manqué,Annulé,Tenu|string',
+            'visibility' => ['required', 'string', Rule::in($this->visibilityForm)],
+            'category' => ['required', 'string', Rule::in($this->categoriesForm)],
             'backgroundColor' => 'required|string',
             'borderColor' => 'required|string',
         ];
@@ -89,59 +100,53 @@ class EventForm extends Form
         $this->end = Carbon::parse($this->end, $timezone)->setTimezone('UTC')->toIso8601String();
 
         $validatedData = $this->validate();
+
+
         Events::create($validatedData);
- 
+       
+
         // $this->storeiCalEvent();
     }
 
-    public function storeiCalEvent()
-    {
+    // public function storeiCalEvent()
+    // {
         // Créer un nouveau client Guzzle
-        $client = new Client();
+        // $client = new Client();
 
-        $user = auth()->user();
-        $hashUserName = $user->hashUserName();
+        // $user = auth()->user();
+        // $hashUserName = $user->hashUserName();
 
-        $hashTitle = md5($this->title);
+        // $hashTitle = md5($this->title);
 
-        $laravelSabreRoot = config('app.laravelSabreRoot');
-        $appRoot = config('app.appRoot');
-        $calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', '%/'.$hashUserName)->first();
+        // $laravelSabreRoot = config('app.laravelSabreRoot');
+        // $appRoot = config('app.appRoot');
+        // $calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', '%/'.$hashUserName)->first();
 
-        $url = "$appRoot/$laravelSabreRoot/calendars/$hashUserName/$calendar->uri/$hashTitle.ics";
+        // $url = "$appRoot/$laravelSabreRoot/calendars/$hashUserName/$calendar->uri/$hashTitle.ics";
 
-        $classification = $this->classification($this->visibility);
+        // $classification = $this->classification($this->visibility);
 
-        $test = Event::create()
-            ->name($this->title)
-            ->description($this->description != null ? $this->description : '')
-            ->uniqueIdentifier($this->event_id)
-            ->classification($classification)
-            ->createdAt(Carbon::now())
-            ->startsAt(Carbon::parse($this->start))
-            ->endsAt(Carbon::parse($this->end));
+        // $test = Event::create()
+        //     ->name($this->title)
+        //     ->description($this->description != null ? $this->description : '')
+        //     ->uniqueIdentifier($this->event_id)
+        //     ->classification($classification)
+        //     ->createdAt(Carbon::now())
+        //     ->startsAt(Carbon::parse($this->start))
+        //     ->endsAt(Carbon::parse($this->end));
 
-        $cal = Calendar::create()->event($test)->get();
+        // $cal = Calendar::create()->event($test)->get();
 
-        $response = $client->request('PUT', $url, [
-            'body' => $cal,
-            'headers' => [
-                'Content-Type' => 'text/calendar; charset=UTF-8',
-                'If-None-Match' => '*',
-            ],
-        ]);
-    }
+        // $response = $client->request('PUT', $url, [
+        //     'body' => $cal,
+        //     'headers' => [
+        //         'Content-Type' => 'text/calendar; charset=UTF-8',
+        //         'If-None-Match' => '*',
+        //     ],
+        // ]);
+    // }
 
-    public function classification($value)
-    {
-        if ($value === 0) {
-            return Classification::public();
-        } elseif ($value === 1) {
-            return Classification::private();
-        } elseif ($value === 2) { // ne sera jamais utilisé car je ne gere que 0 ou 1 sur le form
-            return Classification::confidential();
-        }
-    }
+
 
     public function update()
     {

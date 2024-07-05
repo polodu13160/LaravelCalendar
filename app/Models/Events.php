@@ -61,14 +61,19 @@ class Events extends Model
         $client = new Client();
         // $url = 'http://localhost/dav/calendars/6fa5bf2dd665bfd42687/lecalendrierdeAdmin/LaraconOnline.ics';
 
+
+
         $test = Event::create()
             ->name($this->title)
             ->description($this->description)
             ->createdAt(Carbon::parse($this->created_at))
             ->startsAt(Carbon::parse($this->start))
             ->endsAt(Carbon::parse($this->end))
-            ->appendProperty(TextProperty::create('CATEGORIES', ($this->category)));
-        // le remplacer par this->categories (nom de la colonne dans la table events)
+            ->appendProperty(TextProperty::create('CATEGORIES', ($this->category)))
+            ->appendProperty(TextProperty::create('CLASS', ($this->visibility)))
+            ->appendProperty(TextProperty::create('PRIORITY', ($this->status)));
+
+        
 
         $cal = ComponentsCalendar::create()->event($test)->get();
 

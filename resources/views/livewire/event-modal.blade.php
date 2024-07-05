@@ -27,9 +27,10 @@
             <x-label for="visibility" :value="__('Visibilité')" />
             <select wire:model="form.visibility" id="visibility" name="visibility"
                 class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                <option value="public">Public</option>
-                <option value="private">Privé</option>
-                <option value="confidential">Confidentiel</option>
+                @foreach ($this->visibilityOptions as $visibilityOption)
+                    <option value="{{ $visibilityOption }}">{{ $visibilityOption }}</option>
+
+                @endforeach
             </select>
             <x-input-error for="form.visibility" class="mt-2" />
         </div>
@@ -38,9 +39,9 @@
             <x-label for="category" :value="__('Catégorie')" />
             <select wire:model="form.category" id="category" name="category"
                 class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                <option value="RDV">RDV</option>
-                <option value="Appels">Appels</option>
-                <option value="test">Test (doit renvoyer une erreur)</option>
+                @foreach ($categoryOptions as $categoryOption)
+                    <option value="{{ $categoryOption }}">{{ $categoryOption }}</option>
+                @endforeach
             </select>
             <x-input-error for="form.category" class="mt-2" />
         </div>
