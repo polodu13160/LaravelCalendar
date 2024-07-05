@@ -30,9 +30,11 @@
                     <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
                     <script>
                         let calendar;
+                        let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
                         document.addEventListener("livewire:initialized", function() {
                             let calendarEl = document.querySelector("#calendar");
+
                             calendar = new FullCalendar.Calendar(calendarEl, {
                                 editable: true,
                                 selectable: true,
@@ -43,7 +45,7 @@
                                 weekNumberCalculation: "ISO",
                                 initialView: "timeGridWeek",
                                 headerToolbar: {
-                                    left: "prev,next today",
+                                    left: "prevYear,prev,next,nextYear today",
                                     center: "title",
                                     right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
                                 },
@@ -56,7 +58,7 @@
 
                                 eventMouseEnter: function(info) {
                                     let event = info.event;
-                                    console.log(event);
+
                                     var tooltip = window.tippy(info.el, {
                                         interactive: true,
                                         appendTo: () => document.body,
@@ -65,16 +67,17 @@
                                         theme: 'material',
                                         allowHTML: true,
                                         content: event.title +
-                                        '<br>' +
-                                        event.extendedProps.description +
-                                        '<br>' +
-                                        event.extendedProps.category +
-                                        '<br>' +
-                                        event.start.toLocaleString() +
-                                        '<br>' +
-                                        event.end.toLocaleString() +
-                                        '<br>'
-                                        ,
+                                            '<br>' +
+                                            event.extendedProps.description +
+                                            '<br>' +
+                                            event.extendedProps.category +
+                                            '<br>' +
+                                            event.extendedProps.status +
+                                            '<br>' +
+                                            event.start +
+                                            '<br>' +
+                                            event.end +
+                                            '<br>',
                                     });
                                 },
 
@@ -112,6 +115,7 @@
                                     component: "event-modal",
                                     arguments: {
                                         events: info.event.id,
+                                        timezone: timezone,
                                     },
                                 });
                             }
@@ -119,6 +123,9 @@
                             function openNewModal() {
                                 Livewire.dispatch("openModal", {
                                     component: "event-modal",
+                                    arguments: {
+                                        timezone: timezone,
+                                    },
                                 });
                             }
 
