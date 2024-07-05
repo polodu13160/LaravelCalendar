@@ -16,31 +16,30 @@ class EventsFactory extends Factory
     public function definition(): array
     {
         $user = User::inRandomOrder()->first();
-        $start = Carbon::now()->startOfMonth();
-        $end = Carbon::now()->endOfMonth();
-        $timestamp = mt_rand($start->timestamp, $end->timestamp);
-        $startDate = Carbon::createFromTimestamp($timestamp);
-        $endDate = $startDate->copy()->addHours(2);
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+        $start = Carbon::createFromTimestamp(rand($startOfMonth->timestamp, $endOfMonth->timestamp));
+        $end = $start->copy()->addHours(2);
+        $endAllDay = $start->copy()->addDays(1);
         $isAllDay = $this->faker->boolean(50);
-
-        $formattedStart = $isAllDay ? $startDate->startOfDay()->format('Y-m-d H:i') : $startDate->format('Y-m-d H:i');
-        $formattedEnd = $isAllDay ? $endDate->endOfDay()->format('Y-m-d H:i') : $endDate->format('Y-m-d H:i');
         $category = ['Appel', 'RDV'];
         $visibility = ['public', 'private'];
+        $status = ["Planifié", "Terminé", "Replanifié", "Manqué", "Annulé", "Tenu"];
 
         return [
             'user_id' => $user->id,
-            'start' => $formattedStart,
-            'end' => $formattedEnd,
+            'start' => $isAllDay ? $start->format('Y-m-d') : $start->format('Y-m-d H:i'),
+            'end' => $isAllDay ? $endAllDay->format('Y-m-d') : $end->format('Y-m-d H:i'),
             'is_all_day' => $isAllDay,
             'title' => $this->faker->text(15),
             'description' => $this->faker->text(60),
             'category' => $category[array_rand($category)],
             'backgroundColor' => $user->color,
-            'borderColor' => $user->color.'80',
+            'borderColor' => $user->color . '80',
             'event_id' => uniqid(),
             'hubspot_id' => uniqid(),
             'visibility' => $visibility[array_rand($visibility)],
+            'status' => $status[array_rand($status)],
         ];
     }
 }
