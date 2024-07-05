@@ -32,7 +32,6 @@ return new class extends Migration
             $table->foreign('calendar_id')->references('id')->on('calendars')->onDelete('set null');
         });
 
-
     }
 
     /**

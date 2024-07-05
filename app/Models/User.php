@@ -184,11 +184,9 @@ class User extends Authenticatable
 
         $laravelCalendarHome = new LaravelSabreCalendarHome();
         $calendarId = $laravelCalendarHome->createCalendarTeamOrUser('CalendarUser', $this->username, $this);
-        $this->calendar_id= intval($calendarId[0]) ;
+        $this->calendar_id = intval($calendarId[0]);
 
         $this->save();
-
-
 
     }
 
@@ -243,6 +241,7 @@ class User extends Authenticatable
 
         return $calendarobject = Calendarobject::where('calendarid', $calendar->calendarid)->get();
     }
+
     public function getCalendarInstance()
     {
         return $calendar = Calendarinstances::where('id', $this->calendar_id)->first();

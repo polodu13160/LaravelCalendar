@@ -16,12 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('start');
             $table->string('end');
-            $table->integer('status')->default(0)->nullable();
-            $table->integer('is_all_day')->default(0)->nullable();
-            $table->string('visibility')->default(null)->nullable();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('categories')->nullable();
+            $table->string('category')->nullable();
+            $table->string('visibility')->default(null)->nullable();
+            $table->integer('status')->default(0)->nullable();
+            $table->integer('is_all_day')->default(0)->nullable();
             $table->string('backgroundColor')->nullable();
             $table->string('borderColor')->nullable();
             $table->string('event_id')->nullable();

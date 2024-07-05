@@ -17,6 +17,7 @@ class EventComponent extends Component
         }
         $eventService = new EventService(auth()->user());
         $eventsData = $eventService->allEvents($data);
+
         return json_encode($eventsData);
     }
 

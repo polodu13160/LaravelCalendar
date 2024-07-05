@@ -100,7 +100,7 @@
 
                                     select: function(info) {
                                         console.log(info);
-                                        openModal();
+                                        openNewModal();
                                     },
                                     eventClick: function(info) {
                                         openModal(info);
@@ -125,6 +125,12 @@
                                     arguments: {
                                         events: info.event.id,
                                     },
+                                });
+                            }
+
+                            function openNewModal() {
+                                Livewire.dispatch("openModal", {
+                                    component: "event-modal",
                                 });
                             }
 

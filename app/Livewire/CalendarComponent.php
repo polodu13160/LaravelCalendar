@@ -29,9 +29,9 @@ class CalendarComponent extends Component
         $EC = new EventComponent();
         $this->events = $EC->refetchEvents($selectedUsers);
         foreach ($selectedUsers as $userId) {
-            
+
             $user = User::find($userId);
-            
+
             if ($userId != auth()->user()->id) {
 
                 $this->calendarUrls[$userId] = $user->getCalendarUrl();

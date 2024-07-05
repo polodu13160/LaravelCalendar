@@ -15,7 +15,6 @@ class Calendarobject extends Model
         'event_id',
         'last_modified',
         'etag',
-        
         'uid',
         'calendar_data',
     ];
