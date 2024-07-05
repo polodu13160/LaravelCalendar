@@ -53,7 +53,7 @@ class EventForm extends Form
             'status' => 'required|integer',
             'is_all_day' => 'required|boolean',
             'visibility' => 'required|string',
-            'category' => 'required|in:RDV,Appels|string',
+            'category' => 'required|in:RDV,Appel|string',
             'backgroundColor' => 'required|string',
             'borderColor' => 'required|string',
         ];

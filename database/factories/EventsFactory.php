@@ -25,7 +25,8 @@ class EventsFactory extends Factory
 
         $formattedStart = $isAllDay ? $startDate->startOfDay()->format('Y-m-d H:i') : $startDate->format('Y-m-d H:i');
         $formattedEnd = $isAllDay ? $endDate->endOfDay()->format('Y-m-d H:i') : $endDate->format('Y-m-d H:i');
-        $category = ['Appels', 'RDV'];
+        $category = ['Appel', 'RDV'];
+        $visibility = ['public', 'private'];
 
         return [
             'user_id' => $user->id,
@@ -39,7 +40,7 @@ class EventsFactory extends Factory
             'borderColor' => $user->color.'80',
             'event_id' => uniqid(),
             'hubspot_id' => uniqid(),
-            'visibility' => 'public',
+            'visibility' => $visibility[array_rand($visibility)],
         ];
     }
 }
