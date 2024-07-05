@@ -29,7 +29,7 @@ class EventForm extends Form
     
     public string $visibility = 'public';
     
-    public int $status = 0;
+    public string $status = 'Planifié';
     
     public bool $is_all_day = false;
     
@@ -54,6 +54,7 @@ class EventForm extends Form
             'is_all_day' => 'required|boolean',
             'visibility' => 'required|string',
             'category' => 'required|in:RDV,Appel|string',
+            'status' => 'required|in:Planifié,Terminé,Replanifié,Manqué,Annulé,Tenu|string',
             'backgroundColor' => 'required|string',
             'borderColor' => 'required|string',
         ];
@@ -78,7 +79,6 @@ class EventForm extends Form
     public function store(): void
     {
         $user = auth()->user();
-        
         $this->user_id = $user->id;
         $this->backgroundColor = $user->color;
         $this->borderColor = $user->color. 80;

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('category')->nullable();
             $table->string('visibility')->default(null)->nullable();
-            $table->integer('status')->default(0)->nullable();
+            $table->string('status')->default(null)->nullable();
             $table->integer('is_all_day')->default(0)->nullable();
             $table->string('backgroundColor')->nullable();
             $table->string('borderColor')->nullable();
