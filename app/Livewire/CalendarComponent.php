@@ -20,6 +20,8 @@ class CalendarComponent extends Component
 
     public $team;
 
+    public $timezone;
+
     #[On('aUserHasBeenSelected')]
     public function fetchEvents($selectedUsers)
     {
@@ -65,6 +67,10 @@ class CalendarComponent extends Component
             'end' => Carbon::parse($end),
             'is_all_day' => $isAllDay,
         ]);
+    }
+
+    public function setTimeZone($timezone) {
+        $this->timezone = $timezone;
     }
 
     /**

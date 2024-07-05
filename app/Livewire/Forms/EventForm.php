@@ -15,6 +15,8 @@ class EventForm extends Form
 {
     public ?Events $events;
 
+    public string $timezone;
+
     public int $user_id;
 
     public string $start;
@@ -76,13 +78,16 @@ class EventForm extends Form
         $this->borderColor = $events->borderColor;
     }
 
-    public function store(): void
+    public function store($timezone): void
     {
         $user = auth()->user();
         $this->user_id = $user->id;
         $this->backgroundColor = $user->color;
         $this->borderColor = $user->color. 80;
-        
+        $this->timezone = $timezone;
+        $this->start = Carbon::parse($this->start, $timezone)->setTimezone('UTC')->toIso8601String();
+        $this->end = Carbon::parse($this->end, $timezone)->setTimezone('UTC')->toIso8601String();
+
         $validatedData = $this->validate();
         Events::create($validatedData);
  
