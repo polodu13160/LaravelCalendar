@@ -51,6 +51,11 @@ class CalendarComponent extends Component
 
         $this->dispatch('eventsHaveBeenFetched');
     }
+    public function status($value){
+        $statut=require('app/Tableaux/Status.php');
+        
+        return $statut[$value];
+    }
 
     public function updateEvent($eventID, $start, $end, $isAllDay = false)
     {

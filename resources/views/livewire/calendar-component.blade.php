@@ -71,13 +71,16 @@
                                         },
                                     },
                                     eventMouseEnter: function(info) {
-                                       currentEvent = info.event;
+                                       console.log(currentEvent = info.event);
                                         // let iCalContent = parseICalContent(iCalText);
                                         tooltip.innerHTML = `<strong>${info.event.title}</strong><br>
                                         <strong>Date debut </strong> : ${info.event.extendedProps.startDay}<br>
                                         <strong>Date fin </strong> : ${info.event.extendedProps.endDay}<br>
                                         <strong>Description </strong> : ${info.event.extendedProps.description}<br>
-                                        <strong>Catégories </strong> : ${info.event.extendedProps.categories}<br>`;
+                                        <strong>Catégories </strong> : ${info.event.extendedProps.category}<br>
+                                        <strong>Status </strong> : ${info.event.extendedProps.category}<br>`;
+
+
 
                                         let rect = info.el.getBoundingClientRect();
                                         tooltip.style.left = (window.scrollX + rect.right) + 'px';

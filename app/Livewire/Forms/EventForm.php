@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Forms;
 
-use App\Models\Events;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\DB;
 use Livewire\Form;
-use Spatie\IcalendarGenerator\Components\Calendar;
+use App\Models\Events;
+use GuzzleHttp\Client;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Spatie\IcalendarGenerator\Components\Event;
+use Spatie\IcalendarGenerator\Components\Calendar;
 use Spatie\IcalendarGenerator\Enums\Classification;
 
 class EventForm extends Form
@@ -18,25 +19,25 @@ class EventForm extends Form
     public int $user_id;
 
     public string $start;
-    
+
     public string $end;
-    
+
     public string $title;
-    
+
     public ?string $description = null;
-    
+
     public string $category = 'RDV';
-    
+
     public string $visibility = 'public';
-    
+
     public int $status = 0;
-    
+
     public bool $is_all_day = false;
-    
+
     public string $backgroundColor;
-    
+
     public string $borderColor;
-    
+
     /**
      * Définit les règles de validation pour le formulaire.
      *
@@ -44,16 +45,18 @@ class EventForm extends Form
      */
     protected function rules(): array
     {
+        $visibility= include('app/Tableaux/Visibility.php');
+        $status= array_keys(include('app/Tableaux/Status.php'));
         return [
             'user_id' => 'required|integer',
             'title' => 'required|string|max:255',
             'start' => 'required|date',
             'end' => 'required|date|after:start',
             'description' => 'nullable|string|max:1000',
-            'status' => 'required|integer',
+            'status' => ['required', 'integer', Rule::in($status)],
             'is_all_day' => 'required|boolean',
             'visibility' => 'required|string',
-            'category' => 'required|in:RDV,Appels|string',
+            'category' => ['required','string',Rule::in($visibility)],
             'backgroundColor' => 'required|string',
             'borderColor' => 'required|string',
         ];
@@ -78,14 +81,14 @@ class EventForm extends Form
     public function store(): void
     {
         $user = auth()->user();
-        
+
         $this->user_id = $user->id;
         $this->backgroundColor = $user->color;
         $this->borderColor = $user->color. 80;
-        
+
         $validatedData = $this->validate();
         Events::create($validatedData);
- 
+
         // $this->storeiCalEvent();
     }
 
