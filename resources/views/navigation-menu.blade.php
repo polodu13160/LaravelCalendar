@@ -70,6 +70,10 @@
                                                 {{ __('Create New Team') }}
                                             </x-dropdown-link>
                                         @endcan
+                                        <x-dropdown-link href="{{ route('user_create') }}">
+                                            {{ __('Create New User') }}
+                                        </x-dropdown-link>
+
                                     @endisAdmin
 
                                     <!-- Team Switcher -->

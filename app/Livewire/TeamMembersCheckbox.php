@@ -8,6 +8,8 @@ class TeamMembersCheckbox extends TeamMemberManager
 {
     public $selectedUsers = [];
 
+    public $user;
+
     public $team;
 
     public $userTeam;
@@ -48,7 +50,14 @@ class TeamMembersCheckbox extends TeamMemberManager
      */
     public function render()
     {
-        $this->userTeam = $this->team->users()->where('role', '!=', 1)->get();
+
+        if (!$this->team==null) {
+            $this->userTeam = $this->team->users()->where('role', '!=', 1)->get();
+        }
+        else {
+            $this->user= auth()->user();
+        }
+
 
         return view('livewire.team-members-checkbox');
     }

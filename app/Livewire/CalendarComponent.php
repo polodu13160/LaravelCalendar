@@ -31,6 +31,7 @@ class CalendarComponent extends Component
         $EC = new EventComponent();
         $this->events = $EC->refetchEvents($selectedUsers);
         foreach ($selectedUsers as $userId) {
+            
 
             $user = User::find($userId);
 
@@ -55,7 +56,7 @@ class CalendarComponent extends Component
     }
     public function status($value){
         $statut=require('app/Tableaux/Status.php');
-        
+
         return $statut[$value];
     }
 

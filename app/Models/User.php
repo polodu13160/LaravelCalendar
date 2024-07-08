@@ -140,20 +140,39 @@ class User extends Authenticatable
         return $principal;
     }
 
-    public static function createUser($name, $username, $email)
+    public static function createUser($name, $email, $username, $password, $team = null, $role = null)
     {
-
-        //Creation User
         $user = new User();
         $user->name = $name;
-        $user->username = $username;
         $user->email = $email;
-        $user->password = Hash::make(config('app.password'));
-        $user->save();
-        //Creation Principal
-        $principal = $user->createPrincipal();
+        $user->username = $username;
+        $user->password = Hash::make($password);
+        $user->color= fake()->hexColor;
+        if (!$team == null) {
+            $user->save();
 
+            $team = Team::where('name', $team)->first();
+            $user->assignRoleAndTeam($role, $team->id);
+        } else {
+            $user->save();
+
+        }
+        $user->createPrincipal();
+        return $user;
     }
+
+
+        // //Creation User
+        // $user = new User();
+        // $user->name = $name;
+        // $user->username = $username;
+        // $user->email = $email;
+        // $user->password = Hash::make(config('app.password'));
+        // $user->save();
+        // //Creation Principal
+        // $principal = $user->createPrincipal();
+
+
 
     public function assignTeam($teamId, $roleName)
     {
