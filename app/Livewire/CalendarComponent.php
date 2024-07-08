@@ -34,26 +34,34 @@ class CalendarComponent extends Component
         foreach ($selectedUsers as $userId) {
 
             $user = User::find($userId);
+            $auth = auth()->user();
 
-            if ($userId != auth()->user()->id) {
+            if ($userId != $auth->id) {
 
                 foreach ($this->events as $event) {
-                    $this->isEventPrivate($event);
+                    
+                    if (!$auth->isAdmin()) {
+                        $this->isEventPrivate($event);
+                    }
+                    
+                    if (!$auth->isAdmin() && ! $auth->isLeader($this->team->id)) {
+                        $this->isEventConfidential($event);
+                    }
                 }
 
                 $this->calendarUrls[$userId] = $user->getCalendarUrl();
             }
 
-            $events = $user->getEvents();
+            // $events = $user->getEvents();
 
-            foreach ($events as $event) {
+            // foreach ($events as $event) {
 
-                if ($userId == auth()->user()->id) {
-                    $this->allUrlIcsEvents[$userId][] = auth()->user()->getCalendarUrl().'/'.$event->uri;
-                } else {
-                    $this->allUrlIcsEvents[$userId][] = $this->calendarUrls[$userId].'/'.$event->uri;
-                }
-            }
+            //     if ($userId == auth()->user()->id) {
+            //         $this->allUrlIcsEvents[$userId][] = $auth->getCalendarUrl().'/'.$event->uri;
+            //     } else {
+            //         $this->allUrlIcsEvents[$userId][] = $this->calendarUrls[$userId].'/'.$event->uri;
+            //     }
+            // }
         }
 
         $this->dispatch('eventsHaveBeenFetched');
@@ -94,6 +102,14 @@ class CalendarComponent extends Component
             $event->title = 'Privé';
             $event->description = 'Cet événement est privé';
             $event->category = 'Privé';
+        }
+    }
+
+    public function isEventConfidential($event)
+    {
+        if ($event->visibility == 'confidential') {
+            $event->title = 'Confidentiel';
+            $event->description = "Vous n'avez pas les droits pour voir cet événement";
         }
     }
 
