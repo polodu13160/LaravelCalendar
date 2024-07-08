@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -116,7 +115,6 @@ class TeamMembers extends TeamMemberManager
      */
     public function render()
     {
-
 
         return view('livewire.team-members', [
             'users' => User::where('email', 'LIKE', "%{$this->addTeamMemberForm['email']}%")

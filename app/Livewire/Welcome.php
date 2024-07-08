@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-
 use Livewire\Component;
 
 class Welcome extends Component
@@ -11,7 +10,6 @@ class Welcome extends Component
 
     public function render()
     {
-
 
         $this->calendarUrl = auth()->user()->getCalendarUrl();
 

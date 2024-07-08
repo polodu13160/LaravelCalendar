@@ -42,11 +42,11 @@ class VerifyEventsIcs extends Command
                     $event->modificationEventToIcs();
                 }
 
-                Log::channel('events-ics')->info(now()->format("j m Y H:i:s") . ' Succès : Mise à jour réussie pour l\'événement ID '.$event->id);
+                Log::channel('events-ics')->info(now()->format('j m Y H:i:s').' Succès : Mise à jour réussie pour l\'événement ID '.$event->id);
 
             } catch (\Exception $e) {
 
-                Log::channel('events-ics')->error(now()->format("j m Y H:i:s")  . ' Échec : Impossible de mettre à jour l\'événement ID '.$event->id.'. Erreur : '.$e->getMessage());
+                Log::channel('events-ics')->error(now()->format('j m Y H:i:s').' Échec : Impossible de mettre à jour l\'événement ID '.$event->id.'. Erreur : '.$e->getMessage());
                 $x++;
 
             }

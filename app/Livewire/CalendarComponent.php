@@ -40,14 +40,14 @@ class CalendarComponent extends Component
                 foreach ($this->events as $event) {
                     $this->isEventPrivate($event);
                 }
-                
+
                 $this->calendarUrls[$userId] = $user->getCalendarUrl();
             }
-            
+
             $events = $user->getEvents();
-            
+
             foreach ($events as $event) {
-                
+
                 if ($userId == auth()->user()->id) {
                     $this->allUrlIcsEvents[$userId][] = auth()->user()->getCalendarUrl().'/'.$event->uri;
                 } else {
@@ -58,10 +58,12 @@ class CalendarComponent extends Component
 
         $this->dispatch('eventsHaveBeenFetched');
     }
-    public function status($value){
-        $statut=require('app/Tableaux/Status.php');
-        
-        return $statut[$value];
+
+    public function status($value)
+    {
+        $status = require 'app/Tableaux/Status.php';
+
+        return $status[$value];
     }
 
     public function updateEvent($eventID, $start, $end, $isAllDay = false)
@@ -79,7 +81,8 @@ class CalendarComponent extends Component
         ]);
     }
 
-    public function setTimeZone($timezone) {
+    public function setTimeZone($timezone)
+    {
         $this->timezone = $timezone;
     }
 
@@ -88,9 +91,9 @@ class CalendarComponent extends Component
     public function isEventPrivate($event)
     {
         if ($event->visibility == 'private') {
-            $event->title = "Privé";
-            $event->description = "Cet événement est privé";
-            $event->category = "Privé";
+            $event->title = 'Privé';
+            $event->description = 'Cet événement est privé';
+            $event->category = 'Privé';
         }
     }
 

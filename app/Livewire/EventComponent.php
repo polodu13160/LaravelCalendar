@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Http\Services\EventService;
-use App\Models\Events;
 use Livewire\Component;
 
 use function Safe\json_encode;

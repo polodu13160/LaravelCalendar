@@ -61,8 +61,6 @@ class Events extends Model
         $client = new Client();
         // $url = 'http://localhost/dav/calendars/6fa5bf2dd665bfd42687/lecalendrierdeAdmin/LaraconOnline.ics';
 
-
-
         $test = Event::create()
             ->name($this->title)
             ->description($this->description)
@@ -72,8 +70,6 @@ class Events extends Model
             ->appendProperty(TextProperty::create('CATEGORIES', ($this->category)))
             ->appendProperty(TextProperty::create('CLASS', ($this->visibility)))
             ->appendProperty(TextProperty::create('PRIORITY', ($this->status)));
-
-        
 
         $cal = ComponentsCalendar::create()->event($test)->get();
 

@@ -24,7 +24,7 @@ class EventsFactory extends Factory
         $isAllDay = $this->faker->boolean(50);
         $category = include base_path('app/Tableaux/Categories.php');
         $visibility = include base_path('app/Tableaux/Visibility.php');
-        $status =array_keys(include base_path('app/Tableaux/Status.php'));
+        $status = array_keys(include base_path('app/Tableaux/Status.php'));
 
         return [
             'user_id' => $user->id,
@@ -35,7 +35,7 @@ class EventsFactory extends Factory
             'description' => $this->faker->text(60),
             'category' => $category[array_rand($category)],
             'backgroundColor' => $user->color,
-            'borderColor' => $user->color . '80',
+            'borderColor' => $user->color.'80',
             'event_id' => uniqid(),
             'hubspot_id' => uniqid(),
             'visibility' => $visibility[array_rand($visibility)],
