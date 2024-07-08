@@ -61,19 +61,24 @@ class Events extends Model
         $client = new Client();
         // $url = 'http://localhost/dav/calendars/6fa5bf2dd665bfd42687/lecalendrierdeAdmin/LaraconOnline.ics';
 
+        $start=Carbon::parse($this->start)->format('Y-m-d H:i:s');
+        $end=Carbon::parse($this->end)->format('Y-m-d H:i:s');
+        dd($start, $end);
+        
+
 
 
         $test = Event::create()
             ->name($this->title)
-            ->description($this->description)
+            ->description($this->description ?? '')
             ->createdAt(Carbon::parse($this->created_at))
-            ->startsAt(Carbon::parse($this->start))
-            ->endsAt(Carbon::parse($this->end))
+            ->startsAt(Carbon::parse($start))
+            ->endsAt(Carbon::parse($end))
             ->appendProperty(TextProperty::create('CATEGORIES', ($this->category)))
             ->appendProperty(TextProperty::create('CLASS', ($this->visibility)))
             ->appendProperty(TextProperty::create('PRIORITY', ($this->status)));
 
-        
+
 
         $cal = ComponentsCalendar::create()->event($test)->get();
 
@@ -99,6 +104,7 @@ class Events extends Model
             $calendarObject->update(['event_id' => $this->id]);
             $this->calendarobject_id = $calendarObject->id;
             $this->updated_at = Carbon::createFromTimestamp($calendarObject->lastmodified);
+            $this->origin = "CAL";
             $this->save();
             $this->timestamps = $timestampsOriginal;
         }
@@ -114,16 +120,16 @@ class Events extends Model
 
     public function modificationIcsToEvent()
     {
+
         $eventIcs = $this->calendarObject()->first();
+
         $timestampsOriginal = $this->timestamps;
         $this->timestamps = false;
-
-        $this->update([
-            'start' => Carbon::createFromTimestamp($eventIcs->firstoccurence),
-            'end' => Carbon::createFromTimestamp($eventIcs->lastoccurence),
-            'updated_at' => Carbon::createFromTimestamp($eventIcs->lastmodified),
-        ]);
-
+        $this->start= Carbon::createFromTimestamp($eventIcs->firstoccurence);
+        $this->end = Carbon::createFromTimestamp($eventIcs->lastoccurence);
+        $this->updated_at = Carbon::createFromTimestamp($eventIcs->lastmodified);
+        $this->origin= "ICS";
         $this->timestamps = $timestampsOriginal;
+        $this->save();
     }
 }
