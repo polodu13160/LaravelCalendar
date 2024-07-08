@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('borderColor')->nullable();
             $table->string('event_id')->nullable();
             $table->string('hubspot_id')->nullable();
+            $table->string('origin')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');

@@ -36,11 +36,20 @@ class VerifyEventsIcs extends Command
 
                 if ($ics == null) {
                     $event->createIcs();
-                } elseif ($ics->lastmodified > $event->updated_at->getTimestamp()) {
-                    $event->modificationIcsToEvent();
-                } elseif ($ics->lastmodified < $event->updated_at->getTimestamp()) {
-                    $event->modificationEventToIcs();
+
+                } else {
+
+                    if ($ics->lastmodified > $event->updated_at->getTimestamp()) {
+                        $event->modificationIcsToEvent();
+                        
+                    } elseif ($ics->lastmodified < $event->updated_at->getTimestamp()) {
+                        $event->modificationEventToIcs();
+                    }
+
+
                 }
+
+
 
                 Log::channel('events-ics')->info(now()->format("j m Y H:i:s") . ' Succès : Mise à jour réussie pour l\'événement ID '.$event->id);
 
