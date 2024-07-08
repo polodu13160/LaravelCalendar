@@ -230,6 +230,7 @@ class User extends Authenticatable
     public function getCalendarUrl()
     {
         $laravelSabreRoot = config('app.laravelSabreRoot');
+
         $appRoot = config('app.appRoot');
 
         $calendar = Calendarinstances::where('displayname', $this->username)->first();

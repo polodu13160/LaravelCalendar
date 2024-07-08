@@ -39,12 +39,12 @@ class CalendarComponent extends Component
             if ($userId != $auth->id) {
 
                 foreach ($this->events as $event) {
-                    
-                    if (!$auth->isAdmin()) {
+
+                    if (! $auth->isAdmin()) {
                         $this->isEventPrivate($event);
                     }
-                    
-                    if (!$auth->isAdmin() && ! $auth->isLeader($this->team->id)) {
+
+                    if (! $auth->isAdmin() && ! $auth->isLeader($this->team->id)) {
                         $this->isEventConfidential($event);
                     }
                 }
