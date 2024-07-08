@@ -73,17 +73,15 @@
                                         delay: 300,
                                         theme: 'material',
                                         allowHTML: true,
-                                        content: event.title +
+                                        content: 'TITRE : '+ event.title +
                                             '<br>' +
-                                            event.extendedProps.description +
+                                            'DESCRIPTION : ' + event.extendedProps.description +
                                             '<br>' +
-                                            event.extendedProps.category +
+                                            'TYPE : ' + event.extendedProps.category +
                                             '<br>' +
-                                            event.extendedProps.status +
+                                            'DEBUT : ' + event.start +
                                             '<br>' +
-                                            event.start +
-                                            '<br>' +
-                                            event.end +
+                                            'FIN : ' + event.end +
                                             '<br>',
                                     });
                                 },
@@ -142,7 +140,7 @@
                             }, 30 * 1000);
 
                             function fetchJSONEvents() {
-                                return JSON.parse(@this.events);
+                                return @this.events;
                             }
                         });
                     </script>
