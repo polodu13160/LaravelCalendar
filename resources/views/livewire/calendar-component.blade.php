@@ -7,6 +7,9 @@
                         <p class="text-lg leading-6 text-gray-500">
                             Mon calendrier : {{ $this->calendarUrlUserConnected }}
                         </p>
+                        <p class="text-sm italic text-red-800">
+                            *à copier dans votre calendrier personnel
+                        </p>
 
                         {{-- @foreach ($this->calendarUrls as $key => $calendar)
                             @if ($key == 'team')
@@ -17,9 +20,11 @@
                                     {{ $calendar }} </p>
                             @endif
                         @endforeach --}}
-
-                        <p><span class="text-sm italic">*à copier dans votre calendrier personnel</span></p>
-                        <p><span class="text-sm italic text-red-500">Les modification prises en compte par votre calendrier personnels sont uniquement la date,<br> les modifications de titres, ou autres elements ne seront pas pris en compte dans <strong>Hotspot</strong>.</span></p>
+                        <p class="text-sm italic text-red-500">
+                            Les modification prises en compte par votre
+                            calendrier personnels sont uniquement la date, les modifications de titres, ou autres
+                            elements ne seront pas pris en compte dans <strong>HubSpot</strong>.
+                        </p>
 
                     </div>
                     <div class="border-box">
