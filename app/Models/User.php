@@ -147,18 +147,21 @@ class User extends Authenticatable
         $user->email = $email;
         $user->username = $username;
         $user->password = Hash::make($password);
-        $user->color= fake()->hexColor;
         if (!$team == null) {
-            $user->save();
-
+            // $user->save();
+            $user->createPrincipal();
             $team = Team::where('name', $team)->first();
             $user->assignRoleAndTeam($role, $team->id);
         } else {
             $user->save();
-
+            $user->createPrincipal();
         }
+        $user->save();
+
         $user->createPrincipal();
-        return $user;
+
+        $team = Team::where('name', $team)->first();
+
     }
 
 
@@ -172,7 +175,7 @@ class User extends Authenticatable
         // //Creation Principal
         // $principal = $user->createPrincipal();
 
-
+    
 
     public function assignTeam($teamId, $roleName)
     {

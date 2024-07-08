@@ -73,7 +73,6 @@
                 </x-slot>
             </x-calendar-team-action-section>
         </div>
-    {{-- @endif --}}
-    {{-- Selected Users : {{ implode(', ', $selectedUsers) }} --}}
+    
 </div>
 
