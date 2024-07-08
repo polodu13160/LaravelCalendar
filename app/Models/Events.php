@@ -61,19 +61,28 @@ class Events extends Model
         $client = new Client();
         // $url = 'http://localhost/dav/calendars/6fa5bf2dd665bfd42687/lecalendrierdeAdmin/LaraconOnline.ics';
 
-        $start=Carbon::parse($this->start)->format('Y-m-d H:i:s');
-        $end=Carbon::parse($this->end)->format('Y-m-d H:i:s');
-        dd($start, $end);
-        
+        $start=Carbon::parse($this->start);
+        $end=Carbon::parse($this->end);
+
+
 
 
 
         $test = Event::create()
             ->name($this->title)
-            ->description($this->description ?? '')
+            ->description($this->description ?? '');
+        if ($this->is_all_day) {
+            $test
+                ->fullDay()
+                ->startsAt(Carbon::parse($start->format('Y-m-d')));
+        }
+        else {
+            $test
+                ->startsAt(Carbon::parse($start->format('Y-m-d H:i:s')))
+                ->endsAt(Carbon::parse($end->format('Y-m-d H:i:s')));
+        }
+        $test
             ->createdAt(Carbon::parse($this->created_at))
-            ->startsAt(Carbon::parse($start))
-            ->endsAt(Carbon::parse($end))
             ->appendProperty(TextProperty::create('CATEGORIES', ($this->category)))
             ->appendProperty(TextProperty::create('CLASS', ($this->visibility)))
             ->appendProperty(TextProperty::create('PRIORITY', ($this->status)));
