@@ -29,20 +29,25 @@ class CalendarComponent extends Component
         $this->calendarUrls = [];
 
         $EC = new EventComponent();
-        $this->events = $EC->refetchEvents($selectedUsers);
+        $this->events = json_decode($EC->refetchEvents($selectedUsers));
+
         foreach ($selectedUsers as $userId) {
 
             $user = User::find($userId);
 
             if ($userId != auth()->user()->id) {
 
+                foreach ($this->events as $event) {
+                    $this->isEventPrivate($event);
+                }
+                
                 $this->calendarUrls[$userId] = $user->getCalendarUrl();
             }
-
+            
             $events = $user->getEvents();
-
+            
             foreach ($events as $event) {
-
+                
                 if ($userId == auth()->user()->id) {
                     $this->allUrlIcsEvents[$userId][] = auth()->user()->getCalendarUrl().'/'.$event->uri;
                 } else {
@@ -76,6 +81,17 @@ class CalendarComponent extends Component
 
     public function setTimeZone($timezone) {
         $this->timezone = $timezone;
+    }
+
+    // Functions de conditions d'affichage
+
+    public function isEventPrivate($event)
+    {
+        if ($event->visibility == 'private') {
+            $event->title = "Privé";
+            $event->description = "Cet événement est privé";
+            $event->category = "Privé";
+        }
     }
 
     /**
