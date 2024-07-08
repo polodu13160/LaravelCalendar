@@ -61,12 +61,8 @@ class Events extends Model
         $client = new Client();
         // $url = 'http://localhost/dav/calendars/6fa5bf2dd665bfd42687/lecalendrierdeAdmin/LaraconOnline.ics';
 
-        $start=Carbon::parse($this->start);
-        $end=Carbon::parse($this->end);
-
-
-
-
+        $start = Carbon::parse($this->start);
+        $end = Carbon::parse($this->end);
 
         $test = Event::create()
             ->name($this->title)
@@ -75,8 +71,7 @@ class Events extends Model
             $test
                 ->fullDay()
                 ->startsAt(Carbon::parse($start->format('Y-m-d')));
-        }
-        else {
+        } else {
             $test
                 ->startsAt(Carbon::parse($start->format('Y-m-d H:i:s')))
                 ->endsAt(Carbon::parse($end->format('Y-m-d H:i:s')));
@@ -86,8 +81,6 @@ class Events extends Model
             ->appendProperty(TextProperty::create('CATEGORIES', ($this->category)))
             ->appendProperty(TextProperty::create('CLASS', ($this->visibility)))
             ->appendProperty(TextProperty::create('PRIORITY', ($this->status)));
-
-
 
         $cal = ComponentsCalendar::create()->event($test)->get();
 
@@ -113,7 +106,7 @@ class Events extends Model
             $calendarObject->update(['event_id' => $this->id]);
             $this->calendarobject_id = $calendarObject->id;
             $this->updated_at = Carbon::createFromTimestamp($calendarObject->lastmodified);
-            $this->origin = "CAL";
+            $this->origin = 'CAL';
             $this->save();
             $this->timestamps = $timestampsOriginal;
         }
@@ -134,10 +127,10 @@ class Events extends Model
 
         $timestampsOriginal = $this->timestamps;
         $this->timestamps = false;
-        $this->start= Carbon::createFromTimestamp($eventIcs->firstoccurence);
+        $this->start = Carbon::createFromTimestamp($eventIcs->firstoccurence);
         $this->end = Carbon::createFromTimestamp($eventIcs->lastoccurence);
         $this->updated_at = Carbon::createFromTimestamp($eventIcs->lastmodified);
-        $this->origin= "ICS";
+        $this->origin = 'ICS';
         $this->timestamps = $timestampsOriginal;
         $this->save();
     }

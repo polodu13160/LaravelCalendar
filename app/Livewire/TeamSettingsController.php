@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-
 use Livewire\Component;
 
 class TeamSettingsController extends Component
@@ -10,15 +9,15 @@ class TeamSettingsController extends Component
     public $isAdmin;
 
     public $isModerator;
+
     public $team;
 
     public function render()
     {
-        $this->team= auth()->user()->currentTeam;
-
+        $this->team = auth()->user()->currentTeam;
 
         $this->isAdmin = auth()->user()->isAdmin();
-        $this->isModerator = auth()->user()->canDoAction('Moderateur',$this->team->id);
+        $this->isModerator = auth()->user()->canDoAction('Moderateur', $this->team->id);
 
         return view('livewire.team-settings-controller')->with([
             'team' => $this->team,

@@ -29,35 +29,50 @@ class CalendarComponent extends Component
         $this->calendarUrls = [];
 
         $EC = new EventComponent();
-        $this->events = $EC->refetchEvents($selectedUsers);
+        $this->events = json_decode($EC->refetchEvents($selectedUsers));
+
         foreach ($selectedUsers as $userId) {
             
 
             $user = User::find($userId);
+            $auth = auth()->user();
 
-            if ($userId != auth()->user()->id) {
+            if ($userId != $auth->id) {
+
+                foreach ($this->events as $event) {
+
+                    if (! $auth->isAdmin()) {
+                        $this->isEventPrivate($event);
+                    }
+
+                    if (! $auth->isAdmin() && ! $auth->isLeader($this->team->id)) {
+                        $this->isEventConfidential($event);
+                    }
+                }
 
                 $this->calendarUrls[$userId] = $user->getCalendarUrl();
             }
 
-            $events = $user->getEvents();
+            // $events = $user->getEvents();
 
-            foreach ($events as $event) {
+            // foreach ($events as $event) {
 
-                if ($userId == auth()->user()->id) {
-                    $this->allUrlIcsEvents[$userId][] = auth()->user()->getCalendarUrl().'/'.$event->uri;
-                } else {
-                    $this->allUrlIcsEvents[$userId][] = $this->calendarUrls[$userId].'/'.$event->uri;
-                }
-            }
+            //     if ($userId == auth()->user()->id) {
+            //         $this->allUrlIcsEvents[$userId][] = $auth->getCalendarUrl().'/'.$event->uri;
+            //     } else {
+            //         $this->allUrlIcsEvents[$userId][] = $this->calendarUrls[$userId].'/'.$event->uri;
+            //     }
+            // }
         }
 
         $this->dispatch('eventsHaveBeenFetched');
     }
-    public function status($value){
-        $statut=require('app/Tableaux/Status.php');
 
-        return $statut[$value];
+    public function status($value)
+    {
+        $status = require 'app/Tableaux/Status.php';
+
+        return $status[$value];
     }
 
     public function updateEvent($eventID, $start, $end, $isAllDay = false)
@@ -75,8 +90,28 @@ class CalendarComponent extends Component
         ]);
     }
 
-    public function setTimeZone($timezone) {
+    public function setTimeZone($timezone)
+    {
         $this->timezone = $timezone;
+    }
+
+    // Functions de conditions d'affichage
+
+    public function isEventPrivate($event)
+    {
+        if ($event->visibility == 'private') {
+            $event->title = 'Privé';
+            $event->description = 'Cet événement est privé';
+            $event->category = 'Privé';
+        }
+    }
+
+    public function isEventConfidential($event)
+    {
+        if ($event->visibility == 'confidential') {
+            $event->title = 'Confidentiel';
+            $event->description = "Vous n'avez pas les droits pour voir cet événement";
+        }
     }
 
     /**

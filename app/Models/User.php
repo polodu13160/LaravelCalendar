@@ -104,9 +104,11 @@ class User extends Authenticatable
     {
         return $this->hasRole('Admin');
     }
+
     public function isLeader($idTeam): bool
     {
         $team = Team::find($idTeam);
+
         return $team->user_id == $this->id;
     }
 
@@ -259,11 +261,11 @@ class User extends Authenticatable
     {
         $calendar = Calendarinstances::where('displayname', $this->username)->first();
 
-        return $calendarobject = Calendarobject::where('calendarid', $calendar->calendarid)->get();
+        return Calendarobject::where('calendarid', $calendar->calendarid)->get();
     }
 
     public function getCalendarInstance()
     {
-        return $calendar = Calendarinstances::where('id', $this->calendar_id)->first();
+        return Calendarinstances::where('id', $this->calendar_id)->first();
     }
 }

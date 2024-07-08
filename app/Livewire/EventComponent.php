@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Http\Services\EventService;
-use App\Models\Events;
 use Livewire\Component;
 
 use function Safe\json_encode;
@@ -23,8 +22,6 @@ class EventComponent extends Component
 
     public function render()
     {
-        return view('livewire.event-component', [
-            'events' => Events::all(),
-        ]);
+        return view('livewire.event-component');
     }
 }

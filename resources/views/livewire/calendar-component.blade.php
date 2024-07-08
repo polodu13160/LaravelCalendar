@@ -7,6 +7,9 @@
                         <p class="text-lg leading-6 text-gray-500">
                             Mon calendrier : {{ $this->calendarUrlUserConnected }}
                         </p>
+                        <p class="text-sm italic text-red-800">
+                            *à copier dans votre calendrier personnel
+                        </p>
 
                         {{-- @foreach ($this->calendarUrls as $key => $calendar)
                             @if ($key == 'team')
@@ -17,9 +20,11 @@
                                     {{ $calendar }} </p>
                             @endif
                         @endforeach --}}
-
-                        <p><span class="text-sm italic">*à copier dans votre calendrier personnel</span></p>
-                        <p><span class="text-sm italic text-red-500">Les modification prises en compte par votre calendrier personnels sont uniquement la date,<br> les modifications de titres, ou autres elements ne seront pas pris en compte dans <strong>Hotspot</strong>.</span></p>
+                        <p class="text-sm italic text-red-500">
+                            Les modification prises en compte par votre
+                            calendrier personnels sont uniquement la date, les modifications de titres, ou autres
+                            elements ne seront pas pris en compte dans <strong>HubSpot</strong>.
+                        </p>
 
                     </div>
                     <div class="border-box">
@@ -68,17 +73,15 @@
                                         delay: 300,
                                         theme: 'material',
                                         allowHTML: true,
-                                        content: event.title +
+                                        content: 'TITRE : '+ event.title +
                                             '<br>' +
-                                            event.extendedProps.description +
+                                            'DESCRIPTION : ' + event.extendedProps.description +
                                             '<br>' +
-                                            event.extendedProps.category +
+                                            'TYPE : ' + event.extendedProps.category +
                                             '<br>' +
-                                            event.extendedProps.status +
+                                            'DEBUT : ' + event.start +
                                             '<br>' +
-                                            event.start +
-                                            '<br>' +
-                                            event.end +
+                                            'FIN : ' + event.end +
                                             '<br>',
                                     });
                                 },
@@ -137,7 +140,7 @@
                             }, 30 * 1000);
 
                             function fetchJSONEvents() {
-                                return JSON.parse(@this.events);
+                                return @this.events;
                             }
                         });
                     </script>
