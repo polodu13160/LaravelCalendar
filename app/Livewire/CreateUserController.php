@@ -85,6 +85,8 @@ class CreateUserController extends Component
                     'username' => ['required', 'string', 'max:255', 'unique:users,username'],
                     'password' => ['required', 'string'],
                 ]);
+                User::createUser($this->name, $this->email, $this->username, $this->password);
+
 
             }
             else {
@@ -96,9 +98,10 @@ class CreateUserController extends Component
                     'role' => ['required', 'integer', 'exists:roles,id'],
                     'password' => ['required', 'string'],
                 ]);
+                User::createUser($this->name, $this->email, $this->username, $this->password, $this->team, $this->role);
+
             }
 
-            User::createUser($this->name, $this->email, $this->username, $this->password, $this->team, $this->role);
 
 
             // $user = User::where('email', $this->email)->first();

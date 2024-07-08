@@ -8,7 +8,7 @@ class TeamMembersCheckbox extends TeamMemberManager
 {
     public $selectedUsers = [];
 
-    public $user;
+    public $userOnly;
 
     public $team;
 
@@ -55,7 +55,7 @@ class TeamMembersCheckbox extends TeamMemberManager
             $this->userTeam = $this->team->users()->where('role', '!=', 1)->get();
         }
         else {
-            $this->user= auth()->user();
+            $this->userOnly= auth()->user();
         }
 
 

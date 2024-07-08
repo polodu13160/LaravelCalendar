@@ -55,9 +55,9 @@
 
                        <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <img class="w-8 h-8 rounded-full object-cover" src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}">
-                            <div class="ms-4  {{ $this->user->id === $this->user->id ? 'ms-4 font-bold' : '' }}">
-                                {{ $this->user->name }} {{ $this->user->id === $this->user->id ? '( moi )' : '' }}
+                            <img class="w-8 h-8 rounded-full object-cover" src="{{ $this->userOnly->profile_photo_url }}" alt="{{ $this->userOnly->name }}">
+                            <div class="ms-4   'ms-4 font-bold'  }}">
+                                {{ $this->userOnly->name }} {{ $this->userOnly->id === $this->userOnly->id ? '( moi )' : '' }}
                             </div>
 
                         </div>
@@ -73,6 +73,6 @@
                 </x-slot>
             </x-calendar-team-action-section>
         </div>
-    
+
 </div>
 
