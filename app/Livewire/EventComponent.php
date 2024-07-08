@@ -23,8 +23,6 @@ class EventComponent extends Component
 
     public function render()
     {
-        return view('livewire.event-component', [
-            'events' => Events::all(),
-        ]);
+        return view('livewire.event-component');
     }
 }
