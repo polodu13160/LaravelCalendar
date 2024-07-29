@@ -30,10 +30,18 @@
 
                         </div>
                         <div class="flex items">
-                            {{-- <label for="">{{ $user->id }}</label> --}}
+                            @if($this->user->isAdminOrModerateur($team))
                             <input type="checkbox" wire:model="selectedAll" wire:click="allCheckedBox()"
                                 class="form-checkbox h-5 w-5 transition duration-100 ease-in-out"
                                 style="color: black " />
+                            @else
+                            <input type="checkbox" wire:model="selectedUsers" value="{{ $this->user->id }}" wire:click="checkedBox()"
+                                class="form-checkbox h-5 w-5" style="color: {{ $this->user->color }}" />
+                            @endif
+
+
+                            {{-- <label for="">{{ $user->id }}</label> --}}
+
                         </div>
 
                     </div>
