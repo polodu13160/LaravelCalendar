@@ -104,6 +104,24 @@ class User extends Authenticatable
     {
         return $this->hasRole('Admin');
     }
+    public function isAdminOrModerateur($team): bool
+    {
+
+        $teamid= $team->id;
+        $userid= $this->id;
+
+        $teamuser= TeamUser::where('team_id', $teamid)->where('user_id', $userid)->first();
+
+        if ($this->hasRole('Admin') || $teamuser->role == 2) {
+            return true;
+        }
+        else {
+            return false;
+        };
+    }
+
+
+
     public function isLeader($idTeam): bool
     {
         $team = Team::find($idTeam);
@@ -157,7 +175,7 @@ class User extends Authenticatable
             $user->save();
             $user->createPrincipal();
         }
-     
+
 
     }
 
