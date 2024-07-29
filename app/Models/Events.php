@@ -134,8 +134,8 @@ class Events extends Model
 
         $timestampsOriginal = $this->timestamps;
         $this->timestamps = false;
-        $this->start= Carbon::createFromTimestamp($eventIcs->firstoccurence);
-        $this->end = Carbon::createFromTimestamp($eventIcs->lastoccurence);
+        $this->start= Carbon::createFromTimestamp($eventIcs->firstoccurence)->toIso8601String();
+        $this->end = Carbon::createFromTimestamp($eventIcs->lastoccurence)->toIso8601String();
         $this->updated_at = Carbon::createFromTimestamp($eventIcs->lastmodified);
         $this->origin= "ICS";
         $this->timestamps = $timestampsOriginal;

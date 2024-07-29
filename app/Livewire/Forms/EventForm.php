@@ -103,7 +103,7 @@ class EventForm extends Form
 
 
         Events::create($validatedData);
-       
+
 
         // $this->storeiCalEvent();
     }
@@ -151,6 +151,7 @@ class EventForm extends Form
     public function update()
     {
         $validatedData = $this->validate();
+        dd($validatedData);
         $this->events->update($validatedData);
     }
 }

@@ -58,8 +58,8 @@ class CalendarComponent extends Component
             $end = Carbon::parse($start)->endOfDay();
         }
         $event->update([
-            'start' => Carbon::parse($start),
-            'end' => Carbon::parse($end),
+            'start' => Carbon::parse($start)->setTimezone('UTC')->toIso8601String(),
+            'end' => Carbon::parse($end)->setTimezone('UTC')->toIso8601String(),
             'is_all_day' => $isAllDay,
         ]);
     }
