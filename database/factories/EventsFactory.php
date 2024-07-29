@@ -28,8 +28,8 @@ class EventsFactory extends Factory
 
         return [
             'user_id' => $user->id,
-            'start' => $isAllDay ? $start->format('Y-m-d') : $start->format('Y-m-d H:i'),
-            'end' => $isAllDay ? $endAllDay->format('Y-m-d') : $end->format('Y-m-d H:i'),
+            'start' => Carbon::parse($start)->setTimezone('UTC')->toIso8601String(),
+            'end' => $isAllDay ? Carbon::parse($endAllDay)->setTimezone('UTC')->toIso8601String() : Carbon::parse($end)->setTimezone('UTC')->toIso8601String(),
             'is_all_day' => $isAllDay,
             'title' => $this->faker->text(15),
             'description' => $this->faker->text(60),
