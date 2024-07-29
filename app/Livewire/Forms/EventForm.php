@@ -148,10 +148,11 @@ class EventForm extends Form
 
 
 
-    public function update()
+    public function update($timezone)
     {
         $validatedData = $this->validate();
-        dd($validatedData);
+        $validatedData['start'] = Carbon::parse($validatedData['start'], $timezone)->setTimezone('UTC')->toIso8601String();
+        $validatedData['end'] = Carbon::parse($validatedData['end'], $timezone)->setTimezone('UTC')->toIso8601String();
         $this->events->update($validatedData);
     }
 }
