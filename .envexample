@@ -1,13 +1,12 @@
-APP_NAME="B2P Calendar"
+APP_NAME=Laravel
 APP_ENV=local
 APP_KEY=base64:cXvTkJpEyJssuUhefeAANRSI62fjg92tU4fs4RImIoA=
 APP_DEBUG=true
 APP_TIMEZONE=UTC
-APP_ROOT=http://localhost # ne pas mettre le / à la fin de l'url
-# 5GOOGLE_CALENDAR_ID=paul.depetrini@gmail.com
-APP_LOCALE=en
-APP_FALLBACK_LOCALE=en
-APP_FAKER_LOCALE=en_US
+APP_ROOT=http://192.168.1.215 # ne pas mettre le / à la fin de l'url
+APP_LOCALE=fr
+APP_FALLBACK_LOCALE=fr
+APP_FAKER_LOCALE=fr_FR
 
 APP_MAINTENANCE_DRIVER=file
 APP_MAINTENANCE_STORE=database
@@ -20,11 +19,11 @@ LOG_DEPRECATIONS_CHANNEL=null
 LOG_LEVEL=debug
 
 DB_CONNECTION=mariadb
-DB_HOST=localhost
+DB_HOST=192.168.1.215
 DB_PORT=3306
-DB_DATABASE=abcded
+DB_DATABASE=calendarlaravel
 DB_USERNAME=root
-DB_PASSWORD=
+DB_PASSWORD=root
 
 SESSION_DRIVER=database
 SESSION_LIFETIME=120
@@ -66,9 +65,18 @@ VITE_APP_NAME="${APP_NAME}"
 
 
 
-APP_ROOT=http://localhost
+
 PASSWORD="password"
 LARAVEL_SABRE_SERVER_ROOT='dav'
 REALM="SabreDAV"
 LARAVELSABRE_ENABLED=true
 
+
+
+
+
+
+
+
+
+DATABASE_URL="mysql://root:root@192.168.1.215:3306/suite?serverVersion=8.0.32&charset=utf8mb4"

@@ -109,6 +109,7 @@ class User extends Authenticatable
     {
         return $this->hasRole('Admin');
     }
+    
     public function isAdminOrModerateur($team): bool
     {
 
@@ -124,8 +125,6 @@ class User extends Authenticatable
             return false;
         };
     }
-
-
 
     public function isLeader($idTeam): bool
     {

@@ -4,13 +4,8 @@ namespace App\Livewire\Forms;
 
 use App\Models\Events;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
-use Spatie\IcalendarGenerator\Components\Calendar;
-use Spatie\IcalendarGenerator\Components\Event;
-use Spatie\IcalendarGenerator\Enums\Classification;
 
 class EventForm extends Form
 {
@@ -89,59 +84,23 @@ class EventForm extends Form
     public function store($timezone): void
     {
         $user = auth()->user();
+        $startIfAllDay = Carbon::parse($this->start, $timezone);
+        $endIfAllDay = Carbon::parse($this->end, $timezone);
+
         $this->user_id = $user->id;
         $this->backgroundColor = $user->color;
         $this->borderColor = $user->color. 80;
         $this->timezone = $timezone;
-        $this->start = Carbon::parse($this->start, $timezone)->setTimezone('UTC')->toIso8601String();
-        $this->end = Carbon::parse($this->end, $timezone)->setTimezone('UTC')->toIso8601String();
+
+        if ($this->is_all_day) {
+            $this->start = $startIfAllDay->startOfDay()->setTimezone('UTC')->setTime(0, 0)->toIso8601String();
+            $this->end = $endIfAllDay->startOfDay()->addDay()->setTimezone('UTC')->setTime(0, 0)->toIso8601String();
+        }
 
         $validatedData = $this->validate();
 
         Events::create($validatedData);
-
-
-        // $this->storeiCalEvent();
     }
-
-    // public function storeiCalEvent()
-    // {
-    // Créer un nouveau client Guzzle
-    // $client = new Client();
-
-    // $user = auth()->user();
-    // $hashUserName = $user->hashUserName();
-
-    // $hashTitle = md5($this->title);
-
-    // $laravelSabreRoot = config('app.laravelSabreRoot');
-    // $appRoot = config('app.appRoot');
-    // $calendar = DB::table('calendarinstances')->where('principaluri', 'LIKE', '%/'.$hashUserName)->first();
-
-    // $url = "$appRoot/$laravelSabreRoot/calendars/$hashUserName/$calendar->uri/$hashTitle.ics";
-
-    // $classification = $this->classification($this->visibility);
-
-    // $test = Event::create()
-    //     ->name($this->title)
-    //     ->description($this->description != null ? $this->description : '')
-    //     ->uniqueIdentifier($this->event_id)
-    //     ->classification($classification)
-    //     ->createdAt(Carbon::now())
-    //     ->startsAt(Carbon::parse($this->start))
-    //     ->endsAt(Carbon::parse($this->end));
-
-    // $cal = Calendar::create()->event($test)->get();
-
-    // $response = $client->request('PUT', $url, [
-    //     'body' => $cal,
-    //     'headers' => [
-    //         'Content-Type' => 'text/calendar; charset=UTF-8',
-    //         'If-None-Match' => '*',
-    //     ],
-    // ]);
-    // }
-
 
     public function update($timezone)
     {

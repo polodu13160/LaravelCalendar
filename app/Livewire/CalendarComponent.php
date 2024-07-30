@@ -44,7 +44,7 @@ class CalendarComponent extends Component
 
     public function status($value)
     {
-        $status = require 'app/Tableaux/Status.php';
+        $status = require('app/Tableaux/Status.php');
 
         return $status[$value];
     }

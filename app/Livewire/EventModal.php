@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Livewire\Forms\EventForm;
 use App\Models\Events;
+use Carbon\Carbon;
 use LivewireUI\Modal\ModalComponent;
 
 class EventModal extends ModalComponent
@@ -18,13 +19,15 @@ class EventModal extends ModalComponent
 
     public EventForm $form;
 
-    public function mount(?Events $events, $timezone)
+    public function mount(?Events $events, $timezone, $start, $end)
     {
         $this->visibilityOptions = include base_path('app/Tableaux/Visibility.php');
         $this->categoryOptions = include base_path('app/Tableaux/Categories.php');
         if ($events && $events->exists) {
             $this->form->setEvent($events, $timezone);
         }
+        $this->form->start = Carbon::parse($start)->format('Y-m-d\TH:i');
+        $this->form->end = Carbon::parse($end)->format('Y-m-d\TH:i');
     }
 
     public function save()
