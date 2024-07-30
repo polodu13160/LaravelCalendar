@@ -2,8 +2,9 @@
 
 namespace App\Http\Services;
 
-use App\Exception\InvalidStateException;
 use Closure;
+use Illuminate\Support\Facades\Auth;
+use App\Exception\InvalidStateException;
 
 class LaravelSabre
 {
@@ -135,8 +136,11 @@ class LaravelSabre
      */
     public static function check($request)
     {
+        // return (static::$auth ?? function (): bool {
+        //     return true;
+        // })($request);
         return (static::$auth ?? function (): bool {
-            return true;
+            return Auth::check();
         })($request);
     }
 

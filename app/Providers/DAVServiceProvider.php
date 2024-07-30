@@ -6,6 +6,7 @@ use App\Auth\AuthBackend;
 use App\Http\Services\LaravelSabre;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
+use Pest\Plugins\Parallel\Handlers\Laravel;
 use Sabre\CalDAV\Backend\PDO;
 use Sabre\CalDAV\CalendarRoot;
 use Sabre\CalDAV\Plugin as CalDAVPlugin;
@@ -29,6 +30,9 @@ class DAVServiceProvider extends ServiceProvider
             return $this->plugins();
 
         });
+        LaravelSabre::auth(function ($request) {
+            return \Illuminate\Support\Facades\Auth::check(); // Vérifie si l'utilisateur est authentifié
+        });
 
     }
 
@@ -46,9 +50,9 @@ class DAVServiceProvider extends ServiceProvider
 
     private function plugins()
     {
-        // Authentication backend
-        // $authBackend = new AuthBackend();
-        // yield new AuthPlugin($authBackend);
+
+        $authBackend = new AuthBackend();
+        yield new AuthPlugin($authBackend);
 
         // CardDAV plugin
         yield new CalDAVPlugin();
