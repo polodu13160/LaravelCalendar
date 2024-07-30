@@ -105,6 +105,22 @@ class User extends Authenticatable
         return $this->hasRole('Admin');
     }
 
+    public function isAdminOrModerateur($team): bool
+    {
+
+        $teamid= $team->id;
+        $userid= $this->id;
+
+        $teamuser= TeamUser::where('team_id', $teamid)->where('user_id', $userid)->first();
+
+        if ($this->hasRole('Admin') || $teamuser->role == 2) {
+            return true;
+        }
+        else {
+            return false;
+        };
+    }
+
     public function isLeader($idTeam): bool
     {
         $team = Team::find($idTeam);
@@ -142,20 +158,39 @@ class User extends Authenticatable
         return $principal;
     }
 
-    public static function createUser($name, $username, $email)
+    public static function createUser($name, $email, $username, $password, $team = null, $role = null)
     {
-
-        //Creation User
         $user = new User();
         $user->name = $name;
-        $user->username = $username;
         $user->email = $email;
-        $user->password = Hash::make(config('app.password'));
-        $user->save();
-        //Creation Principal
-        $principal = $user->createPrincipal();
+        $user->username = $username;
+        $user->color = fake()->hexColor;
+        $user->password = Hash::make($password);
+        if (!$team == null) {
+            $user->save();
+            $user->createPrincipal();
+            $team = Team::where('name', $team)->first();
+            $user->assignRoleAndTeam($role, $team->id);
+        } else {
+            $user->save();
+            $user->createPrincipal();
+        }
+
 
     }
+
+
+        // //Creation User
+        // $user = new User();
+        // $user->name = $name;
+        // $user->username = $username;
+        // $user->email = $email;
+        // $user->password = Hash::make(config('app.password'));
+        // $user->save();
+        // //Creation Principal
+        // $principal = $user->createPrincipal();
+
+
 
     public function assignTeam($teamId, $roleName)
     {

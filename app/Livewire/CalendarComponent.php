@@ -25,53 +25,27 @@ class CalendarComponent extends Component
     #[On('aUserHasBeenSelected')]
     public function fetchEvents($selectedUsers)
     {
+        $authUser=auth()->user();
+        if (count($selectedUsers) > 1) {
+            if (!$authUser->isAdminOrModerateur($this->team)){
+                return abort(403, "Vous n'etes qu'un utilisateur, vous ne pouvez pas faire ça");
+            }
+        }
         $this->allUrlIcsEvents = [];
         $this->calendarUrls = [];
+
+
 
         $EC = new EventComponent();
         $this->events = json_decode($EC->refetchEvents($selectedUsers));
 
-        foreach ($selectedUsers as $userId) {
-
-            $user = User::find($userId);
-            $auth = auth()->user();
-
-            if ($userId != $auth->id) {
-
-                foreach ($this->events as $event) {
-
-                    if (! $auth->isAdmin()) {
-                        $this->isEventPrivate($event);
-                    }
-
-                    if (! $auth->isAdmin() && ! $auth->isLeader($this->team->id)) {
-                        $this->isEventConfidential($event);
-                    }
-                }
-
-                $this->calendarUrls[$userId] = $user->getCalendarUrl();
-            }
-
-            // $events = $user->getEvents();
-
-            // foreach ($events as $event) {
-
-            //     if ($userId == auth()->user()->id) {
-            //         $this->allUrlIcsEvents[$userId][] = $auth->getCalendarUrl().'/'.$event->uri;
-            //     } else {
-            //         $this->allUrlIcsEvents[$userId][] = $this->calendarUrls[$userId].'/'.$event->uri;
-            //     }
-            // }
-        }
-
         $this->dispatch('eventsHaveBeenFetched');
     }
 
-    public function status($value)
-    {
-        $status = require 'app/Tableaux/Status.php';
+    public function status($value){
+        $statut=require('app/Tableaux/Status.php');
 
-        return $status[$value];
+        return $statut[$value];
     }
 
     public function updateEvent($eventID, $start, $end, $isAllDay = false)
@@ -83,8 +57,8 @@ class CalendarComponent extends Component
             $end = Carbon::parse($start)->endOfDay();
         }
         $event->update([
-            'start' => Carbon::parse($start),
-            'end' => Carbon::parse($end),
+            'start' => Carbon::parse($start)->setTimezone('UTC')->toIso8601String(),
+            'end' => Carbon::parse($end)->setTimezone('UTC')->toIso8601String(),
             'is_all_day' => $isAllDay,
         ]);
     }

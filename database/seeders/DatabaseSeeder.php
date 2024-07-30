@@ -16,10 +16,21 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
 
         //create User Admin
+        // $admin = User::factory()->create([
+        //     'name' => 'Admin',
+        //     'email' => 'admin@test.com',
+        //     'username' => 'admin',
+
+        // ]);
+
+        // $admin->createPrincipal();
+
+        // $admin->assignJustRole('Admin');
+
         $admin = User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@test.com',
-            'username' => 'admin',
+            'name' => 'Christophe Leininger',
+            'email' => 'cleininger@b2pweb.com',
+            'username' => 'cleininger',
 
         ]);
 
@@ -31,9 +42,12 @@ class DatabaseSeeder extends Seeder
         $moderateurs = User::factory(3)->create();
         foreach ($moderateurs as $moderateur) {
             $moderateur->createPrincipal();
+
             $moderateur->createTeamPrincipal('team '.$moderateur->username);
+
+
         }
-        // dd('ok');
+
 
         $teams = Team::all();
         foreach ($teams as $team) {

@@ -125,10 +125,22 @@ class Events extends Model
 
         $eventIcs = $this->calendarObject()->first();
 
+        $firstOccurrence = Carbon::createFromTimestamp($eventIcs->firstoccurence)->setTimezone('UTC');
+        $lastOccurrence = Carbon::createFromTimestamp($eventIcs->lastoccurence)->setTimezone('UTC');
+
+        $isMidnightToMidnight = $firstOccurrence->format('H:i:s') === '00:00:00' && $lastOccurrence->format('H:i:s') === '00:00:00';
+
+        $isOneDayDifference = $firstOccurrence->diffInDays($lastOccurrence) == 1.0; ;
+
+        if ($isMidnightToMidnight && $isOneDayDifference) {
+            $this->is_all_day = true;
+        } else {
+            $this->is_all_day = false;
+        }
         $timestampsOriginal = $this->timestamps;
         $this->timestamps = false;
-        $this->start = Carbon::createFromTimestamp($eventIcs->firstoccurence);
-        $this->end = Carbon::createFromTimestamp($eventIcs->lastoccurence);
+        $this->start= Carbon::createFromTimestamp($eventIcs->firstoccurence)->setTimezone('UTC')->toIso8601String();
+        $this->end = Carbon::createFromTimestamp($eventIcs->lastoccurence)->setTimezone('UTC')->toIso8601String();
         $this->updated_at = Carbon::createFromTimestamp($eventIcs->lastmodified);
         $this->origin = 'ICS';
         $this->timestamps = $timestampsOriginal;

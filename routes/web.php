@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\DAVController;
-use App\Http\Middleware\AccesSabreJustAdmin;
+use GuzzleHttp\Client;
+use App\Livewire\Welcome;
 use App\Livewire\Calendar;
-use App\Livewire\CreateTeamController;
+use Illuminate\Routing\Router;
 use App\Livewire\EventComponent;
 use App\Livewire\ICalEventComponent;
-use App\Livewire\TeamSettingsController;
-use App\Livewire\Welcome;
-use GuzzleHttp\Client;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
-use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
+use App\Livewire\CreateTeamController;
+use App\Livewire\CreateUserController;
+use App\Http\Controllers\DAVController;
+use App\Livewire\TeamSettingsController;
+use App\Http\Middleware\AccesSabreJustAdmin;
 use Spatie\IcalendarGenerator\Components\Event;
+use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
 
 Route::get('/dd', function () {
     $fetch = new EventComponent();
@@ -56,6 +57,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::get('/teams/create', CreateTeamController::class)->name('teams_create');
     Route::get('/teams/{team}', TeamSettingsController::class)->name('teams_settings');
+    Route::get('/user/create', CreateUserController::class)->name('user_create');
 
     Route::get('/current-team', function () {
         return redirect(url()->previous());
