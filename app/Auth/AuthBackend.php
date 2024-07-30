@@ -3,6 +3,8 @@
 namespace App\Auth;
 
 use App\Models\User;
+use Sabre\HTTP\Auth\Basic;
+use Sabre\HTTP\Auth\Bearer;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use App\Http\Services\LaravelSabre;
@@ -57,18 +59,27 @@ class AuthBackend implements BackendInterface
         // return [true, 'principals/'.$user->email];
         // }
         // return [false, 'User is not authenticated'];
+        $authBearer = new Bearer($this->realm, $request, $response);
+        $token = $authBearer->getToken();
 
-        $auth = new \Sabre\HTTP\Auth\Basic(
+        if ($token && $this->validateGlobalToken($token)) {
+            return [true, 'principals/global'];
+        }
+
+        $authbasic = new \Sabre\HTTP\Auth\Basic(
             $this->realm,
             $request,
             $response
         );
-        $userpass = $auth->getCredentials();
+        $userpass = $authbasic->getCredentials();
 
-        if (!$userpass || !$this->validateUserPass($userpass[0], $userpass[1])) {
-            return [false, 'User is not authenticated'];
+        if ($userpass) {
+            $user = $this->validateUserPass($userpass[0], $userpass[1]);
+            if ($user) {
+                return [true, 'principals/' . $user->email];
+            }
         }
-        return [true, 'principals/'.$userpass[0]];
+        return [false, 'User is not authenticated'];
     }
 
     /**
@@ -93,14 +104,22 @@ class AuthBackend implements BackendInterface
     public function challenge(RequestInterface $request, ResponseInterface $response)
     {
 
-        $auth = new \Sabre\HTTP\Auth\Basic(
-            $this->realm,
-            $request,
-            $response
-        );
-        $auth->requireLogin();
+        $authBearer = new Bearer($this->realm, $request, $response);
+        $authBearer->requireLogin();
+
+        $authBasic = new Basic($this->realm, $request, $response);
+        $authBasic->requireLogin();
 
     }
+    protected function validateGlobalToken($token)
+    {
+        return $token === config('app.global_api_token');
+    }
+
+
+
+
+
     protected function validateUserPass($username, $password)
     {
         // Find the user by email
@@ -111,6 +130,6 @@ class AuthBackend implements BackendInterface
         }
 
         // Verify the password
-        return Hash::check($password, $user->password);
+        return Hash::check($password, $user->password) ? $user : false;
     }
 }

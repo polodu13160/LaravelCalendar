@@ -46,6 +46,7 @@ class Events extends Model
 
     public function createIcs(): void
     {
+        $token = config('app.global_api_token');
         $user = $this->user()->first();
         $calendarUrl = $user->getCalendarUrl();
         $uuid = Uuid::uuid1()->toString();
@@ -95,6 +96,7 @@ class Events extends Model
                 'headers' => [
                     'Content-Type' => 'text/calendar; charset=UTF-8',
                     // 'If-None-Match' => '*',
+                    'Authorization' => 'Bearer '.$token,
                 ],
             ]
         );

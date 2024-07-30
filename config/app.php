@@ -5,6 +5,7 @@ return [
     'realm' => env('REALM', 'SabreDAV'),
     'laravelSabreRoot' => env('LARAVEL_SABRE_SERVER_ROOT', 'dav'),
     'appRoot' => env('APP_ROOT', 'http://localhost'),
+    'global_api_token' => env('GLOBAL_API_TOKEN'),
 
     /*
     |--------------------------------------------------------------------------
