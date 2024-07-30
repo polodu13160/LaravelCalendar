@@ -2,6 +2,8 @@
 
 Ce document décrit le processus de synchronisation des événements entre la base de données et les fichiers ICS en utilisant un watcher et des scripts de vérification.
 
+QUI SE FAIT TOUTES LES MINUTES 
+
 ## Introduction
 
 Pour assurer la cohérence entre les événements stockés dans la base de données et les fichiers ICS, nous utilisons un watcher qui lance un script de vérification des modifications des deux côtés.
