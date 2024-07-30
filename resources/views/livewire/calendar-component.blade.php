@@ -97,7 +97,7 @@
 
                                 select: function(info) {
                                     console.log(info);
-                                    openNewModal();
+                                    openNewModal(info);
                                 },
                                 eventClick: function(info) {
                                     openModal(info);
@@ -125,11 +125,13 @@
                                 });
                             }
 
-                            function openNewModal() {
+                            function openNewModal(info) {
                                 Livewire.dispatch("openModal", {
                                     component: "event-modal",
                                     arguments: {
                                         timezone: timezone,
+                                        start: info.startStr,
+                                        end: info.endStr,
                                     },
                                 });
                             }
