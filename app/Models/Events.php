@@ -3,15 +3,18 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use GuzzleHttp\Client;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\User;
 use Ramsey\Uuid\Uuid;
-use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
+use GuzzleHttp\Client;
+use App\Models\Calendarobject;
+use Sabre\CalDAV\CalendarObject;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\IcalendarGenerator\Components\Event;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\IcalendarGenerator\Properties\TextProperty;
+use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
 
 class Events extends Model
 {
