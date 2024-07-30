@@ -27,7 +27,7 @@ class CalendarComponent extends Component
     {
         $authUser=auth()->user();
         if (count($selectedUsers) > 1) {
-            if ($authUser->isAdminOrModerateur($this->team)){
+            if (!$authUser->isAdminOrModerateur($this->team)){
                 return abort(403, "Vous n'etes qu'un utilisateur, vous ne pouvez pas faire ça");
             }
         }
