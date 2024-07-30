@@ -35,7 +35,7 @@ class EventModal extends ModalComponent
 
     public function update()
     {
-        $this->form->update();
+        $this->form->update($this->timezone);
         $this->closeModal();
     }
 
