@@ -3,7 +3,7 @@ APP_ENV=local
 APP_KEY=base64:cXvTkJpEyJssuUhefeAANRSI62fjg92tU4fs4RImIoA=
 APP_DEBUG=true
 APP_TIMEZONE=UTC
-APP_URL=http://localhost # ne pas mettre le / à la fin de l'url
+APP_ROOT=http://localhost # ne pas mettre le / à la fin de l'url
 # 5GOOGLE_CALENDAR_ID=paul.depetrini@gmail.com
 APP_LOCALE=en
 APP_FALLBACK_LOCALE=en
