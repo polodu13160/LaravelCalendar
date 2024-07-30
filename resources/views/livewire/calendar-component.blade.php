@@ -96,7 +96,6 @@
                                 },
 
                                 select: function(info) {
-                                    console.log(info);
                                     openNewModal(info);
                                 },
                                 eventClick: function(info) {
@@ -121,6 +120,8 @@
                                     arguments: {
                                         events: info.event.id,
                                         timezone: timezone,
+                                        start: info.event.startStr,
+                                        end: info.event.endStr,
                                     },
                                 });
                             }
