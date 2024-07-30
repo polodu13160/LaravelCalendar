@@ -25,16 +25,16 @@ class CalendarComponent extends Component
     #[On('aUserHasBeenSelected')]
     public function fetchEvents($selectedUsers)
     {
-        $authUser=auth()->user();
+        $authUser = auth()->user();
+
         if (count($selectedUsers) > 1) {
-            if (!$authUser->isAdminOrModerateur($this->team)){
-                return abort(403, "Vous n'etes qu'un utilisateur, vous ne pouvez pas faire ça");
+            if (!$authUser->isAdminOrModerateur($this->team)) {
+                return abort(403, "Vous n'êtes qu'un utilisateur, vous ne pouvez pas faire ça");
             }
         }
+
         $this->allUrlIcsEvents = [];
         $this->calendarUrls = [];
-
-
 
         $EC = new EventComponent();
         $this->events = json_decode($EC->refetchEvents($selectedUsers));

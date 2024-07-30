@@ -73,7 +73,7 @@
                                         delay: 300,
                                         theme: 'material',
                                         allowHTML: true,
-                                        content: 'TITRE : '+ event.title +
+                                        content: 'TITRE : ' + event.title +
                                             '<br>' +
                                             'DESCRIPTION : ' + event.extendedProps.description +
                                             '<br>' +
@@ -88,11 +88,13 @@
 
                                 eventResize: function(info) {
                                     @this.updateEvent(info.event.id, info.event.startStr, info.event.endStr);
+                                    // refreshCalendar(Array.from(String(info.event.extendedProps.user_id), Number)); AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
                                 },
 
                                 eventDrop: function(info) {
                                     @this.updateEvent(info.event.id, info.event.startStr, info.event.endStr, info.event
                                         .allDay);
+                                    // refreshCalendar(Array.from(String(info.event.extendedProps.user_id), Number)); AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
                                 },
 
                                 select: function(info) {
@@ -139,12 +141,18 @@
 
                             setInterval(function() {
                                 calendar.refetchEvents();
-                                console.log("Refreshing events...");
+                                // refreshCalendar({{ auth()->user()->id }}); AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
                             }, 30 * 1000);
 
                             function fetchJSONEvents() {
                                 return @this.events;
                             }
+
+                            // function refreshCalendar() { AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                            //     Livewire.dispatch("aUserHasBeenSelected", { 
+                            //         selectedUsers: [1]
+                            //     });
+                            // }
                         });
                     </script>
                 </div>
