@@ -2,10 +2,15 @@
 
 namespace App\Auth;
 
-use Illuminate\Support\Facades\Auth;
-use Sabre\DAV\Auth\Backend\BackendInterface;
+use App\Models\User;
+use Sabre\HTTP\Auth\Basic;
+use Sabre\HTTP\Auth\Bearer;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use App\Http\Services\LaravelSabre;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Sabre\DAV\Auth\Backend\BackendInterface;
 
 class AuthBackend implements BackendInterface
 {
@@ -45,12 +50,36 @@ class AuthBackend implements BackendInterface
     public function check(RequestInterface $request, ResponseInterface $response)
     {
         /** @var \Illuminate\Foundation\Auth\User|null */
-        $user = Auth::user();
-        if (is_null($user)) {
-            return [false, 'User is not authenticated'];
+        // if (LaravelSabre::check($request)){
+        //  $user = Auth::user();
+        // if (is_null($user)) {
+        //     return [false, 'User is not authenticated'];
+        // }
+
+        // return [true, 'principals/'.$user->email];
+        // }
+        // return [false, 'User is not authenticated'];
+        $authBearer = new Bearer($this->realm, $request, $response);
+        $token = $authBearer->getToken();
+
+        if ($token && $this->validateGlobalToken($token)) {
+            return [true, 'principals/global'];
         }
 
-        return [true, 'principals/'.$user->email];
+        $authbasic = new \Sabre\HTTP\Auth\Basic(
+            $this->realm,
+            $request,
+            $response
+        );
+        $userpass = $authbasic->getCredentials();
+
+        if ($userpass) {
+            $user = $this->validateUserPass($userpass[0], $userpass[1]);
+            if ($user) {
+                return [true, 'principals/' . $user->email];
+            }
+        }
+        return [false, 'User is not authenticated'];
     }
 
     /**
@@ -75,12 +104,32 @@ class AuthBackend implements BackendInterface
     public function challenge(RequestInterface $request, ResponseInterface $response)
     {
 
-        $auth = new \Sabre\HTTP\Auth\Bearer(
-            $this->realm,
-            $request,
-            $response
-        );
-        $auth->requireLogin();
+        $authBearer = new Bearer($this->realm, $request, $response);
+        $authBearer->requireLogin();
 
+        $authBasic = new Basic($this->realm, $request, $response);
+        $authBasic->requireLogin();
+
+    }
+    protected function validateGlobalToken($token)
+    {
+        return $token === config('app.global_api_token');
+    }
+
+
+
+
+
+    protected function validateUserPass($username, $password)
+    {
+        // Find the user by email
+        $user = User::where('email', $username)->first();
+
+        if (!$user) {
+            return false;
+        }
+
+        // Verify the password
+        return Hash::check($password, $user->password) ? $user : false;
     }
 }

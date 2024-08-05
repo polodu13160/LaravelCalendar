@@ -29,6 +29,14 @@ php artisan schedule:work
 php artisan schedule:list
 ```
 
+## Connexion à un Serveur Mail
+
+Pour se connecter à un serveur mail, il faut une application comme Thunderbird et utiliser le mot de passe et l'email de l'utilisateur.
+
+## Modification des Événements
+
+Il est important de noter que les titres ou autres détails des événements ne peuvent pas être modifiés dans une application comme Thunderbird. Cependant, ces modifications peuvent être effectuées via l'application dédiée. La seule chose que l'on peut modifier sur Thunderbird  ou autres applications de ce type est la date, le jour, et si l'event se deroule sur un jour entier.
+
 ## Conclusion
 
 En suivant ces instructions, vous assurerez une synchronisation efficace et continue entre votre base de données et vos fichiers ICS, maintenant ainsi la cohérence des événements.
