@@ -1,8 +1,4 @@
-<div class="col-span-6">
-    <div class="max-w-xl text-sm text-gray-600">
-        {{ __('Please provide the email address of the person you would like to add to this team.') }}
-    </div>
-</div>
+
 
 <!-- Member Email -->
 <div class="col-span-6 sm:col-span-4">

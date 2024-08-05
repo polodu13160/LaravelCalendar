@@ -7,11 +7,11 @@
     <div class="mt-10 sm:mt-0">
         <x-form-section submit="addTeamMember">
             <x-slot name="title">
-                {{ __('Add Team Member') }}
+                {{ __("Ajoutez des membres à l'équipe") }}
             </x-slot>
 
             <x-slot name="description">
-                {{ __('Add a new team member to your team, allowing them to collaborate with you.') }}
+                {{ __('Ajouter un nouveau collaborateur, par son email.') }}
 
             </x-slot>
 
@@ -35,11 +35,11 @@
         <div class="mt-10 sm:mt-0">
             <x-action-section>
                 <x-slot name="title">
-                    {{ __('Pending Team Invitations') }}
+                    {{ __("En attente d'invitation") }}
                 </x-slot>
 
                 <x-slot name="description">
-                    {{ __('These people have been invited to your team and have been sent an invitation email. They may join the team by accepting the email invitation.') }}
+                    {{ __('Tous les collaborateurs qui ont été invités à rejoindre le groupe. ') }}
                 </x-slot>
 
                 <x-slot name="content">
@@ -80,13 +80,22 @@
         <div class="mt-10 sm:mt-0">
             <x-action-section>
                 <x-slot name="title">
-                    {{ __('Team Members') }}
+                    {{ __("Les membres de l'équipe ") }}
                 </x-slot>
-
                 <x-slot name="description">
-                    {{ __('All of the people that are part of this team.') }}
-                </x-slot>
+                    {{ __("Tous les membres de l'équipe") }}
 
+                @isAdminOrModerateur($team)
+                <br>
+                {{ __("Vous pouvez changer le rôle de chaque membre." ) }}
+                <br>
+                <br>
+                {{ "-Si modérateur, il peut voir les calendriers des autres utilisateurs." }}
+                <br>
+                {{ "-Si utilisateur, il ne peut voir que son propre calendrier." }}
+
+                @endisAdminOrModerateur
+                </x-slot>
                 <!-- Team Member List -->
                 <x-slot name="content">
                     <div class="space-y-6">

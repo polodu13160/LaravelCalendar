@@ -87,6 +87,7 @@
                                 <p class="mt-4 text-m/relaxed">
                                     {{ $calendarUrl }}
                                 </p>
+                                <p class="red-italic">Lorsque vous allez connecter ce calendrier à votre gestionnaire externe, il vous sera demandé votre email, et mot de passe, si ce dernier n'a jamais été modifié, c'est "password", pour le modifier, <a href="{{ route('profile.show') }}" class="highlight-link">cliquez-ici</a>.</p>
                             </div>
                         </div>
 
@@ -109,7 +110,7 @@
                                 </h2>
 
                                 <p class="mt-4 text-m/relaxed">
-                                    Retrouvez les dernières informations
+                                    Retrouvez les dernières informations (actuellement juste les invitations)
                                 </p>
                             </div>
                         </a>

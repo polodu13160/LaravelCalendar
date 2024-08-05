@@ -5,7 +5,7 @@
         </x-slot>
 
         <x-slot name="description">
-            {{ __('The team\'s name and owner information.') }}
+            {{ __("Le nom de l'equipe, ne peut être modifié que par le responsable de l'équipe.") }}
         </x-slot>
 
         <x-slot name="form">

@@ -4,6 +4,9 @@
             <div class="p-6 pt-0 lg:p-8 border-b border-box">
                 <div class="max-w-7xl mx-auto border-box">
                     <div class="p-6 pt-0 lg:p-8 text-center">
+                        <p class="red-italic">Lorsque vous allez connecter ce calendrier à votre gestionnaire externe, il vous sera demandé votre
+                            email, et mot de passe, si ce dernier n'a jamais été modifié, c'est "password", pour le modifier, <a
+                                href="{{ route('profile.show') }}" class="highlight-link">cliquez-ici</a>.</p>
                         <p class="text-lg leading-6 text-gray-500">
                             Mon calendrier : {{ $this->calendarUrlUserConnected }}
                         </p>
@@ -149,7 +152,7 @@
                             }
 
                             // function refreshCalendar() { AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-                            //     Livewire.dispatch("aUserHasBeenSelected", { 
+                            //     Livewire.dispatch("aUserHasBeenSelected", {
                             //         selectedUsers: [1]
                             //     });
                             // }

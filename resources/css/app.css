@@ -42,3 +42,19 @@ body {
 .logo {
     height: 10rem;
 }
+
+.red-italic {
+    color: red;
+    font-style: italic;
+}
+
+ .highlight-link {
+     font-weight: bold;
+     text-decoration: none;
+ }
+
+ .highlight-link:hover {
+     text-decoration: underline;
+ }
+
+

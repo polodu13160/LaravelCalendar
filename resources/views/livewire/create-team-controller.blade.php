@@ -9,11 +9,11 @@
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             <x-form-section submit="create()">
                 <x-slot name="title">
-                    {{ __('Team Details') }}
+                    {{ __('Nouvelle équipe') }}
                 </x-slot>
 
                 <x-slot name="description">
-                    {{ __('Create a new team to collaborate with others on projects.') }}
+                    {{ __('Créer une nouvelle équipe et son responsable') }}
                 </x-slot>
 
                 <x-slot name="form">
@@ -22,7 +22,7 @@
 
                         <div class="col-span-6">
                             <div class="max-w-xl text-sm text-gray-600">
-                                {{ __('Please provide the email address of the person you would like to add to this team.') }}
+                                {{ __("Ajouter l'email du nouveau responsable d'équipe") }}
                             </div>
 
                         </div>
