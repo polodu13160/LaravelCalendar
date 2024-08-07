@@ -5,7 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Role;
 use App\Models\Team;
-use App\Models\User;
+
 use App\Models\TeamUser;
 use App\Models\Principal;
 use Laravel\Jetstream\HasTeams;
@@ -109,7 +109,7 @@ class User extends Authenticatable
     {
         return $this->hasRole('Admin');
     }
-    
+
     public function isAdminOrModerateur($team): bool
     {
 
