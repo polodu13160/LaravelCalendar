@@ -16,15 +16,21 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use App\Http\Services\LaravelSabreCalendarHome;
+use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use LdapRecord\Laravel\Auth\HasLdapUser;
 
-class User extends Authenticatable
+class User extends Authenticatable implements LdapAuthenticatable
 {
+    use Notifiable, AuthenticatesWithLdap;
+
     use HasApiTokens;
     use HasFactory;
+    use HasLdapUser;
     use HasProfilePhoto {
         HasProfilePhoto::profilePhotoUrl as getPhotoUrl;
     }
@@ -40,7 +46,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'username',
         'password',
         'color',
     ];
@@ -74,6 +80,18 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function getLdapDomainColumn(): string
+    {
+        return 'ldap_domain';
+    }
+
+    public function getLdapGuidColumn(): string
+    {
+        return 'ldap_uid';
+    }
+
+
 
     /**
      * Get the URL to the user's profile photo.

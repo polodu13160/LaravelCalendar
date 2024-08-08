@@ -1,5 +1,7 @@
 <?php
 
+use App\Ldap\Scopes\HubspotCalendarGroupScope;
+
 return [
 
     /*
@@ -69,13 +71,16 @@ return [
             'model' => LdapRecord\Models\ActiveDirectory\User::class,
             // 'model' => LdapRecord\Models\OpenLDAP\User::class,
             'rules' => [],
-            'scopes' => [],
+            'scopes' => [
+                HubspotCalendarGroupScope::class,
+            ],
             'database' => [
                 'model' => App\Models\User::class,
-                'sync_passwords' => false,
+                'sync_passwords' => true,
                 'sync_attributes' => [
-                    'name' => 'cn',
+                    'name' => 'displayname',
                     'email' => 'mail',
+                    'username' => 'sAMAccountName',
                 ],
             ],
         ],

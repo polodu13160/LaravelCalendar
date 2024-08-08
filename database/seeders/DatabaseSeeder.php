@@ -38,25 +38,25 @@ class DatabaseSeeder extends Seeder
 
         $admin->assignJustRole('Admin');
 
-        //Moderateurs et 1 teams par moderateur
-        $moderateurs = User::factory(3)->create();
-        foreach ($moderateurs as $moderateur) {
-            $moderateur->createPrincipal();
+        // //Moderateurs et 1 teams par moderateur
+        // $moderateurs = User::factory(3)->create();
+        // foreach ($moderateurs as $moderateur) {
+        //     $moderateur->createPrincipal();
 
-            $moderateur->createTeamPrincipal('team '.$moderateur->username);
-
-
-        }
+        //     $moderateur->createTeamPrincipal('team '.$moderateur->username);
 
 
-        $teams = Team::all();
-        foreach ($teams as $team) {
-            User::factory(3)->create()->each(function ($user) use ($team) {
-                $user->createPrincipal();
-                $user->joinTeam('Utilisateur', $team->id);
-            });
-        }
+        // }
 
-        $this->call(EventSeeder::class);
+
+        // $teams = Team::all();
+        // foreach ($teams as $team) {
+        //     User::factory(3)->create()->each(function ($user) use ($team) {
+        //         $user->createPrincipal();
+        //         $user->joinTeam('Utilisateur', $team->id);
+        //     });
+        // }
+
+        // $this->call(EventSeeder::class);
     }
 }
