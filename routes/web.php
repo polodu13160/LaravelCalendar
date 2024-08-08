@@ -10,10 +10,14 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\CreateTeamController;
 use App\Livewire\CreateUserController;
 use App\Http\Controllers\DAVController;
+use App\Http\Controllers\LdapController;
 use App\Livewire\TeamSettingsController;
 use App\Http\Middleware\AccesSabreJustAdmin;
 use Spatie\IcalendarGenerator\Components\Event;
 use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
+
+
+Route::get('/ldap/{uid}', [LdapController::class, 'search']);
 
 Route::get('/dd', function () {
     $fetch = new EventComponent();

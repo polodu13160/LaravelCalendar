@@ -80,16 +80,16 @@ return [
                 'sync_attributes' => [
                     'name' => 'displayname',
                     'email' => 'mail',
-                    'username' => 'sAMAccountName',
+                    'username' => 'uid',
                 ],
             ],
         ],
     ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+    // 'users' => [
+    //     'driver' => 'database',
+    //     'table' => 'users',
+    // ],
 
 
     /*

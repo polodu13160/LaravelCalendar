@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider; 
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Fortify\Fortify;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Fortify::authenticateUsing(function ($request) {
             $validated = Auth::validate([
-                'samaccountname' => $request->username,
+                'uid' => $request->username,
                 'password' => $request->password,
                 'fallback' => [
                     'username' => $request->username,
