@@ -15,9 +15,9 @@ class LdapController extends Controller
     {
         $password = 'LdapDeV123456++';
         $baseDn = Config::get('ldap.connections.default.base_dn');
-        $username = "uid=$uid,$baseDn";
+        // $username = "uid=$uid,$baseDn";
 
-        // $username = "CN=ldapdev,OU=DEV,OU=Technique,OU=SAMDOM_Utilisateurs,DC=samdom,DC=b2pweb,DC=com" ;
+        $username = "CN=ldapdev,OU=DEV,OU=Technique,OU=SAMDOM_Utilisateurs,DC=samdom,DC=b2pweb,DC=com" ;
         $config = Config::get('ldap.connections.default');
 
         // Modifier la configuration avec les identifiants dynamiques
