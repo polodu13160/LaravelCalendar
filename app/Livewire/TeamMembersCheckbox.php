@@ -8,6 +8,11 @@ class TeamMembersCheckbox extends Calendar
 
     public $allTeamMembersSelected;
 
+    public function mount()
+    {
+        parent::mount();
+    }
+
     public function checkedBox()
     {
         $this->dispatch('aUserHasBeenSelected', $this->selectedUsers);
@@ -16,17 +21,8 @@ class TeamMembersCheckbox extends Calendar
     public function allCheckedBox()
     {
         if ($this->allTeamMembersSelected) {
-
-            $x = 0;
-
-            foreach ($this->teamMembers as $user) {
-
-                $this->selectedUsers[$x] = "$user->id";
-                $x++;
-            }
-
+            $this->selectedUsers = $this->teamMembers->pluck('id')->toArray();
         } else {
-
             $this->selectedUsers = [];
         }
 
