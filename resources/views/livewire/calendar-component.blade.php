@@ -141,9 +141,12 @@
                             }
 
                             setInterval(function() {
-                                console.log(selectedUsers);
-                                Livewire.dispatch("aUserHasBeenSelected", selectedUsers);
+                                refetchCalendarEvents();                                
                             }, 30 * 1000);
+
+                            function refetchCalendarEvents() {
+                                Livewire.dispatch("aUserHasBeenSelected", selectedUsers);
+                            }
 
                             function fetchJSONEvents() {
                                 return @this.events;
