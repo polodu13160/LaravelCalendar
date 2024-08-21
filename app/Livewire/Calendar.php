@@ -12,16 +12,17 @@ class Calendar extends Component
 
     public $teamMembers;
 
-    public $selectedUsers = [];
+    public $selectedUsers;
 
     public $allUrlIcsEvents = [];
 
     public $calendarUrls = [];
 
-    public function __construct()
+    public function mount()
     {
         $this->user = auth()->user();
         $this->team = $this->user->currentTeam;
+        $this->selectedUsers = [];
     }
 
     public function render()
