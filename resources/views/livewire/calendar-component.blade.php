@@ -37,6 +37,7 @@
                     <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
                     <script>
                         let calendar;
+                        let selectedUsers;
                         let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
                         document.addEventListener("livewire:initialized", function() {
@@ -105,7 +106,9 @@
 
                             calendar.render();
 
-                            Livewire.on("eventsHaveBeenFetched", () => {
+                            Livewire.on("eventsHaveBeenFetched", (data) => {
+
+                                selectedUsers = data;
 
                                 calendar.removeAllEventSources();
 
@@ -138,7 +141,8 @@
                             }
 
                             setInterval(function() {
-                                calendar.refetchEvents();
+                                console.log(selectedUsers);
+                                Livewire.dispatch("aUserHasBeenSelected", selectedUsers);
                             }, 30 * 1000);
 
                             function fetchJSONEvents() {
