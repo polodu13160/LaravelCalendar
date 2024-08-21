@@ -14,6 +14,11 @@ class CalendarComponent extends Calendar
 
     public $timezone;
 
+    public function mount()
+    {
+        parent::mount();
+    }
+
     public function status($value)
     {
         $status = require 'app/Tableaux/Status.php';
@@ -63,6 +68,11 @@ class CalendarComponent extends Calendar
     #[On('aUserHasBeenSelected')]
     public function refetchEvents($selectedUsers)
     {
+        if (empty($selectedUsers)) {
+
+            $selectedUsers = [0];
+        }
+
         if (count($selectedUsers) > 1) {
 
             if (! $this->user->isAdminOrModerator($this->team)) {
@@ -71,10 +81,6 @@ class CalendarComponent extends Calendar
             }
         }
 
-        if (! $selectedUsers) {
-
-            $selectedUsers = [0];
-        }
 
         $allUsersEvents = [];
 
@@ -108,7 +114,7 @@ class CalendarComponent extends Calendar
 
         $this->events = json_decode($this->events);
 
-        return $this->dispatch('eventsHaveBeenFetched');
+        $this->dispatch('eventsHaveBeenFetched', $selectedUsers);
     }
 
     public function render()
