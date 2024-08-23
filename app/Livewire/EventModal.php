@@ -34,6 +34,7 @@ class EventModal extends ModalComponent
     {
         $this->form->store($this->timezone);
         $this->closeModal();
+        $this->dispatch('eventHasBeenCreated');
         $arrayUserID = [$this->form->user_id];
     }
 
@@ -41,6 +42,7 @@ class EventModal extends ModalComponent
     {
         $this->form->update($this->timezone);
         $this->closeModal();
+        $this->dispatch('eventHasBeenCreated');
         $arrayUserID = [$this->form->user_id];
     }
 
