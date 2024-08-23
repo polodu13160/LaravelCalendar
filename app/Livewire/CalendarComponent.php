@@ -81,7 +81,6 @@ class CalendarComponent extends Calendar
             }
         }
 
-
         $allUsersEvents = [];
 
         foreach ($selectedUsers as $selectedUser) {
