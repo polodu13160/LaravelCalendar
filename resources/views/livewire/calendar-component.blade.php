@@ -107,14 +107,14 @@
                             calendar.render();
 
                             Livewire.on("eventsHaveBeenFetched", (data) => {
-
                                 selectedUsers = data;
-
                                 calendar.removeAllEventSources();
-
                                 calendar.addEventSource(fetchJSONEvents());
-
                                 console.log("Events have been fetched");
+                            });
+
+                            Livewire.on("eventHasBeenCreated", () => {
+                                refetchCalendarEvents();
                             });
 
                             function openModal(info) {
@@ -141,7 +141,7 @@
                             }
 
                             setInterval(function() {
-                                refetchCalendarEvents();                                
+                                refetchCalendarEvents();
                             }, 30 * 1000);
 
                             function refetchCalendarEvents() {
