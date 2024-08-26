@@ -2,10 +2,13 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-
-class AdminController extends Component
+class AdminController extends AbstractComponent
 {
+    public function mount()
+    {
+        parent::mount();
+    }
+    
     public function render()
     {
         return view('livewire.admin-controller');
