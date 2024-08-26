@@ -10,10 +10,13 @@ class AbstractComponent extends Component
 
     protected $team;
 
+    protected $calendarUrl;
+
     public function mount()
     {
         $this->user = auth()->user();
         $this->team = $this->user->currentTeam;
+        $this->calendarUrl = $this->user->getCalendarUrl();
     }
 
     protected function getUser()
@@ -36,9 +39,19 @@ class AbstractComponent extends Component
         $this->team = $team;
     }
 
+    protected function getCalendarUrl()
+    {
+        return $this->calendarUrl;
+    }
+
+    protected function setCalendarUrl($calendarUrl)
+    {
+        $this->calendarUrl = $calendarUrl;
+    }
+
     protected function isLoggedUserAdmin()
     {
-        return $this->user->hasRole('Admin');
+        return $this->user->isAdmin();
     }
 
     protected function redirectToDashboardIfNotAdmin()
