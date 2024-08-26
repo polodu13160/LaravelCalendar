@@ -23,6 +23,11 @@
                     <x-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">
                         {{ __('Calendrier') }}
                     </x-nav-link>
+                    @isAdmin
+                    <x-nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin')">
+                        {{ __('Admin') }}
+                    </x-nav-link>
+                    @endisAdmin
                 </div>
             </div>
 
@@ -70,7 +75,6 @@
                                         <x-dropdown-link href="{{ route('user_create') }}">
                                             {{ __('Create New User') }}
                                         </x-dropdown-link>
-
                                     @endisAdmin
 
                                     <!-- Team Switcher -->
