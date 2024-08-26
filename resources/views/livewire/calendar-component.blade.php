@@ -5,21 +5,12 @@
                 <div class="max-w-7xl mx-auto border-box">
                     <div class="p-6 pt-0 lg:p-8 text-center">
                         <p class="text-lg leading-6 text-gray-500">
-                            Mon calendrier : {{ $this->calendarUrlUserConnected }}
+                            Votre calendrier : {{ $this->calendarUrl }}
                         </p>
                         <p class="text-sm italic text-red-800">
                             *à copier dans votre calendrier personnel
                         </p>
 
-                        {{-- @foreach ($this->calendarUrls as $key => $calendar)
-                            @if ($key == 'team')
-                                <p class="text-lg leading-6 text-gray-500"> {{ $team->name }} : {{ $calendar }}
-                                </p>
-                            @else
-                                <p class="text-lg leading-6 text-gray-500"> {{ $this->namesUsers[$key] }} :
-                                    {{ $calendar }} </p>
-                            @endif
-                        @endforeach --}}
                         <p class="text-sm italic text-red-500">
                             Les modification prises en compte par votre
                             calendrier personnels sont uniquement la date, les modifications de titres, ou autres
