@@ -2,10 +2,11 @@
 
 use App\Http\Controllers\DAVController;
 use App\Http\Middleware\AccesSabreJustAdmin;
+use App\Livewire\AdminController;
 use App\Livewire\Calendar;
+use App\Livewire\CalendarComponent;
 use App\Livewire\CreateTeamController;
 use App\Livewire\CreateUserController;
-use App\Livewire\EventComponent;
 use App\Livewire\TeamSettingsController;
 use App\Livewire\Welcome;
 use GuzzleHttp\Client;
@@ -15,8 +16,8 @@ use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
 use Spatie\IcalendarGenerator\Components\Event;
 
 Route::get('/dd', function () {
-    $fetch = new EventComponent();
-    dd($fetch->refetchEvents());
+    $fetch = new CalendarComponent();
+    dd($fetch->refetchEvents([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
 });
 
 Route::get('/dd2', function () {
@@ -45,13 +46,14 @@ Route::get('/dd2', function () {
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/', Welcome::class)->name('welcome');
-    Route::get('refetch-events/', "App\Livewire\EventComponent@refetchEvents")->name('refetch-events');
 
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
     Route::get('/calendar', Calendar::class)->name('calendar');
+
+    Route::get('/admin', AdminController::class)->name('admin');
 
     Route::get('/teams/create', CreateTeamController::class)->name('teams_create');
     Route::get('/teams/{team}', TeamSettingsController::class)->name('teams_settings');
