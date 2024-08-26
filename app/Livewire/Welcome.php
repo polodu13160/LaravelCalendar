@@ -2,16 +2,13 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-
-class Welcome extends Component
+class Welcome extends AbstractComponent
 {
-    public $calendarUrl;
 
     public function render()
     {
-        $this->calendarUrl = auth()->user()->getCalendarUrl();
-
-        return view('livewire.welcome')->layout('layouts.guest');
+        return view('livewire.welcome')->layout('layouts.guest')->with([
+            'calendarUrl' => $this->calendarUrl,
+        ]);
     }
 }
