@@ -73,13 +73,13 @@ class CalendarComponent extends Calendar
             $selectedUsers = [0];
         }
 
-        if (count($selectedUsers) > 1) {
+        // if (count($selectedUsers) > 1) {
 
-            if (! $this->user->isAdminOrModerator($this->team)) {
+        //     if (! $this->user->isAdminOrModerator($this->team)) {
 
-                return abort(403, "Vous n'êtes qu'un utilisateur, vous ne pouvez pas faire ça");
-            }
-        }
+        //         return abort(403, "Vous n'êtes qu'un utilisateur, vous ne pouvez pas faire ça");
+        //     }
+        // }
 
         $allUsersEvents = [];
 
@@ -114,6 +114,8 @@ class CalendarComponent extends Calendar
         $this->events = json_decode($this->events);
 
         $this->dispatch('eventsHaveBeenFetched', $selectedUsers);
+
+        return $this->events;
     }
 
     public function render()
