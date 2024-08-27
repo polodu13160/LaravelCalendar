@@ -8,8 +8,6 @@ use Livewire\Attributes\On;
 
 class CalendarComponent extends Calendar
 {
-    public $calendarUrlUserConnected = '';
-
     public $events;
 
     public $timezone;
@@ -113,15 +111,12 @@ class CalendarComponent extends Calendar
 
         $this->events = json_decode($this->events);
 
-        $this->dispatch('eventsHaveBeenFetched', $selectedUsers);
-
-        return $this->events;
+        return $this->dispatch('eventsHaveBeenFetched', $selectedUsers);
     }
 
     public function render()
     {
-        $this->calendarUrlUserConnected = $this->user->getCalendarUrl();
-
-        return view('livewire.calendar-component');
+        return view('livewire.calendar-component')->with([
+        ]);
     }
 }
