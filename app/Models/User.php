@@ -107,11 +107,6 @@ class User extends Authenticatable
         return $this->hasRole('Admin');
     }
 
-    public function isModerator(): bool
-    {
-        return $this->hasRole('Moderator');
-    }
-
     public function isAdminOrModerator($team): bool
     {
 
