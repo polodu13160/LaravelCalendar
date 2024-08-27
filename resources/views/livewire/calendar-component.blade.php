@@ -8,13 +8,11 @@
                             Votre calendrier : {{ $this->calendarUrl }}
                         </p>
                         <p class="text-sm italic text-red-800">
-                            *à copier dans votre calendrier personnel
+                            Veuillez utiliser ce lien dans votre calendrier personnel pour synchroniser vos événements.
                         </p>
-
+                        <br>
                         <p class="text-sm italic text-red-500">
-                            Les modification prises en compte par votre
-                            calendrier personnels sont uniquement la date, les modifications de titres, ou autres
-                            elements ne seront pas pris en compte dans <strong>HubSpot</strong>.
+                            Les événements affichés ci-dessous proviennent de <strong>HubSpot</strong>. Ils sont synchronisés toutes les 30 secondes.
                         </p>
 
                     </div>
