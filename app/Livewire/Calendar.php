@@ -4,8 +4,6 @@ namespace App\Livewire;
 
 class Calendar extends AbstractComponent
 {
-    public $teamMembers;
-
     public $selectedUsers;
 
     public $allUrlIcsEvents = [];

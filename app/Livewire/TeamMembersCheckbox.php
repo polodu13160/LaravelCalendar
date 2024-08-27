@@ -6,6 +6,8 @@ class TeamMembersCheckbox extends Calendar
 {
     public $allTeamMembersSelected;
 
+    public $teamMembers;
+
     public function mount()
     {
         parent::mount();
