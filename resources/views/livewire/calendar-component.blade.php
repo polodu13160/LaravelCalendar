@@ -28,7 +28,7 @@
                     <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
                     <script>
                         let calendar;
-                        let selectedUsers;
+                        let selectedUsers = [0];
                         let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
                         document.addEventListener("livewire:initialized", function() {
