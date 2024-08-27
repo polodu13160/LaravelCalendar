@@ -13,12 +13,12 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = ['Admin', 'Moderateur', 'Utilisateur'];
+        $roles = ['Admin', 'Moderator', 'User'];
 
         foreach ($roles as $role) {
             Role::create(['name' => $role]);
         }
         Permission::create(['name' => 'group.*'])
-            ->assignRole(Role::firstWhere('name', 'Moderateur'));
+            ->assignRole(Role::firstWhere('name', 'Moderator'));
     }
 }

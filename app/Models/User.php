@@ -77,7 +77,7 @@ class User extends Authenticatable
     public function profilePhotoUrl(): Attribute
     {
         return filter_var($this->profile_photo_path, FILTER_VALIDATE_URL)
-            ? Attribute::get(fn () => $this->profile_photo_path)
+            ? Attribute::get(fn() => $this->profile_photo_path)
             : $this->getPhotoUrl();
     }
 
@@ -105,6 +105,11 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->hasRole('Admin');
+    }
+
+    public function isModerator(): bool
+    {
+        return $this->hasRole('Moderator');
     }
 
     public function isAdminOrModerator($team): bool
@@ -144,7 +149,7 @@ class User extends Authenticatable
         //Partie Crééer Principal
         $principal = new Principal();
         $hashDossier = $this->hashUserName();
-        $principal->uri = 'principals/'.$hashDossier;
+        $principal->uri = 'principals/' . $hashDossier;
         $principal->email = $this->email;
         $principal->displayname = $this->username;
         $principal->save();
@@ -182,10 +187,10 @@ class User extends Authenticatable
     {
         if ($roleName == 'Admin') {
             throw new Exception('Admin can not be assigned to a team');
-        } elseif ($roleName == 'Moderateur') {
-            $this->assignRoleAndTeam('Moderateur', $teamId);
-        } elseif ($roleName == 'Utilisateur') {
-            $this->assignRoleAndTeam('Utilisateur', $teamId);
+        } elseif ($roleName == 'Moderator') {
+            $this->assignRoleAndTeam('Moderator', $teamId);
+        } elseif ($roleName == 'User') {
+            $this->assignRoleAndTeam('User', $teamId);
         } else {
             throw new Exception('Role not found');
         }
@@ -231,7 +236,7 @@ class User extends Authenticatable
         $team->createTeam($name, $this->id);
 
         // assigner le role
-        $this->assignRoleAndTeam('Moderateur', $team->id);
+        $this->assignRoleAndTeam('Moderator', $team->id);
         // @phpstan-ignore-next-line
         $adminId = TeamUser::where('role', Role::where('name', 'Admin')->first()->id)->first()->user_id;
         $admin = User::where('id', $adminId)->first();
@@ -258,7 +263,7 @@ class User extends Authenticatable
 
         $calendar = Calendarinstances::where('displayname', $this->username)->first();
 
-        return $appRoot.'/'.$laravelSabreRoot.'/calendars/'.$this->hashUserName().'/'.$calendar->uri;
+        return $appRoot . '/' . $laravelSabreRoot . '/calendars/' . $this->hashUserName() . '/' . $calendar->uri;
     }
 
     public function getEvents()
