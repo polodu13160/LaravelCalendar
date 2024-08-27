@@ -39,7 +39,9 @@ class TeamMembersCheckbox extends Calendar
         if ($this->team != null) {
 
             $this->teamMembers = $this->team->users()->where('role', '!=', 1)->get();
+        } else {
 
+            $this->teamMembers = null;
         }
 
         return view('livewire.team-members-checkbox');
