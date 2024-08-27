@@ -2,15 +2,15 @@
 
 namespace App\Auth;
 
+use App\Http\Services\LaravelSabre;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Sabre\DAV\Auth\Backend\BackendInterface;
 use Sabre\HTTP\Auth\Basic;
 use Sabre\HTTP\Auth\Bearer;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use App\Http\Services\LaravelSabre;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Sabre\DAV\Auth\Backend\BackendInterface;
 
 class AuthBackend implements BackendInterface
 {
@@ -76,9 +76,10 @@ class AuthBackend implements BackendInterface
         if ($userpass) {
             $user = $this->validateUserPass($userpass[0], $userpass[1]);
             if ($user) {
-                return [true, 'principals/' . $user->email];
+                return [true, 'principals/'.$user->email];
             }
         }
+
         return [false, 'User is not authenticated'];
     }
 
@@ -111,21 +112,18 @@ class AuthBackend implements BackendInterface
         $authBasic->requireLogin();
 
     }
+
     protected function validateGlobalToken($token)
     {
         return $token === config('app.global_api_token');
     }
-
-
-
-
 
     protected function validateUserPass($username, $password)
     {
         // Find the user by email
         $user = User::where('email', $username)->first();
 
-        if (!$user) {
+        if (! $user) {
             return false;
         }
 

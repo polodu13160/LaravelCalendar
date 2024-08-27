@@ -6,7 +6,6 @@ use App\Auth\AuthBackend;
 use App\Http\Services\LaravelSabre;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
-use Pest\Plugins\Parallel\Handlers\Laravel;
 use Sabre\CalDAV\Backend\PDO;
 use Sabre\CalDAV\CalendarRoot;
 use Sabre\CalDAV\Plugin as CalDAVPlugin;

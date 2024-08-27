@@ -2,9 +2,9 @@
 
 namespace App\Http\Services;
 
+use App\Exception\InvalidStateException;
 use Closure;
 use Illuminate\Support\Facades\Auth;
-use App\Exception\InvalidStateException;
 
 final class LaravelSabre
 {
