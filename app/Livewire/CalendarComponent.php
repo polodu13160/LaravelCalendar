@@ -71,14 +71,6 @@ class CalendarComponent extends Calendar
             $selectedUsers = [0];
         }
 
-        // if (count($selectedUsers) > 1) {
-
-        //     if (! $this->user->isAdminOrModerator($this->team)) {
-
-        //         return abort(403, "Vous n'êtes qu'un utilisateur, vous ne pouvez pas faire ça");
-        //     }
-        // }
-
         $allUsersEvents = [];
 
         foreach ($selectedUsers as $selectedUser) {
@@ -111,7 +103,7 @@ class CalendarComponent extends Calendar
 
         $this->events = json_decode($this->events);
 
-        return $this->dispatch('eventsHaveBeenFetched', $selectedUsers);
+        $this->dispatch('eventsHaveBeenFetched', $selectedUsers);
     }
 
     public function render()
