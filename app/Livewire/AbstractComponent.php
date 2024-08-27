@@ -19,36 +19,6 @@ class AbstractComponent extends Component
         $this->calendarUrl = $this->user->getCalendarUrl();
     }
 
-    protected function getUser()
-    {
-        return $this->user;
-    }
-
-    protected function setUser($user)
-    {
-        $this->user = $user;
-    }
-
-    protected function getTeam()
-    {
-        return $this->team;
-    }
-
-    protected function setTeam($team)
-    {
-        $this->team = $team;
-    }
-
-    protected function getCalendarUrl()
-    {
-        return $this->calendarUrl;
-    }
-
-    protected function setCalendarUrl($calendarUrl)
-    {
-        $this->calendarUrl = $calendarUrl;
-    }
-
     protected function isLoggedUserAdmin()
     {
         return $this->user->isAdmin();
