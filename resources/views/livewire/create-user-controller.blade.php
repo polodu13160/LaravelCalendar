@@ -33,12 +33,6 @@
                             <x-label for="email" value="{{ __('Email') }}" />
                             <input list="emails" id="email" type="email" class="mt-1 block w-full"
                                 wire:model="email" />
-                            {{-- <datalist id="emails">
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->email }}">{{ $user->name }} ({{ $user->email }})
-                                    </option>
-                                @endforeach
-                            </datalist> --}}
                             <x-input-error for="email" class="mt-2" />
                         </div>
 
