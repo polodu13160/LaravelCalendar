@@ -93,8 +93,11 @@
                                     <br>
                                     Vous pouvez copier-coller cette URL dans votre application de calendrier pour
                                     synchroniser vos rendez-vous.
+                                    <br>
+                                    Pour connecter ce calendrier à votre gestionnaire externe, il vous sera demandé votre
+                            email et mot de passe. Pour modifier ce dernier, <a href="{{ route('profile.show') }}" class="highlight-link">cliquez-ici</a>.
                                 </p>
-                                <p class="red-italic">Lorsque vous allez connecter ce calendrier à votre gestionnaire externe, il vous sera demandé votre email, et mot de passe, si ce dernier n'a jamais été modifié, c'est "password", pour le modifier, <a href="{{ route('profile.show') }}" class="highlight-link">cliquez-ici</a>.</p>
+                                
                             </div>
                         </div>
 
