@@ -20,8 +20,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::get('/calendar', Calendar::class)->name('calendar');
 
-    Route::get('/admin', AdminController::class)->name('admin');
-
     Route::get('/teams/create', CreateTeamController::class)->name('teams_create');
     Route::get('/teams/{team}', TeamSettingsController::class)->name('teams_settings');
     Route::get('/user/create', CreateUserController::class)->name('user_create');
