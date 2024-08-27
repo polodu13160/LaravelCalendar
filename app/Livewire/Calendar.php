@@ -6,10 +6,6 @@ class Calendar extends AbstractComponent
 {
     public $selectedUsers;
 
-    public $allUrlIcsEvents = [];
-
-    public $calendarUrls = [];
-
     public function mount()
     {
         parent::mount();
