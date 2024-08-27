@@ -5,13 +5,10 @@ namespace App\Livewire;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
-use Livewire\Component;
 
-class CreateUserController extends Component
+class CreateUserController extends AbstractComponent
 {
     public $email = null;
-
-    public $team = null;
 
     public $password = 'password';
 
@@ -34,18 +31,17 @@ class CreateUserController extends Component
 
     public function mount()
     {
+        parent::mount();
+        $this->team = null;
         $this->teams = Team::all();
         $this->roles = Role::query()->where('id', '!=', '1')->get();
 
-        $user = auth()->user();
-        if (! $user->hasRole('Admin')) {
-            redirect()->route('dashboard');
-        }
+        $this->redirectToDashboardIfNotAdmin();
     }
 
     public function create()
     {
-        if (auth()->user()->hasRole('Admin')) {
+        if ($this->isLoggedUserAdmin()) {
 
             if (! $this->showTeamSection) {
 
@@ -71,15 +67,15 @@ class CreateUserController extends Component
                 User::createUser($this->name, $this->email, $this->username, $this->password, $this->team, $this->role);
             }
 
-            return redirect()->route('dashboard');
+            return $this->redirectToDashboard();
         }
 
-        return redirect()->route('dashboard');
+        return $this->redirectToDashboard();
     }
 
     public function render()
     {
-        if (auth()->user()->hasRole('Admin')) {
+        if ($this->isLoggedUserAdmin()) {
             return view('livewire.create-user-controller');
         }
     }
