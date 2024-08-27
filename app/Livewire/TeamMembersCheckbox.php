@@ -4,8 +4,6 @@ namespace App\Livewire;
 
 class TeamMembersCheckbox extends Calendar
 {
-    public $userOnly;
-
     public $allTeamMembersSelected;
 
     public function mount()
@@ -40,9 +38,6 @@ class TeamMembersCheckbox extends Calendar
 
             $this->teamMembers = $this->team->users()->where('role', '!=', 1)->get();
 
-        } else {
-
-            $this->userOnly = auth()->user();
         }
 
         return view('livewire.team-members-checkbox');
