@@ -4,45 +4,12 @@ use App\Http\Controllers\DAVController;
 use App\Http\Middleware\AccesSabreJustAdmin;
 use App\Livewire\AdminController;
 use App\Livewire\Calendar;
-use App\Livewire\CalendarComponent;
 use App\Livewire\CreateTeamController;
 use App\Livewire\CreateUserController;
 use App\Livewire\TeamSettingsController;
 use App\Livewire\Welcome;
-use GuzzleHttp\Client;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
-use Spatie\IcalendarGenerator\Components\Calendar as ComponentsCalendar;
-use Spatie\IcalendarGenerator\Components\Event;
-
-Route::get('/dd', function () {
-    $fetch = new CalendarComponent();
-    dd($fetch->refetchEvents([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
-});
-
-Route::get('/dd2', function () {
-
-    $client = new Client();
-    $url = 'http://localhost/dav/calendars/6fa5bf2dd665bfd42687/lecalendrierdeAdmin/LaraconOnline.ics';
-
-    $test = Event::create()
-        ->name('Laracon Online')
-        ->description('Experience Laracon all around the world')
-        ->uniqueIdentifier('A unique identifier can be set here')
-        ->createdAt(new DateTime('6 march 2024'))
-        ->startsAt(new DateTime('6 march 2024 15:00'))
-        ->endsAt(new DateTime('6 march 2024 16:00'));
-
-    $cal = ComponentsCalendar::create()->event($test)->get();
-
-    $response = $client->request('PUT', $url, [
-        'body' => $cal,
-        'headers' => [
-            'Content-Type' => 'text/calendar; charset=UTF-8',
-            'If-None-Match' => '*',
-        ],
-    ]);
-});
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/', Welcome::class)->name('welcome');
