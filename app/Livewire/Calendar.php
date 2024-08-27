@@ -2,17 +2,20 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-
-class Calendar extends Component
+class Calendar extends AbstractComponent
 {
+    public $selectedUsers;
+
+    public function mount()
+    {
+        parent::mount();
+        $this->selectedUsers = [];
+    }
+
     public function render()
     {
-        $user = auth()->user();
-        $team = $user->currentTeam;
-
         return view('livewire.calendar')->with([
-            'team' => $team,
+            'team' => $this->team,
         ]);
     }
 }

@@ -3,18 +3,15 @@
 namespace App\Livewire;
 
 use App\Models\TeamInvitation;
-use Livewire\Component;
 
-class Invitations extends Component
+class Invitations extends AbstractComponent
 {
     public $invitation;
 
-    public $user;
-
     public function mount()
     {
-        $this->invitation = auth()->user()->TeamInvitation;
-        $this->user = auth()->user();
+        parent::mount();
+        $this->invitation = $this->user->TeamInvitation;
     }
 
     public function acceptInvitation(TeamInvitation $invit, $accept)
@@ -26,7 +23,7 @@ class Invitations extends Component
                 $this->user->assignRoleAndTeam($invit->role, $invit->team_id);
             } catch (\Throwable $th) {
 
-                dd($th);
+                return $th;
             }
         }
 

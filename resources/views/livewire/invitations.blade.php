@@ -1,8 +1,6 @@
 <div>
-    {{-- {{ dd($this->invitation) }} --}}
-    
     @foreach ($this->invitation as $invite)
-    <x-section-border/>
+        <x-section-border />
         <div class="card">
             <div class="card-header">
                 <h3
@@ -39,4 +37,3 @@
         </div>
     @endforeach
 </div>
-

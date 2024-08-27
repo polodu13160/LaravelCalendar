@@ -3,48 +3,23 @@
 namespace App\Livewire;
 
 use App\Models\Events;
-use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Attributes\On;
-use Livewire\Component;
 
-class CalendarComponent extends Component
+class CalendarComponent extends Calendar
 {
     public $events;
 
-    public $allUrlIcsEvents = [];
-
-    public $calendarUrls = [];
-
-    public $calendarUrlUserConnected = '';
-
-    public $team;
-
     public $timezone;
 
-    #[On('aUserHasBeenSelected')]
-    public function fetchEvents($selectedUsers)
+    public function mount()
     {
-        $authUser = auth()->user();
-
-        if (count($selectedUsers) > 1) {
-            if (!$authUser->isAdminOrModerateur($this->team)) {
-                return abort(403, "Vous n'êtes qu'un utilisateur, vous ne pouvez pas faire ça");
-            }
-        }
-
-        $this->allUrlIcsEvents = [];
-        $this->calendarUrls = [];
-
-        $EC = new EventComponent();
-        $this->events = json_decode($EC->refetchEvents($selectedUsers));
-
-        $this->dispatch('eventsHaveBeenFetched');
+        parent::mount();
     }
 
     public function status($value)
     {
-        $status = require('app/Tableaux/Status.php');
+        $status = require 'app/Tableaux/Status.php';
 
         return $status[$value];
     }
@@ -88,15 +63,52 @@ class CalendarComponent extends Component
         }
     }
 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
+    #[On('aUserHasBeenSelected')]
+    public function refetchEvents($selectedUsers)
+    {
+        if (empty($selectedUsers)) {
+
+            $selectedUsers = [0];
+        }
+
+        $allUsersEvents = [];
+
+        foreach ($selectedUsers as $selectedUser) {
+
+            $eventQuery = Events::query();
+            $eventQuery->where('user_id', $selectedUser);
+            $events = $eventQuery->get();
+            $existingsEventsIDs = [];
+
+            foreach ($events as $event) {
+
+                if (! (int) $event['is_all_day']) {
+                    $event['allDay'] = false;
+                    $event['start'] = $event['start'];
+                    $event['end'] = $event['end'];
+                    $event['endDay'] = $event['end'];
+                    $event['startDay'] = $event['start'];
+                } else {
+                    $event['allDay'] = true;
+                    $event['endDay'] = $event['end'];
+                    $event['end'] = $event['end'];
+                    $event['startDay'] = $event['start'];
+                }
+                array_push($allUsersEvents, $event);
+                array_push($existingsEventsIDs, $event->event_id);
+            }
+        }
+
+        $this->events = json_encode($allUsersEvents);
+
+        $this->events = json_decode($this->events);
+
+        $this->dispatch('eventsHaveBeenFetched', $selectedUsers);
+    }
+
     public function render()
     {
-        $this->calendarUrlUserConnected = auth()->user()->getCalendarUrl();
-
-        return view('livewire.calendar-component');
+        return view('livewire.calendar-component')->with([
+        ]);
     }
 }

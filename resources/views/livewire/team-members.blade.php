@@ -3,7 +3,7 @@
     <x-section-border />
 
     <!-- Add Team Member -->
-    @canDoAction('Moderateur', $team->id)
+    @canDoAction('Moderator', $team->id)
     <div class="mt-10 sm:mt-0">
         <x-form-section submit="addTeamMember">
             <x-slot name="title">
@@ -111,7 +111,7 @@
                                         </div>
 
                                     </div>
-                                    @canDoAction('Moderateur', $team->id)
+                                    @canDoAction('Moderator', $team->id)
                                     <div class="flex items-center">
                                         @if ($team->user_id !== $user->id)
                                             @if ($user->id != $this->user->id)

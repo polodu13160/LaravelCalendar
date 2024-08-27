@@ -2,45 +2,31 @@
 
 namespace App\Livewire;
 
-use Laravel\Jetstream\Http\Livewire\TeamMemberManager;
-
-class TeamMembersCheckbox extends TeamMemberManager
+class TeamMembersCheckbox extends Calendar
 {
-    public $selectedUsers = [];
+    public $allTeamMembersSelected;
 
-    public $userOnly;
+    public $teamMembers;
 
-    public $team;
-
-    public $userTeam;
-
-    public $selectedAll;
-
-    public $selectedTeam;
+    public function mount()
+    {
+        parent::mount();
+    }
 
     public function checkedBox()
     {
-        $this->dispatch('aUserHasBeenSelected', $this->selectedUsers, $this->selectedTeam);
+        $this->dispatch('aUserHasBeenSelected', $this->selectedUsers);
     }
 
     public function allCheckedBox()
     {
-        // dd($this->selectedUsers);
-        if ($this->selectedAll) {
-            $x = 0;
-            foreach ($this->userTeam as $user) {
-                $this->selectedUsers[$x] = "$user->id";
-                $x++;
-            }
-            $this->selectedTeam = true;
-
+        if ($this->allTeamMembersSelected) {
+            $this->selectedUsers = $this->teamMembers->pluck('id')->toArray();
         } else {
             $this->selectedUsers = [];
-            $this->selectedTeam = false;
         }
-        $this->dispatch('aUserHasBeenSelected', $this->selectedUsers, $this->selectedTeam);
 
-        // dd($this->selectedUsers);
+        $this->dispatch('aUserHasBeenSelected', $this->selectedUsers);
     }
 
     /**
@@ -50,14 +36,11 @@ class TeamMembersCheckbox extends TeamMemberManager
      */
     public function render()
     {
+        if ($this->team != null) {
 
-        if (!$this->team==null) {
-            $this->userTeam = $this->team->users()->where('role', '!=', 1)->get();
-        }
-        else {
-            $this->userOnly= auth()->user();
-        }
+            $this->teamMembers = $this->team->users()->where('role', '!=', 1)->get();
 
+        }
 
         return view('livewire.team-members-checkbox');
     }

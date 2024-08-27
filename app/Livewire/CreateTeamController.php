@@ -5,10 +5,49 @@ namespace App\Livewire;
 use App\Http\Services\LaravelSabreCalendarHome;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Laravel\Jetstream\Http\Livewire\CreateTeamForm;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Jetstream\Contracts\CreatesTeams;
+use Laravel\Jetstream\RedirectsActions;
 
-class CreateTeamController extends CreateTeamForm
+class CreateTeamController extends AbstractComponent
 {
+    ////////////////////////////////////////////// Vérifier si ce bloc de code est utilisé
+
+    use RedirectsActions;
+
+    /**
+     * The component's state.
+     *
+     * @var array
+     */
+    public $state = [];
+
+    /**
+     * Create a new team.
+     *
+     * @return mixed
+     */
+    public function createTeam(CreatesTeams $creator)
+    {
+        $this->resetErrorBag();
+
+        $creator->create(Auth::user(), $this->state);
+
+        return $this->redirectPath($creator);
+    }
+
+    /**
+     * Get the current user of the application.
+     *
+     * @return mixed
+     */
+    public function getUserProperty()
+    {
+        return Auth::user();
+    }
+
+    //////////////////////////////////////////////
+
     public $email = null;
 
     public string $updateMailTeamOwner;
@@ -50,17 +89,15 @@ class CreateTeamController extends CreateTeamForm
 
     public function mount()
     {
+        parent::mount();
 
-        $user = auth()->user();
-        if (! $user->hasRole('Admin')) {
-            redirect()->route('dashboard');
-        }
-
+        $this->redirectToDashboardIfNotAdmin();
     }
 
     public function create(Request $request)
     {
-        if (auth()->user()->hasRole('Admin')) {
+        if ($this->isLoggedUserAdmin()) {
+
             $this->validate([
                 'name' => ['required', 'string', 'max:255', 'unique:teams,name'],
                 'email' => ['required', 'email', 'exists:users,email'],
@@ -68,20 +105,17 @@ class CreateTeamController extends CreateTeamForm
 
             $nameTeam = $this->name;
             $user = User::where('email', $this->email)->first();
-            // dd($nameTeam,$userMail);
             $user->createTeamPrincipal($nameTeam);
 
-            // return redirect()->route('dashboard')->with('alert', "L'équipe a été créée avec succès !");
-            return redirect()->route('dashboard');
+            return $this->redirectToDashboard();
         }
 
-        // return redirect()->route('dashboard')->with('status', "L'équipe ne peut-être créée avec cet utilisateur !");
-        return redirect()->route('dashboard');
+        return $this->redirectToDashboard();
     }
 
     public function render()
     {
-        if (auth()->user()->hasRole('Admin')) {
+        if ($this->isLoggedUserAdmin()) {
             return view('livewire.create-team-controller', [
                 'users' => User::where('email', 'LIKE', "%{$this->email}%")->where('id', '!=', auth()->user()->id)->where(
                     'name',
@@ -89,6 +123,8 @@ class CreateTeamController extends CreateTeamForm
                     'Admin'
                 )->get(),
             ]);
+        } else {
+            return $this->redirectToDashboard();
         }
     }
 }

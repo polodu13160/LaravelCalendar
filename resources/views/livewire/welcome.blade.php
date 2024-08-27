@@ -60,7 +60,8 @@
                                         </h2>
 
                                         <p class="mt-4 text-m/relaxed">
-                                            Retrouvez tous vos rendez-vous
+                                            Retrouvez tous vos rendez-vous, réunions et événements, ainsi que ceux de
+                                            votre équipe.
                                         </p>
                                     </div>
                                 </div>
@@ -85,7 +86,13 @@
                                 </h2>
 
                                 <p class="mt-4 text-m/relaxed">
-                                    {{ $calendarUrl }}
+                                    <span class="font-semibold">
+                                        {{ $calendarUrl }}
+                                    </span>
+                                    <br>
+                                    <br>
+                                    Vous pouvez copier-coller cette URL dans votre application de calendrier pour
+                                    synchroniser vos rendez-vous.
                                 </p>
                                 <p class="red-italic">Lorsque vous allez connecter ce calendrier à votre gestionnaire externe, il vous sera demandé votre email, et mot de passe, si ce dernier n'a jamais été modifié, c'est "password", pour le modifier, <a href="{{ route('profile.show') }}" class="highlight-link">cliquez-ici</a>.</p>
                             </div>
@@ -110,7 +117,7 @@
                                 </h2>
 
                                 <p class="mt-4 text-m/relaxed">
-                                    Retrouvez les dernières informations (actuellement juste les invitations)
+                                    Retrouvez vos invitations d'équipe.
                                 </p>
                             </div>
                         </a>

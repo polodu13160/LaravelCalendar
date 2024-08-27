@@ -4,29 +4,20 @@
             <div class="p-6 pt-0 lg:p-8 border-b border-box">
                 <div class="max-w-7xl mx-auto border-box">
                     <div class="p-6 pt-0 lg:p-8 text-center">
-                        <p class="red-italic">Lorsque vous allez connecter ce calendrier à votre gestionnaire externe, il vous sera demandé votre
-                            email, et mot de passe, si ce dernier n'a jamais été modifié, c'est "password", pour le modifier, <a
-                                href="{{ route('profile.show') }}" class="highlight-link">cliquez-ici</a>.</p>
+                        <p class="red-italic"></p>
                         <p class="text-lg leading-6 text-gray-500">
-                            Mon calendrier : {{ $this->calendarUrlUserConnected }}
+                            Votre calendrier : {{ $this->calendarUrl }}
                         </p>
                         <p class="text-sm italic text-red-800">
-                            *à copier dans votre calendrier personnel
+                            Veuillez utiliser ce lien dans votre calendrier personnel pour synchroniser vos événements.
                         </p>
-
-                        {{-- @foreach ($this->calendarUrls as $key => $calendar)
-                            @if ($key == 'team')
-                                <p class="text-lg leading-6 text-gray-500"> {{ $team->name }} : {{ $calendar }}
-                                </p>
-                            @else
-                                <p class="text-lg leading-6 text-gray-500"> {{ $this->namesUsers[$key] }} :
-                                    {{ $calendar }} </p>
-                            @endif
-                        @endforeach --}}
+                        <br>
                         <p class="text-sm italic text-red-500">
-                            Les modification prises en compte par votre
-                            calendrier personnels sont uniquement la date, les modifications de titres, ou autres
-                            elements ne seront pas pris en compte dans <strong>HubSpot</strong>.
+                            Les événements affichés ci-dessous proviennent de <strong>HubSpot</strong>. Ils sont synchronisés toutes les 30 secondes.
+                            <br>
+                            Pour connecter ce calendrier à votre gestionnaire externe, il vous sera demandé votre
+                            email et mot de passe. Pour modifier ce dernier, <a
+                                href="{{ route('profile.show') }}" class="highlight-link">cliquez-ici</a>.
                         </p>
 
                     </div>
@@ -40,6 +31,7 @@
                     <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
                     <script>
                         let calendar;
+                        let selectedUsers = [0];
                         let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
                         document.addEventListener("livewire:initialized", function() {
@@ -91,13 +83,11 @@
 
                                 eventResize: function(info) {
                                     @this.updateEvent(info.event.id, info.event.startStr, info.event.endStr);
-                                    // refreshCalendar(Array.from(String(info.event.extendedProps.user_id), Number)); AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
                                 },
 
                                 eventDrop: function(info) {
                                     @this.updateEvent(info.event.id, info.event.startStr, info.event.endStr, info.event
                                         .allDay);
-                                    // refreshCalendar(Array.from(String(info.event.extendedProps.user_id), Number)); AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
                                 },
 
                                 select: function(info) {
@@ -110,13 +100,15 @@
 
                             calendar.render();
 
-                            Livewire.on("eventsHaveBeenFetched", () => {
-
+                            Livewire.on("eventsHaveBeenFetched", (data) => {
+                                selectedUsers = data;
                                 calendar.removeAllEventSources();
-
                                 calendar.addEventSource(fetchJSONEvents());
-
                                 console.log("Events have been fetched");
+                            });
+
+                            Livewire.on("eventHasBeenCreated", () => {
+                                refetchCalendarEvents();
                             });
 
                             function openModal(info) {
@@ -143,19 +135,16 @@
                             }
 
                             setInterval(function() {
-                                calendar.refetchEvents();
-                                // refreshCalendar({{ auth()->user()->id }}); AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                                refetchCalendarEvents();
                             }, 30 * 1000);
+
+                            function refetchCalendarEvents() {
+                                Livewire.dispatch("aUserHasBeenSelected", selectedUsers);
+                            }
 
                             function fetchJSONEvents() {
                                 return @this.events;
                             }
-
-                            // function refreshCalendar() { AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-                            //     Livewire.dispatch("aUserHasBeenSelected", {
-                            //         selectedUsers: [1]
-                            //     });
-                            // }
                         });
                     </script>
                 </div>

@@ -1,4 +1,4 @@
-
+test
 # Synchronisation des Événements et Fichiers ICS
 
 Ce document décrit le processus de synchronisation des événements entre la base de données et les fichiers ICS en utilisant un watcher et des scripts de vérification.
