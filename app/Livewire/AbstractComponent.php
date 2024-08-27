@@ -6,11 +6,11 @@ use Livewire\Component;
 
 class AbstractComponent extends Component
 {
-    protected $user;
+    public $user;
 
-    protected $team;
+    public $team;
 
-    protected $calendarUrl;
+    public $calendarUrl;
 
     public function mount()
     {
