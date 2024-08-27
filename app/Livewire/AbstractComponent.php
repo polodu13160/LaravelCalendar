@@ -24,6 +24,11 @@ class AbstractComponent extends Component
         return $this->user->isAdmin();
     }
 
+    public function isLoggedUserModerator()
+    {
+        return $this->user->canDoAction('Moderator', $this->team->id);
+    }
+
     public function redirectToDashboard()
     {
         return redirect()->route('dashboard');
