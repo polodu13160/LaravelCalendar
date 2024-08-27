@@ -8,7 +8,7 @@ class AdminController extends AbstractComponent
     {
         parent::mount();
     }
-    
+
     public function render()
     {
         return view('livewire.admin-controller');

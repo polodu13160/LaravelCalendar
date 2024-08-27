@@ -4,12 +4,11 @@ namespace App\Livewire;
 
 class TeamSettingsController extends AbstractComponent
 {
-
     public function mount()
     {
         parent::mount();
     }
-    
+
     public function render()
     {
         return view('livewire.team-settings-controller')->with([

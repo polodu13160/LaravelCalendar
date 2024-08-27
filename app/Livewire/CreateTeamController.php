@@ -11,7 +11,6 @@ use Laravel\Jetstream\RedirectsActions;
 
 class CreateTeamController extends AbstractComponent
 {
-
     ////////////////////////////////////////////// Vérifier si ce bloc de code est utilisé
 
     use RedirectsActions;
@@ -26,7 +25,6 @@ class CreateTeamController extends AbstractComponent
     /**
      * Create a new team.
      *
-     * @param  \Laravel\Jetstream\Contracts\CreatesTeams  $creator
      * @return mixed
      */
     public function createTeam(CreatesTeams $creator)

@@ -5,7 +5,7 @@ namespace App\Livewire;
 use Laravel\Jetstream\Http\Livewire\UpdateTeamNameForm;
 
 class UpdateTeamName extends UpdateTeamNameForm
-{    
+{
     public function render()
     {
         $abstract = new AbstractComponent();

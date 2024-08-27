@@ -77,7 +77,7 @@ class User extends Authenticatable
     public function profilePhotoUrl(): Attribute
     {
         return filter_var($this->profile_photo_path, FILTER_VALIDATE_URL)
-            ? Attribute::get(fn() => $this->profile_photo_path)
+            ? Attribute::get(fn () => $this->profile_photo_path)
             : $this->getPhotoUrl();
     }
 
@@ -144,7 +144,7 @@ class User extends Authenticatable
         //Partie Crééer Principal
         $principal = new Principal();
         $hashDossier = $this->hashUserName();
-        $principal->uri = 'principals/' . $hashDossier;
+        $principal->uri = 'principals/'.$hashDossier;
         $principal->email = $this->email;
         $principal->displayname = $this->username;
         $principal->save();
@@ -258,7 +258,7 @@ class User extends Authenticatable
 
         $calendar = Calendarinstances::where('displayname', $this->username)->first();
 
-        return $appRoot . '/' . $laravelSabreRoot . '/calendars/' . $this->hashUserName() . '/' . $calendar->uri;
+        return $appRoot.'/'.$laravelSabreRoot.'/calendars/'.$this->hashUserName().'/'.$calendar->uri;
     }
 
     public function getEvents()

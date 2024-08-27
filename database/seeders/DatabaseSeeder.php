@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
         foreach ($moderators as $moderator) {
             $moderator->createPrincipal();
 
-            $moderator->createTeamPrincipal('team ' . $moderator->username);
+            $moderator->createTeamPrincipal('team '.$moderator->username);
         }
 
         $teams = Team::all();
