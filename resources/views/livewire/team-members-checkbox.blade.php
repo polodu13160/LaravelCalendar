@@ -13,80 +13,37 @@
             <!-- Team Member List -->
             <x-slot name="content">
                 <div class="space-y-6">
-                    @if ($team !== null)
-
-                        <div class="flex items-center justify-between">
-
-                            <div class="flex items-center">
-                                @if ($this->user->isAdminOrModerator($team))
-                                    <div class="ms-4">
-                                        Tous
-                                    </div>
-                                @else
-                                    <div class="ms-4">
-                                        Afficher les events
-                                    </div>
-                                @endif
-
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="ms-4">
+                                Tous les événements
                             </div>
-                            <div class="flex items">
-                                @if ($this->user->isAdminOrModerator($team))
-                                    <input type="checkbox" wire:model="allTeamMembersSelected"
-                                        wire:click="allCheckedBox()"
-                                        class="form-checkbox h-5 w-5 transition duration-100 ease-in-out"
-                                        style="color: black " />
-                                @else
-                                    <input type="checkbox" wire:model="selectedUsers" value="{{ $this->user->id }}"
-                                        wire:click="checkedBox()" class="form-checkbox h-5 w-5"
-                                        style="color: {{ $this->user->color }}" />
-                                @endif
-
-                                {{-- <label for="">{{ $user->id }}</label> --}}
-
-                            </div>
-
                         </div>
-
-                        @foreach ($this->teamMembers->sortBy('name') as $user)
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <img class="w-8 h-8 rounded-full object-cover" src="{{ $user->profile_photo_url }}"
-                                        alt="{{ $user->name }}">
-                                    <div class="ms-4  {{ $this->user->id === $user->id ? 'ms-4 font-bold' : '' }}">
-                                        {{ $user->name }} {{ $this->user->id === $user->id ? '( moi )' : '' }}
-                                    </div>
-
-                                </div>
-                                <div class="flex items ms-2">
-                                    {{-- <label for="">{{ $user->id }}</label> --}}
-                                    @isAdminOrModerator($team)
-                                    <input type="checkbox" wire:model="selectedUsers" value="{{ $user->id }}"
-                                        wire:click="checkedBox()" class="form-checkbox h-5 w-5"
-                                        style="color: {{ $user->color }}" />
-                                    @endisAdminOrModerator()
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
+                        <div class="flex items">
+                            {{-- <label for="">{{ $this->user->id }}</label> --}}
+                            <input type="checkbox" wire:model="allTeamMembersSelected" wire:click="allCheckedBox()"
+                                class="form-checkbox h-5 w-5 transition duration-100 ease-in-out"
+                                style="color: black " />
+                        </div>
+                    </div>
+                    @foreach ($this->teamMembers->sortBy('name') as $member)
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
-                                <img class="w-8 h-8 rounded-full object-cover"
-                                    src="{{ $this->userOnly->profile_photo_url }}" alt="{{ $this->userOnly->name }}">
-                                <div class="ms-4   'ms-4 font-bold'  }}">
-                                    {{ $this->userOnly->name }}
-                                    {{ $this->userOnly->id === $this->userOnly->id ? '( moi, userOnly )' : '' }}
+                                <img class="w-8 h-8 rounded-full object-cover" src="{{ $member->profile_photo_url }}"
+                                    alt="{{ $member->name }}">
+                                <div class="ms-4  {{ $this->user->id === $member->id ? 'ms-4 font-bold' : '' }}">
+                                    {{ $member->name }} {{ $this->user->id === $member->id ? '( moi )' : '' }}
                                 </div>
 
                             </div>
                             <div class="flex items ms-2">
-                                {{-- <label for="">{{ $user->id }}</label> --}}
-                                <input type="checkbox" wire:model="selectedUsers" value="{{ $this->user->id }}"
+                                {{-- <label for="">{{ $member->id }}</label> --}}
+                                <input type="checkbox" wire:model="selectedUsers" value="{{ $member->id }}"
                                     wire:click="checkedBox()" class="form-checkbox h-5 w-5"
-                                    style="color: {{ $this->user->color }}" />
+                                    style="color: {{ $member->color }}" />
                             </div>
                         </div>
-                    @endif
-
+                    @endforeach
                 </div>
             </x-slot>
         </x-calendar-team-action-section>
