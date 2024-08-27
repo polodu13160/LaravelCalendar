@@ -5,13 +5,15 @@ namespace App\Livewire;
 use Laravel\Jetstream\Http\Livewire\UpdateTeamNameForm;
 
 class UpdateTeamName extends UpdateTeamNameForm
-{
-    public $isModerator;
-
-    public $isAdmin;
-
+{    
     public function render()
     {
-        return view('livewire.update-team-name');
+        $abstract = new AbstractComponent();
+        $abstract->mount();
+
+        return view('livewire.update-team-name')->with([
+            'isAdmin' => $abstract->isLoggedUserAdmin(),
+            'isModerator' => $abstract->isLoggedUserModerator(),
+        ]);
     }
 }
