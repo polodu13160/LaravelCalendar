@@ -19,15 +19,20 @@ class AbstractComponent extends Component
         $this->calendarUrl = $this->user->getCalendarUrl();
     }
 
-    protected function isLoggedUserAdmin()
+    public function isLoggedUserAdmin()
     {
         return $this->user->isAdmin();
     }
 
-    protected function redirectToDashboardIfNotAdmin()
+    public function redirectToDashboard()
+    {
+        return redirect()->route('dashboard');
+    }
+
+    public function redirectToDashboardIfNotAdmin()
     {
         if (! $this->isLoggedUserAdmin()) {
-            redirect()->route('dashboard');
+            $this->redirectToDashboard();
         }
     }
 
