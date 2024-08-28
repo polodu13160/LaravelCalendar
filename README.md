@@ -1,4 +1,60 @@
 
+
+
+# Installation du projet 
+
+prendre la branche main2
+installer les packages : composer install et npm install
+remettre le .env s'il n'y en a pas : le .env.exemple
+
+
+Modifier le dossier database si vous souhaitez modifier les informations quand on lance la migration de la base de données : 
+php artisan migrate --seed 
+
+ou si deja installé
+
+php artisan migrate:fresh --seed
+
+Faire un test pour voir si le ldap fonctionne : 
+php artisan ldap:serve 
+
+
+Actuellement il peut se connecter a la base de données LDAP, mais rien n'est paramétré  : 
+pas de premiere connexion 
+et la connexion se fait avec le DN et non le username 
+
+J'ai envoyé a bastien mon idée de connexion; il faudra juste surchargé la methode login pour chercher dans la base LDAP deja mise en place le username et apres faire une connexion en recuperant le dn du username. 
+
+puis faire la logique de premiere connexion : créer un utilisateur sur la base Mysql du serveur. 
+
+On peut utiliser la methode pour créer des utilisateurs qui est présente dans la partie visuel de l'application pour l'admin. 
+
+
+admin 
+username : cleininger 
+password  : password 
+
+
+
+Avec l'admin on peut créer un utilisateur ou un groupe : 
+juste a aller dans l'acceuil en cliquant sur le calendrier. 
+puis en haut a droite sur le profil de l'admin. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Synchronisation des Événements et Fichiers ICS
 
 Ce document décrit le processus de synchronisation des événements entre la base de données et les fichiers ICS en utilisant un watcher et des scripts de vérification.
